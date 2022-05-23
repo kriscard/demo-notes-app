@@ -21,5 +21,8 @@
     "aws-sdk": "^2.1140.0",
     "stripe": "^9.2.0",
     "uuid": "^7.0.3"
+  },
+  "devDependencies": {
+    "vitest": "^0.12.9"
   }
 }

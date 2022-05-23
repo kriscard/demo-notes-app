@@ -18,6 +18,7 @@ export default class ApiStack extends sst.Stack {
         },
       },
       defaultAuthorizationType: "AWS_IAM",
+      cors: true,
       routes: {
         "POST   /notes": "src/create.main",
         "GET    /notes/{id}": "src/get.main",
