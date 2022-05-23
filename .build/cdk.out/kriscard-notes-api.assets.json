@@ -1,0 +1,34 @@
+{
+  "version": "16.0.0",
+  "files": {
+    "949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4": {
+      "source": {
+        "path": "asset.949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip",
+        "packaging": "file"
+      },
+      "destinations": {
+        "591688379258-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-591688379258-us-east-1",
+          "objectKey": "949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::591688379258:role/cdk-hnb659fds-file-publishing-role-591688379258-us-east-1"
+        }
+      }
+    },
+    "70416a0ef1e3f3ab732f5f70346c3b3ab95cb095a106734ef3a29abf4eeb7ddf": {
+      "source": {
+        "path": "kriscard-notes-api.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "591688379258-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-591688379258-us-east-1",
+          "objectKey": "70416a0ef1e3f3ab732f5f70346c3b3ab95cb095a106734ef3a29abf4eeb7ddf.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::591688379258:role/cdk-hnb659fds-file-publishing-role-591688379258-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

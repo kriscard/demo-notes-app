@@ -1,0 +1,20 @@
+{
+  "version": "16.0.0",
+  "files": {
+    "9c682c91a83cec008de3c94c2bcfbc74c9a64c9259242312ec7678530d85073f": {
+      "source": {
+        "path": "kriscard-notes-storage.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "591688379258-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-591688379258-us-east-1",
+          "objectKey": "9c682c91a83cec008de3c94c2bcfbc74c9a64c9259242312ec7678530d85073f.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::591688379258:role/cdk-hnb659fds-file-publishing-role-591688379258-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

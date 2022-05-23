@@ -1,0 +1,1774 @@
+{
+  "Resources": {
+    "SSTMetadata": {
+      "Type": "AWS::CDK::Metadata",
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/SSTMetadata",
+        "sst:version": "0.69.7",
+        "sst:constructs": [
+          {
+            "id": "Api",
+            "addr": "c81c135721394fd76dd11dae3a6e57762458f97048",
+            "stack": "kriscard-notes-api",
+            "type": "Api",
+            "data": {
+              "graphql": false,
+              "url": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "https://",
+                    {
+                      "Ref": "ApiCD79AAA0"
+                    },
+                    ".execute-api.us-east-1.",
+                    {
+                      "Ref": "AWS::URLSuffix"
+                    },
+                    "/"
+                  ]
+                ]
+              },
+              "httpApiId": {
+                "Ref": "ApiCD79AAA0"
+              },
+              "routes": [
+                {
+                  "route": "POST /notes",
+                  "fn": {
+                    "node": "c88a76056890c5b63cc654096d3b302f7250760541",
+                    "stack": "kriscard-notes-api"
+                  }
+                },
+                {
+                  "route": "GET /notes/{id}",
+                  "fn": {
+                    "node": "c8265c8ed16fe49204b779469703e9189fc698b8f5",
+                    "stack": "kriscard-notes-api"
+                  }
+                },
+                {
+                  "route": "GET /notes",
+                  "fn": {
+                    "node": "c88c209e5d3406cc30e672a0f653f820e054c238a2",
+                    "stack": "kriscard-notes-api"
+                  }
+                },
+                {
+                  "route": "PUT /notes/{id}",
+                  "fn": {
+                    "node": "c8dcb3cd00f75a1877da1df0e8c015deb61d9d79b4",
+                    "stack": "kriscard-notes-api"
+                  }
+                },
+                {
+                  "route": "DELETE /notes/{id}",
+                  "fn": {
+                    "node": "c8df5434e5844746d8a99feba191665b043016d52b",
+                    "stack": "kriscard-notes-api"
+                  }
+                },
+                {
+                  "route": "POST /billing",
+                  "fn": {
+                    "node": "c8e0053f8c65be24a8457e8b8f8e9fba97057730ab",
+                    "stack": "kriscard-notes-api"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "Lambda_POST_--notes",
+            "addr": "c88a76056890c5b63cc654096d3b302f7250760541",
+            "stack": "kriscard-notes-api",
+            "type": "Function",
+            "data": {
+              "localId": "kriscard-notes-api-Api-Lambda_POST_-notes",
+              "arn": {
+                "Fn::GetAtt": [
+                  "ApiLambdaPOSTnotes3B067E1B",
+                  "Arn"
+                ]
+              }
+            }
+          },
+          {
+            "id": "Lambda_GET_--notes--{id}",
+            "addr": "c8265c8ed16fe49204b779469703e9189fc698b8f5",
+            "stack": "kriscard-notes-api",
+            "type": "Function",
+            "data": {
+              "localId": "kriscard-notes-api-Api-Lambda_GET_-notes-{id}",
+              "arn": {
+                "Fn::GetAtt": [
+                  "ApiLambdaGETnotesidBDFD7F2C",
+                  "Arn"
+                ]
+              }
+            }
+          },
+          {
+            "id": "Lambda_GET_--notes",
+            "addr": "c88c209e5d3406cc30e672a0f653f820e054c238a2",
+            "stack": "kriscard-notes-api",
+            "type": "Function",
+            "data": {
+              "localId": "kriscard-notes-api-Api-Lambda_GET_-notes",
+              "arn": {
+                "Fn::GetAtt": [
+                  "ApiLambdaGETnotesA3E56CF7",
+                  "Arn"
+                ]
+              }
+            }
+          },
+          {
+            "id": "Lambda_PUT_--notes--{id}",
+            "addr": "c8dcb3cd00f75a1877da1df0e8c015deb61d9d79b4",
+            "stack": "kriscard-notes-api",
+            "type": "Function",
+            "data": {
+              "localId": "kriscard-notes-api-Api-Lambda_PUT_-notes-{id}",
+              "arn": {
+                "Fn::GetAtt": [
+                  "ApiLambdaPUTnotesid28D10C39",
+                  "Arn"
+                ]
+              }
+            }
+          },
+          {
+            "id": "Lambda_DELETE_--notes--{id}",
+            "addr": "c8df5434e5844746d8a99feba191665b043016d52b",
+            "stack": "kriscard-notes-api",
+            "type": "Function",
+            "data": {
+              "localId": "kriscard-notes-api-Api-Lambda_DELETE_-notes-{id}",
+              "arn": {
+                "Fn::GetAtt": [
+                  "ApiLambdaDELETEnotesid69A96EAD",
+                  "Arn"
+                ]
+              }
+            }
+          },
+          {
+            "id": "Lambda_POST_--billing",
+            "addr": "c8e0053f8c65be24a8457e8b8f8e9fba97057730ab",
+            "stack": "kriscard-notes-api",
+            "type": "Function",
+            "data": {
+              "localId": "kriscard-notes-api-Api-Lambda_POST_-billing",
+              "arn": {
+                "Fn::GetAtt": [
+                  "ApiLambdaPOSTbilling71E49732",
+                  "Arn"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "ApiCD79AAA0": {
+      "Type": "AWS::ApiGatewayV2::Api",
+      "Properties": {
+        "CorsConfiguration": {
+          "AllowHeaders": [
+            "*"
+          ],
+          "AllowMethods": [
+            "*"
+          ],
+          "AllowOrigins": [
+            "*"
+          ]
+        },
+        "Name": "kriscard-notes-Api",
+        "ProtocolType": "HTTP",
+        "Tags": {
+          "sst:app": "notes",
+          "sst:stage": "kriscard"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Api/Resource"
+      }
+    },
+    "ApiDefaultStage1AAE989B": {
+      "Type": "AWS::ApiGatewayV2::Stage",
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiCD79AAA0"
+        },
+        "StageName": "$default",
+        "AccessLogSettings": {
+          "DestinationArn": {
+            "Fn::GetAtt": [
+              "ApiLogGroup1717FE17",
+              "Arn"
+            ]
+          },
+          "Format": "{\"requestTime\":\"$context.requestTime\",\"requestId\":\"$context.requestId\",\"httpMethod\":\"$context.httpMethod\",\"path\":\"$context.path\",\"routeKey\":\"$context.routeKey\",\"status\":$context.status,\"responseLatency\":$context.responseLatency,\"integrationRequestId\":\"$context.integration.requestId\",\"integrationStatus\":\"$context.integration.status\",\"integrationLatency\":\"$context.integration.latency\",\"integrationServiceStatus\":\"$context.integration.integrationStatus\",\"ip\":\"$context.identity.sourceIp\",\"userAgent\":\"$context.identity.userAgent\",\"cognitoIdentityId\":\"$context.identity.cognitoIdentityId\"}"
+        },
+        "AutoDeploy": true,
+        "Tags": {
+          "sst:app": "notes",
+          "sst:stage": "kriscard"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Api/DefaultStage/Resource"
+      }
+    },
+    "ApiLogGroup1717FE17": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/vendedlogs/apis/kriscard-notes-Api-",
+              {
+                "Ref": "ApiCD79AAA0"
+              },
+              "/default"
+            ]
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "sst:app",
+            "Value": "notes"
+          },
+          {
+            "Key": "sst:stage",
+            "Value": "kriscard"
+          }
+        ]
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/LogGroup/Resource"
+      }
+    },
+    "ApiLambdaPOSTnotesServiceRoleD16681D3": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "sst:app",
+            "Value": "notes"
+          },
+          {
+            "Key": "sst:stage",
+            "Value": "kriscard"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_POST_--notes/ServiceRole/Resource"
+      }
+    },
+    "ApiLambdaPOSTnotesServiceRoleDefaultPolicy6D85CF6B": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "s3:*",
+              "Effect": "Allow",
+              "Resource": [
+                "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+                "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*"
+              ]
+            },
+            {
+              "Action": "dynamodb:*",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "ApiLambdaPOSTnotesServiceRoleDefaultPolicy6D85CF6B",
+        "Roles": [
+          {
+            "Ref": "ApiLambdaPOSTnotesServiceRoleD16681D3"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_POST_--notes/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "ApiLambdaPOSTnotes3B067E1B": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-591688379258-us-east-1",
+          "S3Key": "949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip"
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "ApiLambdaPOSTnotesServiceRoleD16681D3",
+            "Arn"
+          ]
+        },
+        "Environment": {
+          "Variables": {
+            "TABLE_NAME": {
+              "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95"
+            },
+            "STRIPE_SECRET_KEY": "sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD",
+            "SST_DEBUG_SRC_PATH": ".",
+            "SST_DEBUG_SRC_HANDLER": "src/create.main",
+            "SST_DEBUG_ENDPOINT": "wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard",
+            "SST_DEBUG_BUCKET_NAME": "kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+            "SST_FUNCTION_ID": "kriscard-notes-api-Api-Lambda_POST_-notes",
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "SST_DEBUG_IS_API_ROUTE": "1"
+          }
+        },
+        "Handler": "index.main",
+        "MemorySize": 1024,
+        "Runtime": "nodejs12.x",
+        "Tags": [
+          {
+            "Key": "sst:app",
+            "Value": "notes"
+          },
+          {
+            "Key": "sst:stage",
+            "Value": "kriscard"
+          }
+        ],
+        "Timeout": 10,
+        "TracingConfig": {
+          "Mode": "Active"
+        }
+      },
+      "DependsOn": [
+        "ApiLambdaPOSTnotesServiceRoleDefaultPolicy6D85CF6B",
+        "ApiLambdaPOSTnotesServiceRoleD16681D3"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_POST_--notes/Resource",
+        "aws:asset:path": "asset.949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip",
+        "aws:asset:is-bundled": false,
+        "aws:asset:property": "Code"
+      }
+    },
+    "ApiLambdaPOSTnotesEventInvokeConfig78ADA2E8": {
+      "Type": "AWS::Lambda::EventInvokeConfig",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "ApiLambdaPOSTnotes3B067E1B"
+        },
+        "Qualifier": "$LATEST",
+        "MaximumRetryAttempts": 0
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_POST_--notes/EventInvokeConfig/Resource"
+      }
+    },
+    "ApiRoutePOSTnotesIntegrationPOSTnotesPermission83B10601": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ApiLambdaPOSTnotes3B067E1B",
+            "Arn"
+          ]
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:us-east-1:591688379258:",
+              {
+                "Ref": "ApiCD79AAA0"
+              },
+              "/*/*/notes"
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Route_POST_--notes/Integration_POST_--notes-Permission"
+      }
+    },
+    "ApiRoutePOSTnotesIntegrationPOSTnotes44F9E77C": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiCD79AAA0"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "ApiLambdaPOSTnotes3B067E1B",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0"
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Route_POST_--notes/Integration_POST_--notes/Resource"
+      }
+    },
+    "ApiRoutePOSTnotes66667A1D": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiCD79AAA0"
+        },
+        "RouteKey": "POST /notes",
+        "AuthorizationType": "AWS_IAM",
+        "Target": {
+          "Fn::Join": [
+            "",
+            [
+              "integrations/",
+              {
+                "Ref": "ApiRoutePOSTnotesIntegrationPOSTnotes44F9E77C"
+              }
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Route_POST_--notes/Resource"
+      }
+    },
+    "ApiLambdaGETnotesidServiceRole5ED71CA8": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "sst:app",
+            "Value": "notes"
+          },
+          {
+            "Key": "sst:stage",
+            "Value": "kriscard"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_GET_--notes--{id}/ServiceRole/Resource"
+      }
+    },
+    "ApiLambdaGETnotesidServiceRoleDefaultPolicy0BDDFC9B": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "s3:*",
+              "Effect": "Allow",
+              "Resource": [
+                "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+                "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*"
+              ]
+            },
+            {
+              "Action": "dynamodb:*",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "ApiLambdaGETnotesidServiceRoleDefaultPolicy0BDDFC9B",
+        "Roles": [
+          {
+            "Ref": "ApiLambdaGETnotesidServiceRole5ED71CA8"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_GET_--notes--{id}/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "ApiLambdaGETnotesidBDFD7F2C": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-591688379258-us-east-1",
+          "S3Key": "949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip"
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "ApiLambdaGETnotesidServiceRole5ED71CA8",
+            "Arn"
+          ]
+        },
+        "Environment": {
+          "Variables": {
+            "TABLE_NAME": {
+              "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95"
+            },
+            "STRIPE_SECRET_KEY": "sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD",
+            "SST_DEBUG_SRC_PATH": ".",
+            "SST_DEBUG_SRC_HANDLER": "src/get.main",
+            "SST_DEBUG_ENDPOINT": "wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard",
+            "SST_DEBUG_BUCKET_NAME": "kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+            "SST_FUNCTION_ID": "kriscard-notes-api-Api-Lambda_GET_-notes-{id}",
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "SST_DEBUG_IS_API_ROUTE": "1"
+          }
+        },
+        "Handler": "index.main",
+        "MemorySize": 1024,
+        "Runtime": "nodejs12.x",
+        "Tags": [
+          {
+            "Key": "sst:app",
+            "Value": "notes"
+          },
+          {
+            "Key": "sst:stage",
+            "Value": "kriscard"
+          }
+        ],
+        "Timeout": 10,
+        "TracingConfig": {
+          "Mode": "Active"
+        }
+      },
+      "DependsOn": [
+        "ApiLambdaGETnotesidServiceRoleDefaultPolicy0BDDFC9B",
+        "ApiLambdaGETnotesidServiceRole5ED71CA8"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_GET_--notes--{id}/Resource",
+        "aws:asset:path": "asset.949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip",
+        "aws:asset:is-bundled": false,
+        "aws:asset:property": "Code"
+      }
+    },
+    "ApiLambdaGETnotesidEventInvokeConfig638AD083": {
+      "Type": "AWS::Lambda::EventInvokeConfig",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "ApiLambdaGETnotesidBDFD7F2C"
+        },
+        "Qualifier": "$LATEST",
+        "MaximumRetryAttempts": 0
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_GET_--notes--{id}/EventInvokeConfig/Resource"
+      }
+    },
+    "ApiRouteGETnotesidIntegrationGETnotesidPermissionC332DC73": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ApiLambdaGETnotesidBDFD7F2C",
+            "Arn"
+          ]
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:us-east-1:591688379258:",
+              {
+                "Ref": "ApiCD79AAA0"
+              },
+              "/*/*/notes/{id}"
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Route_GET_--notes--{id}/Integration_GET_--notes--{id}-Permission"
+      }
+    },
+    "ApiRouteGETnotesidIntegrationGETnotesidDDEC4C94": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiCD79AAA0"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "ApiLambdaGETnotesidBDFD7F2C",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0"
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Route_GET_--notes--{id}/Integration_GET_--notes--{id}/Resource"
+      }
+    },
+    "ApiRouteGETnotesid7B39CB5A": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiCD79AAA0"
+        },
+        "RouteKey": "GET /notes/{id}",
+        "AuthorizationType": "AWS_IAM",
+        "Target": {
+          "Fn::Join": [
+            "",
+            [
+              "integrations/",
+              {
+                "Ref": "ApiRouteGETnotesidIntegrationGETnotesidDDEC4C94"
+              }
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Route_GET_--notes--{id}/Resource"
+      }
+    },
+    "ApiLambdaGETnotesServiceRoleFAD2F768": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "sst:app",
+            "Value": "notes"
+          },
+          {
+            "Key": "sst:stage",
+            "Value": "kriscard"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_GET_--notes/ServiceRole/Resource"
+      }
+    },
+    "ApiLambdaGETnotesServiceRoleDefaultPolicy46521967": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "s3:*",
+              "Effect": "Allow",
+              "Resource": [
+                "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+                "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*"
+              ]
+            },
+            {
+              "Action": "dynamodb:*",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "ApiLambdaGETnotesServiceRoleDefaultPolicy46521967",
+        "Roles": [
+          {
+            "Ref": "ApiLambdaGETnotesServiceRoleFAD2F768"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_GET_--notes/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "ApiLambdaGETnotesA3E56CF7": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-591688379258-us-east-1",
+          "S3Key": "949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip"
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "ApiLambdaGETnotesServiceRoleFAD2F768",
+            "Arn"
+          ]
+        },
+        "Environment": {
+          "Variables": {
+            "TABLE_NAME": {
+              "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95"
+            },
+            "STRIPE_SECRET_KEY": "sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD",
+            "SST_DEBUG_SRC_PATH": ".",
+            "SST_DEBUG_SRC_HANDLER": "src/list.main",
+            "SST_DEBUG_ENDPOINT": "wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard",
+            "SST_DEBUG_BUCKET_NAME": "kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+            "SST_FUNCTION_ID": "kriscard-notes-api-Api-Lambda_GET_-notes",
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "SST_DEBUG_IS_API_ROUTE": "1"
+          }
+        },
+        "Handler": "index.main",
+        "MemorySize": 1024,
+        "Runtime": "nodejs12.x",
+        "Tags": [
+          {
+            "Key": "sst:app",
+            "Value": "notes"
+          },
+          {
+            "Key": "sst:stage",
+            "Value": "kriscard"
+          }
+        ],
+        "Timeout": 10,
+        "TracingConfig": {
+          "Mode": "Active"
+        }
+      },
+      "DependsOn": [
+        "ApiLambdaGETnotesServiceRoleDefaultPolicy46521967",
+        "ApiLambdaGETnotesServiceRoleFAD2F768"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_GET_--notes/Resource",
+        "aws:asset:path": "asset.949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip",
+        "aws:asset:is-bundled": false,
+        "aws:asset:property": "Code"
+      }
+    },
+    "ApiLambdaGETnotesEventInvokeConfigE155863D": {
+      "Type": "AWS::Lambda::EventInvokeConfig",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "ApiLambdaGETnotesA3E56CF7"
+        },
+        "Qualifier": "$LATEST",
+        "MaximumRetryAttempts": 0
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_GET_--notes/EventInvokeConfig/Resource"
+      }
+    },
+    "ApiRouteGETnotesIntegrationGETnotesPermissionA18F8817": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ApiLambdaGETnotesA3E56CF7",
+            "Arn"
+          ]
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:us-east-1:591688379258:",
+              {
+                "Ref": "ApiCD79AAA0"
+              },
+              "/*/*/notes"
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Route_GET_--notes/Integration_GET_--notes-Permission"
+      }
+    },
+    "ApiRouteGETnotesIntegrationGETnotes809882CF": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiCD79AAA0"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "ApiLambdaGETnotesA3E56CF7",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0"
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Route_GET_--notes/Integration_GET_--notes/Resource"
+      }
+    },
+    "ApiRouteGETnotesBFEE3C9D": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiCD79AAA0"
+        },
+        "RouteKey": "GET /notes",
+        "AuthorizationType": "AWS_IAM",
+        "Target": {
+          "Fn::Join": [
+            "",
+            [
+              "integrations/",
+              {
+                "Ref": "ApiRouteGETnotesIntegrationGETnotes809882CF"
+              }
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Route_GET_--notes/Resource"
+      }
+    },
+    "ApiLambdaPUTnotesidServiceRole7A962796": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "sst:app",
+            "Value": "notes"
+          },
+          {
+            "Key": "sst:stage",
+            "Value": "kriscard"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/ServiceRole/Resource"
+      }
+    },
+    "ApiLambdaPUTnotesidServiceRoleDefaultPolicyB3FF9AED": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "s3:*",
+              "Effect": "Allow",
+              "Resource": [
+                "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+                "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*"
+              ]
+            },
+            {
+              "Action": "dynamodb:*",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "ApiLambdaPUTnotesidServiceRoleDefaultPolicyB3FF9AED",
+        "Roles": [
+          {
+            "Ref": "ApiLambdaPUTnotesidServiceRole7A962796"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "ApiLambdaPUTnotesid28D10C39": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-591688379258-us-east-1",
+          "S3Key": "949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip"
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "ApiLambdaPUTnotesidServiceRole7A962796",
+            "Arn"
+          ]
+        },
+        "Environment": {
+          "Variables": {
+            "TABLE_NAME": {
+              "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95"
+            },
+            "STRIPE_SECRET_KEY": "sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD",
+            "SST_DEBUG_SRC_PATH": ".",
+            "SST_DEBUG_SRC_HANDLER": "src/update.main",
+            "SST_DEBUG_ENDPOINT": "wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard",
+            "SST_DEBUG_BUCKET_NAME": "kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+            "SST_FUNCTION_ID": "kriscard-notes-api-Api-Lambda_PUT_-notes-{id}",
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "SST_DEBUG_IS_API_ROUTE": "1"
+          }
+        },
+        "Handler": "index.main",
+        "MemorySize": 1024,
+        "Runtime": "nodejs12.x",
+        "Tags": [
+          {
+            "Key": "sst:app",
+            "Value": "notes"
+          },
+          {
+            "Key": "sst:stage",
+            "Value": "kriscard"
+          }
+        ],
+        "Timeout": 10,
+        "TracingConfig": {
+          "Mode": "Active"
+        }
+      },
+      "DependsOn": [
+        "ApiLambdaPUTnotesidServiceRoleDefaultPolicyB3FF9AED",
+        "ApiLambdaPUTnotesidServiceRole7A962796"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/Resource",
+        "aws:asset:path": "asset.949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip",
+        "aws:asset:is-bundled": false,
+        "aws:asset:property": "Code"
+      }
+    },
+    "ApiLambdaPUTnotesidEventInvokeConfig80B67243": {
+      "Type": "AWS::Lambda::EventInvokeConfig",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "ApiLambdaPUTnotesid28D10C39"
+        },
+        "Qualifier": "$LATEST",
+        "MaximumRetryAttempts": 0
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/EventInvokeConfig/Resource"
+      }
+    },
+    "ApiRoutePUTnotesidIntegrationPUTnotesidPermissionDD71990C": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ApiLambdaPUTnotesid28D10C39",
+            "Arn"
+          ]
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:us-east-1:591688379258:",
+              {
+                "Ref": "ApiCD79AAA0"
+              },
+              "/*/*/notes/{id}"
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Route_PUT_--notes--{id}/Integration_PUT_--notes--{id}-Permission"
+      }
+    },
+    "ApiRoutePUTnotesidIntegrationPUTnotesid0B48B9D7": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiCD79AAA0"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "ApiLambdaPUTnotesid28D10C39",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0"
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Route_PUT_--notes--{id}/Integration_PUT_--notes--{id}/Resource"
+      }
+    },
+    "ApiRoutePUTnotesidFAE087B0": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiCD79AAA0"
+        },
+        "RouteKey": "PUT /notes/{id}",
+        "AuthorizationType": "AWS_IAM",
+        "Target": {
+          "Fn::Join": [
+            "",
+            [
+              "integrations/",
+              {
+                "Ref": "ApiRoutePUTnotesidIntegrationPUTnotesid0B48B9D7"
+              }
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Route_PUT_--notes--{id}/Resource"
+      }
+    },
+    "ApiLambdaDELETEnotesidServiceRole196EBA58": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "sst:app",
+            "Value": "notes"
+          },
+          {
+            "Key": "sst:stage",
+            "Value": "kriscard"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/ServiceRole/Resource"
+      }
+    },
+    "ApiLambdaDELETEnotesidServiceRoleDefaultPolicy451F8A74": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "s3:*",
+              "Effect": "Allow",
+              "Resource": [
+                "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+                "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*"
+              ]
+            },
+            {
+              "Action": "dynamodb:*",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "ApiLambdaDELETEnotesidServiceRoleDefaultPolicy451F8A74",
+        "Roles": [
+          {
+            "Ref": "ApiLambdaDELETEnotesidServiceRole196EBA58"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "ApiLambdaDELETEnotesid69A96EAD": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-591688379258-us-east-1",
+          "S3Key": "949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip"
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "ApiLambdaDELETEnotesidServiceRole196EBA58",
+            "Arn"
+          ]
+        },
+        "Environment": {
+          "Variables": {
+            "TABLE_NAME": {
+              "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95"
+            },
+            "STRIPE_SECRET_KEY": "sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD",
+            "SST_DEBUG_SRC_PATH": ".",
+            "SST_DEBUG_SRC_HANDLER": "src/delete.main",
+            "SST_DEBUG_ENDPOINT": "wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard",
+            "SST_DEBUG_BUCKET_NAME": "kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+            "SST_FUNCTION_ID": "kriscard-notes-api-Api-Lambda_DELETE_-notes-{id}",
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "SST_DEBUG_IS_API_ROUTE": "1"
+          }
+        },
+        "Handler": "index.main",
+        "MemorySize": 1024,
+        "Runtime": "nodejs12.x",
+        "Tags": [
+          {
+            "Key": "sst:app",
+            "Value": "notes"
+          },
+          {
+            "Key": "sst:stage",
+            "Value": "kriscard"
+          }
+        ],
+        "Timeout": 10,
+        "TracingConfig": {
+          "Mode": "Active"
+        }
+      },
+      "DependsOn": [
+        "ApiLambdaDELETEnotesidServiceRoleDefaultPolicy451F8A74",
+        "ApiLambdaDELETEnotesidServiceRole196EBA58"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/Resource",
+        "aws:asset:path": "asset.949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip",
+        "aws:asset:is-bundled": false,
+        "aws:asset:property": "Code"
+      }
+    },
+    "ApiLambdaDELETEnotesidEventInvokeConfigC7520EFE": {
+      "Type": "AWS::Lambda::EventInvokeConfig",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "ApiLambdaDELETEnotesid69A96EAD"
+        },
+        "Qualifier": "$LATEST",
+        "MaximumRetryAttempts": 0
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/EventInvokeConfig/Resource"
+      }
+    },
+    "ApiRouteDELETEnotesidIntegrationDELETEnotesidPermission717CBC89": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ApiLambdaDELETEnotesid69A96EAD",
+            "Arn"
+          ]
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:us-east-1:591688379258:",
+              {
+                "Ref": "ApiCD79AAA0"
+              },
+              "/*/*/notes/{id}"
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Route_DELETE_--notes--{id}/Integration_DELETE_--notes--{id}-Permission"
+      }
+    },
+    "ApiRouteDELETEnotesidIntegrationDELETEnotesidE2F04DD5": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiCD79AAA0"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "ApiLambdaDELETEnotesid69A96EAD",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0"
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Route_DELETE_--notes--{id}/Integration_DELETE_--notes--{id}/Resource"
+      }
+    },
+    "ApiRouteDELETEnotesidCFA3191E": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiCD79AAA0"
+        },
+        "RouteKey": "DELETE /notes/{id}",
+        "AuthorizationType": "AWS_IAM",
+        "Target": {
+          "Fn::Join": [
+            "",
+            [
+              "integrations/",
+              {
+                "Ref": "ApiRouteDELETEnotesidIntegrationDELETEnotesidE2F04DD5"
+              }
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Route_DELETE_--notes--{id}/Resource"
+      }
+    },
+    "ApiLambdaPOSTbillingServiceRoleB5827DFF": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "sst:app",
+            "Value": "notes"
+          },
+          {
+            "Key": "sst:stage",
+            "Value": "kriscard"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_POST_--billing/ServiceRole/Resource"
+      }
+    },
+    "ApiLambdaPOSTbillingServiceRoleDefaultPolicy23915694": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "s3:*",
+              "Effect": "Allow",
+              "Resource": [
+                "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+                "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*"
+              ]
+            },
+            {
+              "Action": "dynamodb:*",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "ApiLambdaPOSTbillingServiceRoleDefaultPolicy23915694",
+        "Roles": [
+          {
+            "Ref": "ApiLambdaPOSTbillingServiceRoleB5827DFF"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_POST_--billing/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "ApiLambdaPOSTbilling71E49732": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-591688379258-us-east-1",
+          "S3Key": "949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip"
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "ApiLambdaPOSTbillingServiceRoleB5827DFF",
+            "Arn"
+          ]
+        },
+        "Environment": {
+          "Variables": {
+            "TABLE_NAME": {
+              "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95"
+            },
+            "STRIPE_SECRET_KEY": "sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD",
+            "SST_DEBUG_SRC_PATH": ".",
+            "SST_DEBUG_SRC_HANDLER": "functions/billing.main",
+            "SST_DEBUG_ENDPOINT": "wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard",
+            "SST_DEBUG_BUCKET_NAME": "kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+            "SST_FUNCTION_ID": "kriscard-notes-api-Api-Lambda_POST_-billing",
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "SST_DEBUG_IS_API_ROUTE": "1"
+          }
+        },
+        "Handler": "index.main",
+        "MemorySize": 1024,
+        "Runtime": "nodejs12.x",
+        "Tags": [
+          {
+            "Key": "sst:app",
+            "Value": "notes"
+          },
+          {
+            "Key": "sst:stage",
+            "Value": "kriscard"
+          }
+        ],
+        "Timeout": 10,
+        "TracingConfig": {
+          "Mode": "Active"
+        }
+      },
+      "DependsOn": [
+        "ApiLambdaPOSTbillingServiceRoleDefaultPolicy23915694",
+        "ApiLambdaPOSTbillingServiceRoleB5827DFF"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_POST_--billing/Resource",
+        "aws:asset:path": "asset.949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip",
+        "aws:asset:is-bundled": false,
+        "aws:asset:property": "Code"
+      }
+    },
+    "ApiLambdaPOSTbillingEventInvokeConfigFF3A6E0D": {
+      "Type": "AWS::Lambda::EventInvokeConfig",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "ApiLambdaPOSTbilling71E49732"
+        },
+        "Qualifier": "$LATEST",
+        "MaximumRetryAttempts": 0
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Lambda_POST_--billing/EventInvokeConfig/Resource"
+      }
+    },
+    "ApiRoutePOSTbillingIntegrationPOSTbillingPermissionF7A0B32C": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ApiLambdaPOSTbilling71E49732",
+            "Arn"
+          ]
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:us-east-1:591688379258:",
+              {
+                "Ref": "ApiCD79AAA0"
+              },
+              "/*/*/billing"
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Route_POST_--billing/Integration_POST_--billing-Permission"
+      }
+    },
+    "ApiRoutePOSTbillingIntegrationPOSTbillingE351CA9B": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiCD79AAA0"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "ApiLambdaPOSTbilling71E49732",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0"
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Route_POST_--billing/Integration_POST_--billing/Resource"
+      }
+    },
+    "ApiRoutePOSTbilling09AED9DA": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiCD79AAA0"
+        },
+        "RouteKey": "POST /billing",
+        "AuthorizationType": "AWS_IAM",
+        "Target": {
+          "Fn::Join": [
+            "",
+            [
+              "integrations/",
+              {
+                "Ref": "ApiRoutePOSTbillingIntegrationPOSTbillingE351CA9B"
+              }
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-api/Api/Route_POST_--billing/Resource"
+      }
+    }
+  },
+  "Outputs": {
+    "ApiEndpoint": {
+      "Value": {
+        "Fn::GetAtt": [
+          "ApiCD79AAA0",
+          "ApiEndpoint"
+        ]
+      }
+    },
+    "ExportsOutputRefApiCD79AAA0A1504A18": {
+      "Value": {
+        "Ref": "ApiCD79AAA0"
+      },
+      "Export": {
+        "Name": "kriscard-notes-api:ExportsOutputRefApiCD79AAA0A1504A18"
+      }
+    }
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Type": "AWS::SSM::Parameter::Value<String>",
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+    }
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                  ],
+                  {
+                    "Ref": "BootstrapVersion"
+                  }
+                ]
+              }
+            ]
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+        }
+      ]
+    }
+  }
+}

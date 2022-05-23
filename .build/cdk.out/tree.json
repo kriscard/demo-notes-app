@@ -1,0 +1,2980 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.1.15"
+        }
+      },
+      "kriscard-notes-storage": {
+        "id": "kriscard-notes-storage",
+        "path": "kriscard-notes-storage",
+        "children": {
+          "SSTMetadata": {
+            "id": "SSTMetadata",
+            "path": "kriscard-notes-storage/SSTMetadata",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnResource",
+              "version": "2.15.0"
+            }
+          },
+          "Notes": {
+            "id": "Notes",
+            "path": "kriscard-notes-storage/Notes",
+            "children": {
+              "Table": {
+                "id": "Table",
+                "path": "kriscard-notes-storage/Notes/Table",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-storage/Notes/Table/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
+                      "aws:cdk:cloudformation:props": {
+                        "keySchema": [
+                          {
+                            "attributeName": "userId",
+                            "keyType": "HASH"
+                          },
+                          {
+                            "attributeName": "noteId",
+                            "keyType": "RANGE"
+                          }
+                        ],
+                        "attributeDefinitions": [
+                          {
+                            "attributeName": "userId",
+                            "attributeType": "S"
+                          },
+                          {
+                            "attributeName": "noteId",
+                            "attributeType": "S"
+                          }
+                        ],
+                        "billingMode": "PAY_PER_REQUEST",
+                        "pointInTimeRecoverySpecification": {
+                          "pointInTimeRecoveryEnabled": true
+                        },
+                        "tableName": "kriscard-notes-Notes",
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "notes"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "kriscard"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_dynamodb.CfnTable",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "ScalingRole": {
+                    "id": "ScalingRole",
+                    "path": "kriscard-notes-storage/Notes/Table/ScalingRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_dynamodb.Table",
+                  "version": "2.15.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.15"
+            }
+          },
+          "Uploads": {
+            "id": "Uploads",
+            "path": "kriscard-notes-storage/Uploads",
+            "children": {
+              "Bucket": {
+                "id": "Bucket",
+                "path": "kriscard-notes-storage/Uploads/Bucket",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-storage/Uploads/Bucket/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                      "aws:cdk:cloudformation:props": {
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "notes"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "kriscard"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.Bucket",
+                  "version": "2.15.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.15"
+            }
+          },
+          "Exports": {
+            "id": "Exports",
+            "path": "kriscard-notes-storage/Exports",
+            "children": {
+              "Output{\"Fn::GetAtt\":[\"NotesTable7100B0E8\",\"Arn\"]}": {
+                "id": "Output{\"Fn::GetAtt\":[\"NotesTable7100B0E8\",\"Arn\"]}",
+                "path": "kriscard-notes-storage/Exports/Output{\"Fn::GetAtt\":[\"NotesTable7100B0E8\",\"Arn\"]}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.15.0"
+                }
+              },
+              "Output{\"Ref\":\"NotesTable7100B0E8\"}": {
+                "id": "Output{\"Ref\":\"NotesTable7100B0E8\"}",
+                "path": "kriscard-notes-storage/Exports/Output{\"Ref\":\"NotesTable7100B0E8\"}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.15.0"
+                }
+              },
+              "Output{\"Fn::GetAtt\":[\"UploadsBucketC4B27CC7\",\"Arn\"]}": {
+                "id": "Output{\"Fn::GetAtt\":[\"UploadsBucketC4B27CC7\",\"Arn\"]}",
+                "path": "kriscard-notes-storage/Exports/Output{\"Fn::GetAtt\":[\"UploadsBucketC4B27CC7\",\"Arn\"]}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.15.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.15"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.15.0"
+        }
+      },
+      "kriscard-notes-api": {
+        "id": "kriscard-notes-api",
+        "path": "kriscard-notes-api",
+        "children": {
+          "SSTMetadata": {
+            "id": "SSTMetadata",
+            "path": "kriscard-notes-api/SSTMetadata",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnResource",
+              "version": "2.15.0"
+            }
+          },
+          "Api": {
+            "id": "Api",
+            "path": "kriscard-notes-api/Api",
+            "children": {
+              "Api": {
+                "id": "Api",
+                "path": "kriscard-notes-api/Api/Api",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-api/Api/Api/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Api",
+                      "aws:cdk:cloudformation:props": {
+                        "corsConfiguration": {
+                          "allowHeaders": [
+                            "*"
+                          ],
+                          "allowMethods": [
+                            "*"
+                          ],
+                          "allowOrigins": [
+                            "*"
+                          ]
+                        },
+                        "name": "kriscard-notes-Api",
+                        "protocolType": "HTTP",
+                        "tags": {
+                          "sst:app": "notes",
+                          "sst:stage": "kriscard"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnApi",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "DefaultStage": {
+                    "id": "DefaultStage",
+                    "path": "kriscard-notes-api/Api/Api/DefaultStage",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-api/Api/Api/DefaultStage/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Stage",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "ApiCD79AAA0"
+                            },
+                            "stageName": "$default",
+                            "accessLogSettings": {
+                              "format": "{\"requestTime\":\"$context.requestTime\",\"requestId\":\"$context.requestId\",\"httpMethod\":\"$context.httpMethod\",\"path\":\"$context.path\",\"routeKey\":\"$context.routeKey\",\"status\":$context.status,\"responseLatency\":$context.responseLatency,\"integrationRequestId\":\"$context.integration.requestId\",\"integrationStatus\":\"$context.integration.status\",\"integrationLatency\":\"$context.integration.latency\",\"integrationServiceStatus\":\"$context.integration.integrationStatus\",\"ip\":\"$context.identity.sourceIp\",\"userAgent\":\"$context.identity.userAgent\",\"cognitoIdentityId\":\"$context.identity.cognitoIdentityId\"}",
+                              "destinationArn": {
+                                "Fn::GetAtt": [
+                                  "ApiLogGroup1717FE17",
+                                  "Arn"
+                                ]
+                              }
+                            },
+                            "autoDeploy": true,
+                            "tags": {
+                              "sst:app": "notes",
+                              "sst:stage": "kriscard"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnStage",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-apigatewayv2-alpha.HttpStage",
+                      "version": "2.15.0-alpha.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-apigatewayv2-alpha.HttpApi",
+                  "version": "2.15.0-alpha.0"
+                }
+              },
+              "LogGroup": {
+                "id": "LogGroup",
+                "path": "kriscard-notes-api/Api/LogGroup",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-api/Api/LogGroup/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
+                      "aws:cdk:cloudformation:props": {
+                        "logGroupName": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "/aws/vendedlogs/apis/kriscard-notes-Api-",
+                              {
+                                "Ref": "ApiCD79AAA0"
+                              },
+                              "/default"
+                            ]
+                          ]
+                        },
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "notes"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "kriscard"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_logs.LogGroup",
+                  "version": "2.15.0"
+                }
+              },
+              "Lambda_POST_--notes": {
+                "id": "Lambda_POST_--notes",
+                "path": "kriscard-notes-api/Api/Lambda_POST_--notes",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "kriscard-notes-api/Api/Lambda_POST_--notes/ServiceRole",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-api/Api/Lambda_POST_--notes/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ],
+                            "tags": [
+                              {
+                                "key": "sst:app",
+                                "value": "notes"
+                              },
+                              {
+                                "key": "sst:stage",
+                                "value": "kriscard"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.15.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "kriscard-notes-api/Api/Lambda_POST_--notes/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "kriscard-notes-api/Api/Lambda_POST_--notes/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "xray:PutTraceSegments",
+                                        "xray:PutTelemetryRecords"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    },
+                                    {
+                                      "Action": "s3:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+                                        "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*"
+                                      ]
+                                    },
+                                    {
+                                      "Action": "dynamodb:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              {
+                                                "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                                              },
+                                              "/*"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "ApiLambdaPOSTnotesServiceRoleDefaultPolicy6D85CF6B",
+                                "roles": [
+                                  {
+                                    "Ref": "ApiLambdaPOSTnotesServiceRoleD16681D3"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.15.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "kriscard-notes-api/Api/Lambda_POST_--notes/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "kriscard-notes-api/Api/Lambda_POST_--notes/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.15.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "kriscard-notes-api/Api/Lambda_POST_--notes/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-api/Api/Lambda_POST_--notes/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "code": {
+                          "s3Bucket": "cdk-hnb659fds-assets-591688379258-us-east-1",
+                          "s3Key": "949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip"
+                        },
+                        "role": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaPOSTnotesServiceRoleD16681D3",
+                            "Arn"
+                          ]
+                        },
+                        "environment": {
+                          "variables": {
+                            "TABLE_NAME": {
+                              "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95"
+                            },
+                            "STRIPE_SECRET_KEY": "sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD",
+                            "SST_DEBUG_SRC_PATH": ".",
+                            "SST_DEBUG_SRC_HANDLER": "src/create.main",
+                            "SST_DEBUG_ENDPOINT": "wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard",
+                            "SST_DEBUG_BUCKET_NAME": "kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+                            "SST_FUNCTION_ID": "kriscard-notes-api-Api-Lambda_POST_-notes",
+                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+                            "SST_DEBUG_IS_API_ROUTE": "1"
+                          }
+                        },
+                        "handler": "index.main",
+                        "memorySize": 1024,
+                        "runtime": "nodejs12.x",
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "notes"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "kriscard"
+                          }
+                        ],
+                        "timeout": 10,
+                        "tracingConfig": {
+                          "mode": "Active"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "EventInvokeConfig": {
+                    "id": "EventInvokeConfig",
+                    "path": "kriscard-notes-api/Api/Lambda_POST_--notes/EventInvokeConfig",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-api/Api/Lambda_POST_--notes/EventInvokeConfig/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::EventInvokeConfig",
+                          "aws:cdk:cloudformation:props": {
+                            "functionName": {
+                              "Ref": "ApiLambdaPOSTnotes3B067E1B"
+                            },
+                            "qualifier": "$LATEST",
+                            "maximumRetryAttempts": 0
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnEventInvokeConfig",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.EventInvokeConfig",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.15.0"
+                }
+              },
+              "Route_POST_--notes": {
+                "id": "Route_POST_--notes",
+                "path": "kriscard-notes-api/Api/Route_POST_--notes",
+                "children": {
+                  "Integration_POST_--notes-Permission": {
+                    "id": "Integration_POST_--notes-Permission",
+                    "path": "kriscard-notes-api/Api/Route_POST_--notes/Integration_POST_--notes-Permission",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunction",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaPOSTnotes3B067E1B",
+                            "Arn"
+                          ]
+                        },
+                        "principal": "apigateway.amazonaws.com",
+                        "sourceArn": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":execute-api:us-east-1:591688379258:",
+                              {
+                                "Ref": "ApiCD79AAA0"
+                              },
+                              "/*/*/notes"
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Integration_POST_--notes": {
+                    "id": "Integration_POST_--notes",
+                    "path": "kriscard-notes-api/Api/Route_POST_--notes/Integration_POST_--notes",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-api/Api/Route_POST_--notes/Integration_POST_--notes/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Integration",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "ApiCD79AAA0"
+                            },
+                            "integrationType": "AWS_PROXY",
+                            "integrationUri": {
+                              "Fn::GetAtt": [
+                                "ApiLambdaPOSTnotes3B067E1B",
+                                "Arn"
+                              ]
+                            },
+                            "payloadFormatVersion": "2.0"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnIntegration",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-apigatewayv2-alpha.HttpIntegration",
+                      "version": "2.15.0-alpha.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-api/Api/Route_POST_--notes/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "apiId": {
+                          "Ref": "ApiCD79AAA0"
+                        },
+                        "routeKey": "POST /notes",
+                        "authorizationType": "AWS_IAM",
+                        "target": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "integrations/",
+                              {
+                                "Ref": "ApiRoutePOSTnotesIntegrationPOSTnotes44F9E77C"
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnRoute",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-apigatewayv2-alpha.HttpRoute",
+                  "version": "2.15.0-alpha.0"
+                }
+              },
+              "Lambda_GET_--notes--{id}": {
+                "id": "Lambda_GET_--notes--{id}",
+                "path": "kriscard-notes-api/Api/Lambda_GET_--notes--{id}",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "kriscard-notes-api/Api/Lambda_GET_--notes--{id}/ServiceRole",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-api/Api/Lambda_GET_--notes--{id}/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ],
+                            "tags": [
+                              {
+                                "key": "sst:app",
+                                "value": "notes"
+                              },
+                              {
+                                "key": "sst:stage",
+                                "value": "kriscard"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.15.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "kriscard-notes-api/Api/Lambda_GET_--notes--{id}/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "kriscard-notes-api/Api/Lambda_GET_--notes--{id}/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "xray:PutTraceSegments",
+                                        "xray:PutTelemetryRecords"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    },
+                                    {
+                                      "Action": "s3:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+                                        "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*"
+                                      ]
+                                    },
+                                    {
+                                      "Action": "dynamodb:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              {
+                                                "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                                              },
+                                              "/*"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "ApiLambdaGETnotesidServiceRoleDefaultPolicy0BDDFC9B",
+                                "roles": [
+                                  {
+                                    "Ref": "ApiLambdaGETnotesidServiceRole5ED71CA8"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.15.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "kriscard-notes-api/Api/Lambda_GET_--notes--{id}/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "kriscard-notes-api/Api/Lambda_GET_--notes--{id}/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.15.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "kriscard-notes-api/Api/Lambda_GET_--notes--{id}/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-api/Api/Lambda_GET_--notes--{id}/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "code": {
+                          "s3Bucket": "cdk-hnb659fds-assets-591688379258-us-east-1",
+                          "s3Key": "949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip"
+                        },
+                        "role": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaGETnotesidServiceRole5ED71CA8",
+                            "Arn"
+                          ]
+                        },
+                        "environment": {
+                          "variables": {
+                            "TABLE_NAME": {
+                              "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95"
+                            },
+                            "STRIPE_SECRET_KEY": "sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD",
+                            "SST_DEBUG_SRC_PATH": ".",
+                            "SST_DEBUG_SRC_HANDLER": "src/get.main",
+                            "SST_DEBUG_ENDPOINT": "wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard",
+                            "SST_DEBUG_BUCKET_NAME": "kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+                            "SST_FUNCTION_ID": "kriscard-notes-api-Api-Lambda_GET_-notes-{id}",
+                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+                            "SST_DEBUG_IS_API_ROUTE": "1"
+                          }
+                        },
+                        "handler": "index.main",
+                        "memorySize": 1024,
+                        "runtime": "nodejs12.x",
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "notes"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "kriscard"
+                          }
+                        ],
+                        "timeout": 10,
+                        "tracingConfig": {
+                          "mode": "Active"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "EventInvokeConfig": {
+                    "id": "EventInvokeConfig",
+                    "path": "kriscard-notes-api/Api/Lambda_GET_--notes--{id}/EventInvokeConfig",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-api/Api/Lambda_GET_--notes--{id}/EventInvokeConfig/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::EventInvokeConfig",
+                          "aws:cdk:cloudformation:props": {
+                            "functionName": {
+                              "Ref": "ApiLambdaGETnotesidBDFD7F2C"
+                            },
+                            "qualifier": "$LATEST",
+                            "maximumRetryAttempts": 0
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnEventInvokeConfig",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.EventInvokeConfig",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.15.0"
+                }
+              },
+              "Route_GET_--notes--{id}": {
+                "id": "Route_GET_--notes--{id}",
+                "path": "kriscard-notes-api/Api/Route_GET_--notes--{id}",
+                "children": {
+                  "Integration_GET_--notes--{id}-Permission": {
+                    "id": "Integration_GET_--notes--{id}-Permission",
+                    "path": "kriscard-notes-api/Api/Route_GET_--notes--{id}/Integration_GET_--notes--{id}-Permission",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunction",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaGETnotesidBDFD7F2C",
+                            "Arn"
+                          ]
+                        },
+                        "principal": "apigateway.amazonaws.com",
+                        "sourceArn": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":execute-api:us-east-1:591688379258:",
+                              {
+                                "Ref": "ApiCD79AAA0"
+                              },
+                              "/*/*/notes/{id}"
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Integration_GET_--notes--{id}": {
+                    "id": "Integration_GET_--notes--{id}",
+                    "path": "kriscard-notes-api/Api/Route_GET_--notes--{id}/Integration_GET_--notes--{id}",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-api/Api/Route_GET_--notes--{id}/Integration_GET_--notes--{id}/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Integration",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "ApiCD79AAA0"
+                            },
+                            "integrationType": "AWS_PROXY",
+                            "integrationUri": {
+                              "Fn::GetAtt": [
+                                "ApiLambdaGETnotesidBDFD7F2C",
+                                "Arn"
+                              ]
+                            },
+                            "payloadFormatVersion": "2.0"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnIntegration",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-apigatewayv2-alpha.HttpIntegration",
+                      "version": "2.15.0-alpha.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-api/Api/Route_GET_--notes--{id}/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "apiId": {
+                          "Ref": "ApiCD79AAA0"
+                        },
+                        "routeKey": "GET /notes/{id}",
+                        "authorizationType": "AWS_IAM",
+                        "target": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "integrations/",
+                              {
+                                "Ref": "ApiRouteGETnotesidIntegrationGETnotesidDDEC4C94"
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnRoute",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-apigatewayv2-alpha.HttpRoute",
+                  "version": "2.15.0-alpha.0"
+                }
+              },
+              "Lambda_GET_--notes": {
+                "id": "Lambda_GET_--notes",
+                "path": "kriscard-notes-api/Api/Lambda_GET_--notes",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "kriscard-notes-api/Api/Lambda_GET_--notes/ServiceRole",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-api/Api/Lambda_GET_--notes/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ],
+                            "tags": [
+                              {
+                                "key": "sst:app",
+                                "value": "notes"
+                              },
+                              {
+                                "key": "sst:stage",
+                                "value": "kriscard"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.15.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "kriscard-notes-api/Api/Lambda_GET_--notes/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "kriscard-notes-api/Api/Lambda_GET_--notes/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "xray:PutTraceSegments",
+                                        "xray:PutTelemetryRecords"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    },
+                                    {
+                                      "Action": "s3:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+                                        "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*"
+                                      ]
+                                    },
+                                    {
+                                      "Action": "dynamodb:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              {
+                                                "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                                              },
+                                              "/*"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "ApiLambdaGETnotesServiceRoleDefaultPolicy46521967",
+                                "roles": [
+                                  {
+                                    "Ref": "ApiLambdaGETnotesServiceRoleFAD2F768"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.15.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "kriscard-notes-api/Api/Lambda_GET_--notes/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "kriscard-notes-api/Api/Lambda_GET_--notes/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.15.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "kriscard-notes-api/Api/Lambda_GET_--notes/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-api/Api/Lambda_GET_--notes/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "code": {
+                          "s3Bucket": "cdk-hnb659fds-assets-591688379258-us-east-1",
+                          "s3Key": "949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip"
+                        },
+                        "role": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaGETnotesServiceRoleFAD2F768",
+                            "Arn"
+                          ]
+                        },
+                        "environment": {
+                          "variables": {
+                            "TABLE_NAME": {
+                              "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95"
+                            },
+                            "STRIPE_SECRET_KEY": "sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD",
+                            "SST_DEBUG_SRC_PATH": ".",
+                            "SST_DEBUG_SRC_HANDLER": "src/list.main",
+                            "SST_DEBUG_ENDPOINT": "wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard",
+                            "SST_DEBUG_BUCKET_NAME": "kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+                            "SST_FUNCTION_ID": "kriscard-notes-api-Api-Lambda_GET_-notes",
+                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+                            "SST_DEBUG_IS_API_ROUTE": "1"
+                          }
+                        },
+                        "handler": "index.main",
+                        "memorySize": 1024,
+                        "runtime": "nodejs12.x",
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "notes"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "kriscard"
+                          }
+                        ],
+                        "timeout": 10,
+                        "tracingConfig": {
+                          "mode": "Active"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "EventInvokeConfig": {
+                    "id": "EventInvokeConfig",
+                    "path": "kriscard-notes-api/Api/Lambda_GET_--notes/EventInvokeConfig",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-api/Api/Lambda_GET_--notes/EventInvokeConfig/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::EventInvokeConfig",
+                          "aws:cdk:cloudformation:props": {
+                            "functionName": {
+                              "Ref": "ApiLambdaGETnotesA3E56CF7"
+                            },
+                            "qualifier": "$LATEST",
+                            "maximumRetryAttempts": 0
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnEventInvokeConfig",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.EventInvokeConfig",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.15.0"
+                }
+              },
+              "Route_GET_--notes": {
+                "id": "Route_GET_--notes",
+                "path": "kriscard-notes-api/Api/Route_GET_--notes",
+                "children": {
+                  "Integration_GET_--notes-Permission": {
+                    "id": "Integration_GET_--notes-Permission",
+                    "path": "kriscard-notes-api/Api/Route_GET_--notes/Integration_GET_--notes-Permission",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunction",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaGETnotesA3E56CF7",
+                            "Arn"
+                          ]
+                        },
+                        "principal": "apigateway.amazonaws.com",
+                        "sourceArn": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":execute-api:us-east-1:591688379258:",
+                              {
+                                "Ref": "ApiCD79AAA0"
+                              },
+                              "/*/*/notes"
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Integration_GET_--notes": {
+                    "id": "Integration_GET_--notes",
+                    "path": "kriscard-notes-api/Api/Route_GET_--notes/Integration_GET_--notes",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-api/Api/Route_GET_--notes/Integration_GET_--notes/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Integration",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "ApiCD79AAA0"
+                            },
+                            "integrationType": "AWS_PROXY",
+                            "integrationUri": {
+                              "Fn::GetAtt": [
+                                "ApiLambdaGETnotesA3E56CF7",
+                                "Arn"
+                              ]
+                            },
+                            "payloadFormatVersion": "2.0"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnIntegration",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-apigatewayv2-alpha.HttpIntegration",
+                      "version": "2.15.0-alpha.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-api/Api/Route_GET_--notes/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "apiId": {
+                          "Ref": "ApiCD79AAA0"
+                        },
+                        "routeKey": "GET /notes",
+                        "authorizationType": "AWS_IAM",
+                        "target": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "integrations/",
+                              {
+                                "Ref": "ApiRouteGETnotesIntegrationGETnotes809882CF"
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnRoute",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-apigatewayv2-alpha.HttpRoute",
+                  "version": "2.15.0-alpha.0"
+                }
+              },
+              "Lambda_PUT_--notes--{id}": {
+                "id": "Lambda_PUT_--notes--{id}",
+                "path": "kriscard-notes-api/Api/Lambda_PUT_--notes--{id}",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/ServiceRole",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ],
+                            "tags": [
+                              {
+                                "key": "sst:app",
+                                "value": "notes"
+                              },
+                              {
+                                "key": "sst:stage",
+                                "value": "kriscard"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.15.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "xray:PutTraceSegments",
+                                        "xray:PutTelemetryRecords"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    },
+                                    {
+                                      "Action": "s3:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+                                        "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*"
+                                      ]
+                                    },
+                                    {
+                                      "Action": "dynamodb:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              {
+                                                "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                                              },
+                                              "/*"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "ApiLambdaPUTnotesidServiceRoleDefaultPolicyB3FF9AED",
+                                "roles": [
+                                  {
+                                    "Ref": "ApiLambdaPUTnotesidServiceRole7A962796"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.15.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.15.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "code": {
+                          "s3Bucket": "cdk-hnb659fds-assets-591688379258-us-east-1",
+                          "s3Key": "949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip"
+                        },
+                        "role": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaPUTnotesidServiceRole7A962796",
+                            "Arn"
+                          ]
+                        },
+                        "environment": {
+                          "variables": {
+                            "TABLE_NAME": {
+                              "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95"
+                            },
+                            "STRIPE_SECRET_KEY": "sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD",
+                            "SST_DEBUG_SRC_PATH": ".",
+                            "SST_DEBUG_SRC_HANDLER": "src/update.main",
+                            "SST_DEBUG_ENDPOINT": "wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard",
+                            "SST_DEBUG_BUCKET_NAME": "kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+                            "SST_FUNCTION_ID": "kriscard-notes-api-Api-Lambda_PUT_-notes-{id}",
+                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+                            "SST_DEBUG_IS_API_ROUTE": "1"
+                          }
+                        },
+                        "handler": "index.main",
+                        "memorySize": 1024,
+                        "runtime": "nodejs12.x",
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "notes"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "kriscard"
+                          }
+                        ],
+                        "timeout": 10,
+                        "tracingConfig": {
+                          "mode": "Active"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "EventInvokeConfig": {
+                    "id": "EventInvokeConfig",
+                    "path": "kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/EventInvokeConfig",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/EventInvokeConfig/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::EventInvokeConfig",
+                          "aws:cdk:cloudformation:props": {
+                            "functionName": {
+                              "Ref": "ApiLambdaPUTnotesid28D10C39"
+                            },
+                            "qualifier": "$LATEST",
+                            "maximumRetryAttempts": 0
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnEventInvokeConfig",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.EventInvokeConfig",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.15.0"
+                }
+              },
+              "Route_PUT_--notes--{id}": {
+                "id": "Route_PUT_--notes--{id}",
+                "path": "kriscard-notes-api/Api/Route_PUT_--notes--{id}",
+                "children": {
+                  "Integration_PUT_--notes--{id}-Permission": {
+                    "id": "Integration_PUT_--notes--{id}-Permission",
+                    "path": "kriscard-notes-api/Api/Route_PUT_--notes--{id}/Integration_PUT_--notes--{id}-Permission",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunction",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaPUTnotesid28D10C39",
+                            "Arn"
+                          ]
+                        },
+                        "principal": "apigateway.amazonaws.com",
+                        "sourceArn": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":execute-api:us-east-1:591688379258:",
+                              {
+                                "Ref": "ApiCD79AAA0"
+                              },
+                              "/*/*/notes/{id}"
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Integration_PUT_--notes--{id}": {
+                    "id": "Integration_PUT_--notes--{id}",
+                    "path": "kriscard-notes-api/Api/Route_PUT_--notes--{id}/Integration_PUT_--notes--{id}",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-api/Api/Route_PUT_--notes--{id}/Integration_PUT_--notes--{id}/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Integration",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "ApiCD79AAA0"
+                            },
+                            "integrationType": "AWS_PROXY",
+                            "integrationUri": {
+                              "Fn::GetAtt": [
+                                "ApiLambdaPUTnotesid28D10C39",
+                                "Arn"
+                              ]
+                            },
+                            "payloadFormatVersion": "2.0"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnIntegration",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-apigatewayv2-alpha.HttpIntegration",
+                      "version": "2.15.0-alpha.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-api/Api/Route_PUT_--notes--{id}/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "apiId": {
+                          "Ref": "ApiCD79AAA0"
+                        },
+                        "routeKey": "PUT /notes/{id}",
+                        "authorizationType": "AWS_IAM",
+                        "target": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "integrations/",
+                              {
+                                "Ref": "ApiRoutePUTnotesidIntegrationPUTnotesid0B48B9D7"
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnRoute",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-apigatewayv2-alpha.HttpRoute",
+                  "version": "2.15.0-alpha.0"
+                }
+              },
+              "Lambda_DELETE_--notes--{id}": {
+                "id": "Lambda_DELETE_--notes--{id}",
+                "path": "kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/ServiceRole",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ],
+                            "tags": [
+                              {
+                                "key": "sst:app",
+                                "value": "notes"
+                              },
+                              {
+                                "key": "sst:stage",
+                                "value": "kriscard"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.15.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "xray:PutTraceSegments",
+                                        "xray:PutTelemetryRecords"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    },
+                                    {
+                                      "Action": "s3:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+                                        "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*"
+                                      ]
+                                    },
+                                    {
+                                      "Action": "dynamodb:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              {
+                                                "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                                              },
+                                              "/*"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "ApiLambdaDELETEnotesidServiceRoleDefaultPolicy451F8A74",
+                                "roles": [
+                                  {
+                                    "Ref": "ApiLambdaDELETEnotesidServiceRole196EBA58"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.15.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.15.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "code": {
+                          "s3Bucket": "cdk-hnb659fds-assets-591688379258-us-east-1",
+                          "s3Key": "949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip"
+                        },
+                        "role": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaDELETEnotesidServiceRole196EBA58",
+                            "Arn"
+                          ]
+                        },
+                        "environment": {
+                          "variables": {
+                            "TABLE_NAME": {
+                              "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95"
+                            },
+                            "STRIPE_SECRET_KEY": "sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD",
+                            "SST_DEBUG_SRC_PATH": ".",
+                            "SST_DEBUG_SRC_HANDLER": "src/delete.main",
+                            "SST_DEBUG_ENDPOINT": "wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard",
+                            "SST_DEBUG_BUCKET_NAME": "kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+                            "SST_FUNCTION_ID": "kriscard-notes-api-Api-Lambda_DELETE_-notes-{id}",
+                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+                            "SST_DEBUG_IS_API_ROUTE": "1"
+                          }
+                        },
+                        "handler": "index.main",
+                        "memorySize": 1024,
+                        "runtime": "nodejs12.x",
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "notes"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "kriscard"
+                          }
+                        ],
+                        "timeout": 10,
+                        "tracingConfig": {
+                          "mode": "Active"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "EventInvokeConfig": {
+                    "id": "EventInvokeConfig",
+                    "path": "kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/EventInvokeConfig",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/EventInvokeConfig/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::EventInvokeConfig",
+                          "aws:cdk:cloudformation:props": {
+                            "functionName": {
+                              "Ref": "ApiLambdaDELETEnotesid69A96EAD"
+                            },
+                            "qualifier": "$LATEST",
+                            "maximumRetryAttempts": 0
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnEventInvokeConfig",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.EventInvokeConfig",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.15.0"
+                }
+              },
+              "Route_DELETE_--notes--{id}": {
+                "id": "Route_DELETE_--notes--{id}",
+                "path": "kriscard-notes-api/Api/Route_DELETE_--notes--{id}",
+                "children": {
+                  "Integration_DELETE_--notes--{id}-Permission": {
+                    "id": "Integration_DELETE_--notes--{id}-Permission",
+                    "path": "kriscard-notes-api/Api/Route_DELETE_--notes--{id}/Integration_DELETE_--notes--{id}-Permission",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunction",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaDELETEnotesid69A96EAD",
+                            "Arn"
+                          ]
+                        },
+                        "principal": "apigateway.amazonaws.com",
+                        "sourceArn": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":execute-api:us-east-1:591688379258:",
+                              {
+                                "Ref": "ApiCD79AAA0"
+                              },
+                              "/*/*/notes/{id}"
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Integration_DELETE_--notes--{id}": {
+                    "id": "Integration_DELETE_--notes--{id}",
+                    "path": "kriscard-notes-api/Api/Route_DELETE_--notes--{id}/Integration_DELETE_--notes--{id}",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-api/Api/Route_DELETE_--notes--{id}/Integration_DELETE_--notes--{id}/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Integration",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "ApiCD79AAA0"
+                            },
+                            "integrationType": "AWS_PROXY",
+                            "integrationUri": {
+                              "Fn::GetAtt": [
+                                "ApiLambdaDELETEnotesid69A96EAD",
+                                "Arn"
+                              ]
+                            },
+                            "payloadFormatVersion": "2.0"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnIntegration",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-apigatewayv2-alpha.HttpIntegration",
+                      "version": "2.15.0-alpha.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-api/Api/Route_DELETE_--notes--{id}/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "apiId": {
+                          "Ref": "ApiCD79AAA0"
+                        },
+                        "routeKey": "DELETE /notes/{id}",
+                        "authorizationType": "AWS_IAM",
+                        "target": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "integrations/",
+                              {
+                                "Ref": "ApiRouteDELETEnotesidIntegrationDELETEnotesidE2F04DD5"
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnRoute",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-apigatewayv2-alpha.HttpRoute",
+                  "version": "2.15.0-alpha.0"
+                }
+              },
+              "Lambda_POST_--billing": {
+                "id": "Lambda_POST_--billing",
+                "path": "kriscard-notes-api/Api/Lambda_POST_--billing",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "kriscard-notes-api/Api/Lambda_POST_--billing/ServiceRole",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-api/Api/Lambda_POST_--billing/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ],
+                            "tags": [
+                              {
+                                "key": "sst:app",
+                                "value": "notes"
+                              },
+                              {
+                                "key": "sst:stage",
+                                "value": "kriscard"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.15.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "kriscard-notes-api/Api/Lambda_POST_--billing/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "kriscard-notes-api/Api/Lambda_POST_--billing/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "xray:PutTraceSegments",
+                                        "xray:PutTelemetryRecords"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    },
+                                    {
+                                      "Action": "s3:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+                                        "arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*"
+                                      ]
+                                    },
+                                    {
+                                      "Action": "dynamodb:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              {
+                                                "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+                                              },
+                                              "/*"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "ApiLambdaPOSTbillingServiceRoleDefaultPolicy23915694",
+                                "roles": [
+                                  {
+                                    "Ref": "ApiLambdaPOSTbillingServiceRoleB5827DFF"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.15.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "kriscard-notes-api/Api/Lambda_POST_--billing/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "kriscard-notes-api/Api/Lambda_POST_--billing/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.15.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "kriscard-notes-api/Api/Lambda_POST_--billing/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-api/Api/Lambda_POST_--billing/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "code": {
+                          "s3Bucket": "cdk-hnb659fds-assets-591688379258-us-east-1",
+                          "s3Key": "949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip"
+                        },
+                        "role": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaPOSTbillingServiceRoleB5827DFF",
+                            "Arn"
+                          ]
+                        },
+                        "environment": {
+                          "variables": {
+                            "TABLE_NAME": {
+                              "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95"
+                            },
+                            "STRIPE_SECRET_KEY": "sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD",
+                            "SST_DEBUG_SRC_PATH": ".",
+                            "SST_DEBUG_SRC_HANDLER": "functions/billing.main",
+                            "SST_DEBUG_ENDPOINT": "wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard",
+                            "SST_DEBUG_BUCKET_NAME": "kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko",
+                            "SST_FUNCTION_ID": "kriscard-notes-api-Api-Lambda_POST_-billing",
+                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+                            "SST_DEBUG_IS_API_ROUTE": "1"
+                          }
+                        },
+                        "handler": "index.main",
+                        "memorySize": 1024,
+                        "runtime": "nodejs12.x",
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "notes"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "kriscard"
+                          }
+                        ],
+                        "timeout": 10,
+                        "tracingConfig": {
+                          "mode": "Active"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "EventInvokeConfig": {
+                    "id": "EventInvokeConfig",
+                    "path": "kriscard-notes-api/Api/Lambda_POST_--billing/EventInvokeConfig",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-api/Api/Lambda_POST_--billing/EventInvokeConfig/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::EventInvokeConfig",
+                          "aws:cdk:cloudformation:props": {
+                            "functionName": {
+                              "Ref": "ApiLambdaPOSTbilling71E49732"
+                            },
+                            "qualifier": "$LATEST",
+                            "maximumRetryAttempts": 0
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnEventInvokeConfig",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.EventInvokeConfig",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.15.0"
+                }
+              },
+              "Route_POST_--billing": {
+                "id": "Route_POST_--billing",
+                "path": "kriscard-notes-api/Api/Route_POST_--billing",
+                "children": {
+                  "Integration_POST_--billing-Permission": {
+                    "id": "Integration_POST_--billing-Permission",
+                    "path": "kriscard-notes-api/Api/Route_POST_--billing/Integration_POST_--billing-Permission",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunction",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaPOSTbilling71E49732",
+                            "Arn"
+                          ]
+                        },
+                        "principal": "apigateway.amazonaws.com",
+                        "sourceArn": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":execute-api:us-east-1:591688379258:",
+                              {
+                                "Ref": "ApiCD79AAA0"
+                              },
+                              "/*/*/billing"
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "Integration_POST_--billing": {
+                    "id": "Integration_POST_--billing",
+                    "path": "kriscard-notes-api/Api/Route_POST_--billing/Integration_POST_--billing",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-api/Api/Route_POST_--billing/Integration_POST_--billing/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Integration",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "ApiCD79AAA0"
+                            },
+                            "integrationType": "AWS_PROXY",
+                            "integrationUri": {
+                              "Fn::GetAtt": [
+                                "ApiLambdaPOSTbilling71E49732",
+                                "Arn"
+                              ]
+                            },
+                            "payloadFormatVersion": "2.0"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnIntegration",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-apigatewayv2-alpha.HttpIntegration",
+                      "version": "2.15.0-alpha.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-api/Api/Route_POST_--billing/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "apiId": {
+                          "Ref": "ApiCD79AAA0"
+                        },
+                        "routeKey": "POST /billing",
+                        "authorizationType": "AWS_IAM",
+                        "target": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "integrations/",
+                              {
+                                "Ref": "ApiRoutePOSTbillingIntegrationPOSTbillingE351CA9B"
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnRoute",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-apigatewayv2-alpha.HttpRoute",
+                  "version": "2.15.0-alpha.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.15"
+            }
+          },
+          "ApiEndpoint": {
+            "id": "ApiEndpoint",
+            "path": "kriscard-notes-api/ApiEndpoint",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.15.0"
+            }
+          },
+          "Exports": {
+            "id": "Exports",
+            "path": "kriscard-notes-api/Exports",
+            "children": {
+              "Output{\"Ref\":\"ApiCD79AAA0\"}": {
+                "id": "Output{\"Ref\":\"ApiCD79AAA0\"}",
+                "path": "kriscard-notes-api/Exports/Output{\"Ref\":\"ApiCD79AAA0\"}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.15.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.15"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.15.0"
+        }
+      },
+      "kriscard-notes-auth": {
+        "id": "kriscard-notes-auth",
+        "path": "kriscard-notes-auth",
+        "children": {
+          "SSTMetadata": {
+            "id": "SSTMetadata",
+            "path": "kriscard-notes-auth/SSTMetadata",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnResource",
+              "version": "2.15.0"
+            }
+          },
+          "Auth": {
+            "id": "Auth",
+            "path": "kriscard-notes-auth/Auth",
+            "children": {
+              "UserPool": {
+                "id": "UserPool",
+                "path": "kriscard-notes-auth/Auth/UserPool",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-auth/Auth/UserPool/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Cognito::UserPool",
+                      "aws:cdk:cloudformation:props": {
+                        "accountRecoverySetting": {
+                          "recoveryMechanisms": [
+                            {
+                              "name": "verified_phone_number",
+                              "priority": 1
+                            },
+                            {
+                              "name": "verified_email",
+                              "priority": 2
+                            }
+                          ]
+                        },
+                        "adminCreateUserConfig": {
+                          "allowAdminCreateUserOnly": false
+                        },
+                        "autoVerifiedAttributes": [
+                          "email"
+                        ],
+                        "emailVerificationMessage": "The verification code to your new account is {####}",
+                        "emailVerificationSubject": "Verify your new account",
+                        "smsVerificationMessage": "The verification code to your new account is {####}",
+                        "usernameAttributes": [
+                          "email"
+                        ],
+                        "usernameConfiguration": {
+                          "caseSensitive": false
+                        },
+                        "userPoolName": "kriscard-notes-Auth",
+                        "userPoolTags": {
+                          "sst:app": "notes",
+                          "sst:stage": "kriscard"
+                        },
+                        "verificationMessageTemplate": {
+                          "defaultEmailOption": "CONFIRM_WITH_CODE",
+                          "emailMessage": "The verification code to your new account is {####}",
+                          "emailSubject": "Verify your new account",
+                          "smsMessage": "The verification code to your new account is {####}"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_cognito.CfnUserPool",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_cognito.UserPool",
+                  "version": "2.15.0"
+                }
+              },
+              "UserPoolClient": {
+                "id": "UserPoolClient",
+                "path": "kriscard-notes-auth/Auth/UserPoolClient",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-auth/Auth/UserPoolClient/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Cognito::UserPoolClient",
+                      "aws:cdk:cloudformation:props": {
+                        "userPoolId": {
+                          "Ref": "AuthUserPool8115E87F"
+                        },
+                        "allowedOAuthFlows": [
+                          "implicit",
+                          "code"
+                        ],
+                        "allowedOAuthFlowsUserPoolClient": true,
+                        "allowedOAuthScopes": [
+                          "profile",
+                          "phone",
+                          "email",
+                          "openid",
+                          "aws.cognito.signin.user.admin"
+                        ],
+                        "callbackUrLs": [
+                          "https://example.com"
+                        ],
+                        "supportedIdentityProviders": [
+                          "COGNITO"
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_cognito.CfnUserPoolClient",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_cognito.UserPoolClient",
+                  "version": "2.15.0"
+                }
+              },
+              "IdentityPool": {
+                "id": "IdentityPool",
+                "path": "kriscard-notes-auth/Auth/IdentityPool",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Cognito::IdentityPool",
+                  "aws:cdk:cloudformation:props": {
+                    "allowUnauthenticatedIdentities": true,
+                    "cognitoIdentityProviders": [
+                      {
+                        "providerName": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "cognito-idp.us-east-1.",
+                              {
+                                "Ref": "AWS::URLSuffix"
+                              },
+                              "/",
+                              {
+                                "Ref": "AuthUserPool8115E87F"
+                              }
+                            ]
+                          ]
+                        },
+                        "clientId": {
+                          "Ref": "AuthUserPoolClient0AA456E4"
+                        }
+                      }
+                    ],
+                    "identityPoolName": "kriscard-notes-Auth",
+                    "openIdConnectProviderArns": [],
+                    "supportedLoginProviders": {}
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_cognito.CfnIdentityPool",
+                  "version": "2.15.0"
+                }
+              },
+              "IdentityPoolAuthRole": {
+                "id": "IdentityPoolAuthRole",
+                "path": "kriscard-notes-auth/Auth/IdentityPoolAuthRole",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-auth/Auth/IdentityPoolAuthRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRoleWithWebIdentity",
+                              "Condition": {
+                                "StringEquals": {
+                                  "cognito-identity.amazonaws.com:aud": {
+                                    "Ref": "AuthIdentityPool12DFB5E1"
+                                  }
+                                },
+                                "ForAnyValue:StringLike": {
+                                  "cognito-identity.amazonaws.com:amr": "authenticated"
+                                }
+                              },
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Federated": "cognito-identity.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "notes"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "kriscard"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "kriscard-notes-auth/Auth/IdentityPoolAuthRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-auth/Auth/IdentityPoolAuthRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "mobileanalytics:PutEvents",
+                                    "cognito-sync:*",
+                                    "cognito-identity:*"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": "*"
+                                },
+                                {
+                                  "Action": "execute-api:Invoke",
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        "arn:aws:execute-api:us-east-1:591688379258:",
+                                        {
+                                          "Fn::ImportValue": "kriscard-notes-api:ExportsOutputRefApiCD79AAA0A1504A18"
+                                        },
+                                        "/*"
+                                      ]
+                                    ]
+                                  }
+                                },
+                                {
+                                  "Action": "s3:*",
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        {
+                                          "Fn::ImportValue": "kriscard-notes-storage:ExportsOutputFnGetAttUploadsBucketC4B27CC7Arn515ECA45"
+                                        },
+                                        "/private/${cognito-identity.amazonaws.com:sub}/*"
+                                      ]
+                                    ]
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "AuthIdentityPoolAuthRoleDefaultPolicy32D17CAC",
+                            "roles": [
+                              {
+                                "Ref": "AuthIdentityPoolAuthRoleD14DA003"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.15.0"
+                }
+              },
+              "IdentityPoolUnauthRole": {
+                "id": "IdentityPoolUnauthRole",
+                "path": "kriscard-notes-auth/Auth/IdentityPoolUnauthRole",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "kriscard-notes-auth/Auth/IdentityPoolUnauthRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRoleWithWebIdentity",
+                              "Condition": {
+                                "StringEquals": {
+                                  "cognito-identity.amazonaws.com:aud": {
+                                    "Ref": "AuthIdentityPool12DFB5E1"
+                                  }
+                                },
+                                "ForAnyValue:StringLike": {
+                                  "cognito-identity.amazonaws.com:amr": "unauthenticated"
+                                }
+                              },
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Federated": "cognito-identity.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "notes"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "kriscard"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.15.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "kriscard-notes-auth/Auth/IdentityPoolUnauthRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "kriscard-notes-auth/Auth/IdentityPoolUnauthRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "mobileanalytics:PutEvents",
+                                    "cognito-sync:*"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": "*"
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "AuthIdentityPoolUnauthRoleDefaultPolicy0417F857",
+                            "roles": [
+                              {
+                                "Ref": "AuthIdentityPoolUnauthRoleA8DE48F3"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.15.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.15.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.15.0"
+                }
+              },
+              "IdentityPoolRoleAttachment": {
+                "id": "IdentityPoolRoleAttachment",
+                "path": "kriscard-notes-auth/Auth/IdentityPoolRoleAttachment",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Cognito::IdentityPoolRoleAttachment",
+                  "aws:cdk:cloudformation:props": {
+                    "identityPoolId": {
+                      "Ref": "AuthIdentityPool12DFB5E1"
+                    },
+                    "roles": {
+                      "authenticated": {
+                        "Fn::GetAtt": [
+                          "AuthIdentityPoolAuthRoleD14DA003",
+                          "Arn"
+                        ]
+                      },
+                      "unauthenticated": {
+                        "Fn::GetAtt": [
+                          "AuthIdentityPoolUnauthRoleA8DE48F3",
+                          "Arn"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_cognito.CfnIdentityPoolRoleAttachment",
+                  "version": "2.15.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.15"
+            }
+          },
+          "Region": {
+            "id": "Region",
+            "path": "kriscard-notes-auth/Region",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.15.0"
+            }
+          },
+          "UserPoolId": {
+            "id": "UserPoolId",
+            "path": "kriscard-notes-auth/UserPoolId",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.15.0"
+            }
+          },
+          "IdentityPoolId": {
+            "id": "IdentityPoolId",
+            "path": "kriscard-notes-auth/IdentityPoolId",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.15.0"
+            }
+          },
+          "UserPoolClientId": {
+            "id": "UserPoolClientId",
+            "path": "kriscard-notes-auth/UserPoolClientId",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.15.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.15.0"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.15.0"
+    }
+  }
+}

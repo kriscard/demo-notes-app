@@ -1,0 +1,4571 @@
+[2022-05-23T13:22:04.708] [DEBUG] default - SST: 0.69.7
+[2022-05-23T13:22:04.710] [DEBUG] default - CDK: 2.15.0
+[2022-05-23T13:22:04.714] [DEBUG] aws-auth - Determining if we're on an EC2 instance.
+[2022-05-23T13:22:04.714] [DEBUG] aws-auth - Does not look like an EC2 instance.
+[2022-05-23T13:22:06.068] [INFO] default - Using stage: kriscard
+[2022-05-23T13:22:06.070] [INFO] default - [90mPreparing your SST app[39m
+[2022-05-23T13:22:06.131] [INFO] default - 
+[2022-05-23T13:22:06.132] [INFO] default - =======================
+[2022-05-23T13:22:06.132] [INFO] default -  Deploying debug stack
+[2022-05-23T13:22:06.133] [INFO] default - =======================
+[2022-05-23T13:22:06.134] [INFO] default - 
+[2022-05-23T13:22:06.134] [DEBUG] core - synth {
+  output: 'cdk.out',
+  app: 'node bin/index.js notes kriscard us-east-1 "/Users/christopher/playground/serverless-stack/notes/.build/lib"',
+  rollback: true,
+  roleArn: undefined,
+  verbose: 0,
+  noColor: false
+}
+[2022-05-23T13:22:10.693] [TRACE] cdk - 
+
+[2022-05-23T13:22:10.740] [INFO] default - [90mDeploying stacks[39m
+[2022-05-23T13:22:10.742] [TRACE] core - Initial stack states: [{"id":"kriscard-notes-debug-stack","name":"kriscard-notes-debug-stack","status":"pending","dependencies":[],"region":"us-east-1","events":[]}]
+[2022-05-23T13:22:10.742] [TRACE] core - After update deploy statuses: [{"id":"kriscard-notes-debug-stack","name":"kriscard-notes-debug-stack","status":"pending","dependencies":[],"region":"us-east-1","events":[]}]
+[2022-05-23T13:22:10.743] [DEBUG] core - deploy stack: started kriscard-notes-debug-stack
+[2022-05-23T13:22:10.743] [DEBUG] core - deploy stack: get pre-deploy status
+[2022-05-23T13:22:11.039] [DEBUG] core - deploy stack: get pre-deploy status: {
+  StackStatus: 'CREATE_COMPLETE',
+  LastUpdatedTime: 2022-05-12T02:14:11.733Z
+}
+[2022-05-23T13:22:11.041] [DEBUG] core - deploy stack: addInUseExports
+[2022-05-23T13:22:11.047] [DEBUG] core - deploy stack: isTemplateChanged
+[2022-05-23T13:22:11.604] [DEBUG] core - Resources:
+  TableCD117FA1:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      KeySchema:
+        - AttributeName: pk
+          KeyType: HASH
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+      BillingMode: PAY_PER_REQUEST
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Table/Resource
+  Bucket83908E77:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      LifecycleConfiguration:
+        Rules:
+          - ExpirationInDays: 1
+            Prefix: payloads/
+            Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: aws-cdk:auto-delete-objects
+          Value: 'true'
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Bucket/Resource
+  BucketPolicyE9A3008A:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket:
+        Ref: Bucket83908E77
+      PolicyDocument:
+        Statement:
+          - Action:
+              - s3:GetBucket*
+              - s3:List*
+              - s3:DeleteObject*
+            Effect: Allow
+            Principal:
+              AWS:
+                Fn::GetAtt:
+                  - CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092
+                  - Arn
+            Resource:
+              - Fn::GetAtt:
+                  - Bucket83908E77
+                  - Arn
+              - Fn::Join:
+                  - ''
+                  - - Fn::GetAtt:
+                        - Bucket83908E77
+                        - Arn
+                    - /*
+        Version: '2012-10-17'
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Bucket/Policy/Resource
+  BucketAutoDeleteObjectsCustomResourceBAFD23C2:
+    Type: Custom::S3AutoDeleteObjects
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+          - CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F
+          - Arn
+      BucketName:
+        Ref: Bucket83908E77
+    DependsOn:
+      - BucketPolicyE9A3008A
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-debug-stack/Bucket/AutoDeleteObjectsCustomResource/Default
+  CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+      ManagedPolicyArns:
+        - Fn::Sub: >-
+            arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-debug-stack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role
+  CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: bdb08b9984816ecf43301a0c6d8913e270ee2448940b6b95e430dd222a4d90be.zip
+      Timeout: 900
+      MemorySize: 128
+      Handler: __entrypoint__.handler
+      Role:
+        Fn::GetAtt:
+          - CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092
+          - Arn
+      Runtime: nodejs12.x
+      Description:
+        Fn::Join:
+          - ''
+          - - 'Lambda function for auto-deleting objects in '
+            - Ref: Bucket83908E77
+            - ' S3 bucket.'
+    DependsOn:
+      - CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-debug-stack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler
+      aws:asset:path: asset.bdb08b9984816ecf43301a0c6d8913e270ee2448940b6b95e430dd222a4d90be
+      aws:asset:property: Code
+  Api:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: kriscard-notes-debug-stack-api
+      ProtocolType: WEBSOCKET
+      RouteSelectionExpression: $request.body.action
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Api
+  ApiStage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId:
+        Ref: Api
+      StageName: kriscard
+      AutoDeploy: true
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/ApiStage
+  ConnectServiceRole07B61CE8:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Connect/ServiceRole/Resource
+  ConnectServiceRoleDefaultPolicyCE008EDB:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - apigateway:*
+              - dynamodb:*
+              - execute-api:ManageConnections
+            Effect: Allow
+            Resource: '*'
+        Version: '2012-10-17'
+      PolicyName: ConnectServiceRoleDefaultPolicyCE008EDB
+      Roles:
+        - Ref: ConnectServiceRole07B61CE8
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Connect/ServiceRole/DefaultPolicy/Resource
+  Connect5B7625CA:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 0d89df84ea307d9cb0d70fbd76481e4e86f449d075a2a082cc2d323ee69a98e4.zip
+      Role:
+        Fn::GetAtt:
+          - ConnectServiceRole07B61CE8
+          - Arn
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: TableCD117FA1
+      Handler: wsConnect.main
+      MemorySize: 256
+      Runtime: nodejs12.x
+      Timeout: 10
+    DependsOn:
+      - ConnectServiceRoleDefaultPolicyCE008EDB
+      - ConnectServiceRole07B61CE8
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Connect/Resource
+      aws:asset:path: asset.0d89df84ea307d9cb0d70fbd76481e4e86f449d075a2a082cc2d323ee69a98e4
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  ConnectLogRetentionC1F463CD:
+    Type: Custom::LogRetention
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+          - LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A
+          - Arn
+      LogGroupName:
+        Fn::Join:
+          - ''
+          - - /aws/lambda/
+            - Ref: Connect5B7625CA
+      RetentionInDays: 7
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Connect/LogRetention/Resource
+  ConnectConnectPermission9DBC7813:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - Connect5B7625CA
+          - Arn
+      Principal: apigateway.amazonaws.com
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Connect/ConnectPermission
+  LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-debug-stack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource
+  LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - logs:PutRetentionPolicy
+              - logs:DeleteRetentionPolicy
+            Effect: Allow
+            Resource: '*'
+        Version: '2012-10-17'
+      PolicyName: >-
+        LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB
+      Roles:
+        - Ref: LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-debug-stack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource
+  LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs14.x
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 6c0316fef24d0df8a9a705c77052001217d864f49af386539d01df54618cd131.zip
+      Role:
+        Fn::GetAtt:
+          - LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB
+          - Arn
+    DependsOn:
+      - >-
+        LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB
+      - LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-debug-stack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource
+      aws:asset:path: asset.6c0316fef24d0df8a9a705c77052001217d864f49af386539d01df54618cd131
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  ConnectIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: Api
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::Join:
+          - ''
+          - - 'arn:'
+            - Ref: AWS::Partition
+            - ':apigateway:us-east-1:lambda:path/2015-03-31/functions/'
+            - Fn::GetAtt:
+                - Connect5B7625CA
+                - Arn
+            - /invocations
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/ConnectIntegration
+  ConnectRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: Api
+      RouteKey: $connect
+      AuthorizationType: NONE
+      Target:
+        Fn::Join:
+          - ''
+          - - integrations/
+            - Ref: ConnectIntegration
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/ConnectRoute
+  DisconnectServiceRole90AEC2EB:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Disconnect/ServiceRole/Resource
+  DisconnectServiceRoleDefaultPolicy32856207:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - apigateway:*
+              - dynamodb:*
+              - execute-api:ManageConnections
+            Effect: Allow
+            Resource: '*'
+        Version: '2012-10-17'
+      PolicyName: DisconnectServiceRoleDefaultPolicy32856207
+      Roles:
+        - Ref: DisconnectServiceRole90AEC2EB
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Disconnect/ServiceRole/DefaultPolicy/Resource
+  Disconnect7D6B12BD:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 0d89df84ea307d9cb0d70fbd76481e4e86f449d075a2a082cc2d323ee69a98e4.zip
+      Role:
+        Fn::GetAtt:
+          - DisconnectServiceRole90AEC2EB
+          - Arn
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: TableCD117FA1
+      Handler: wsDisconnect.main
+      MemorySize: 256
+      Runtime: nodejs12.x
+      Timeout: 10
+    DependsOn:
+      - DisconnectServiceRoleDefaultPolicy32856207
+      - DisconnectServiceRole90AEC2EB
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Disconnect/Resource
+      aws:asset:path: asset.0d89df84ea307d9cb0d70fbd76481e4e86f449d075a2a082cc2d323ee69a98e4
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  DisconnectLogRetentionE61D7937:
+    Type: Custom::LogRetention
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+          - LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A
+          - Arn
+      LogGroupName:
+        Fn::Join:
+          - ''
+          - - /aws/lambda/
+            - Ref: Disconnect7D6B12BD
+      RetentionInDays: 7
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Disconnect/LogRetention/Resource
+  DisconnectDisconnectPermission933E876E:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - Disconnect7D6B12BD
+          - Arn
+      Principal: apigateway.amazonaws.com
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Disconnect/DisconnectPermission
+  DisconnectIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: Api
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::Join:
+          - ''
+          - - 'arn:'
+            - Ref: AWS::Partition
+            - ':apigateway:us-east-1:lambda:path/2015-03-31/functions/'
+            - Fn::GetAtt:
+                - Disconnect7D6B12BD
+                - Arn
+            - /invocations
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/DisconnectIntegration
+  DisconnectRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: Api
+      RouteKey: $disconnect
+      AuthorizationType: NONE
+      Target:
+        Fn::Join:
+          - ''
+          - - integrations/
+            - Ref: DisconnectIntegration
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/DisconnectRoute
+  ServiceRole4288B192:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Default/ServiceRole/Resource
+  ServiceRoleDefaultPolicy94CF55F6:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - apigateway:*
+              - dynamodb:*
+              - execute-api:ManageConnections
+            Effect: Allow
+            Resource: '*'
+        Version: '2012-10-17'
+      PolicyName: ServiceRoleDefaultPolicy94CF55F6
+      Roles:
+        - Ref: ServiceRole4288B192
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Default/ServiceRole/DefaultPolicy/Resource
+  Resource:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 0d89df84ea307d9cb0d70fbd76481e4e86f449d075a2a082cc2d323ee69a98e4.zip
+      Role:
+        Fn::GetAtt:
+          - ServiceRole4288B192
+          - Arn
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: TableCD117FA1
+      Handler: wsDefault.main
+      MemorySize: 256
+      Runtime: nodejs12.x
+      Timeout: 10
+    DependsOn:
+      - ServiceRoleDefaultPolicy94CF55F6
+      - ServiceRole4288B192
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Default/Resource
+      aws:asset:path: asset.0d89df84ea307d9cb0d70fbd76481e4e86f449d075a2a082cc2d323ee69a98e4
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  LogRetentionDD0A1FA1:
+    Type: Custom::LogRetention
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+          - LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A
+          - Arn
+      LogGroupName:
+        Fn::Join:
+          - ''
+          - - /aws/lambda/
+            - Ref: Resource
+      RetentionInDays: 7
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Default/LogRetention/Resource
+  DefaultPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - Resource
+          - Arn
+      Principal: apigateway.amazonaws.com
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Default/DefaultPermission
+  DefaultIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: Api
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::Join:
+          - ''
+          - - 'arn:'
+            - Ref: AWS::Partition
+            - ':apigateway:us-east-1:lambda:path/2015-03-31/functions/'
+            - Fn::GetAtt:
+                - Resource
+                - Arn
+            - /invocations
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/DefaultIntegration
+  DefaultRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: Api
+      RouteKey: $default
+      AuthorizationType: NONE
+      Target:
+        Fn::Join:
+          - ''
+          - - integrations/
+            - Ref: DefaultIntegration
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/DefaultRoute
+Outputs:
+  Endpoint:
+    Value:
+      Fn::Join:
+        - ''
+        - - Fn::GetAtt:
+              - Api
+              - ApiEndpoint
+          - /kriscard
+  BucketArn:
+    Value:
+      Fn::GetAtt:
+        - Bucket83908E77
+        - Arn
+  BucketName:
+    Value:
+      Ref: Bucket83908E77
+Parameters:
+  BootstrapVersion:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /cdk-bootstrap/hnb659fds/version
+    Description: >-
+      Version of the CDK Bootstrap resources in this environment, automatically
+      retrieved from SSM Parameter Store. [cdk:skip]
+Rules:
+  CheckBootstrapVersion:
+    Assertions:
+      - Assert:
+          Fn::Not:
+            - Fn::Contains:
+                - - '1'
+                  - '2'
+                  - '3'
+                  - '4'
+                  - '5'
+                - Ref: BootstrapVersion
+        AssertDescription: >-
+          CDK bootstrap stack version 6 required. Please run 'cdk bootstrap'
+          with a recent version of the CDK CLI.
+
+[2022-05-23T13:22:11.605] [DEBUG] core - Resources:
+  TableCD117FA1:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      KeySchema:
+        - AttributeName: pk
+          KeyType: HASH
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+      BillingMode: PAY_PER_REQUEST
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Table/Resource
+  Bucket83908E77:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      LifecycleConfiguration:
+        Rules:
+          - ExpirationInDays: 1
+            Prefix: payloads/
+            Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: aws-cdk:auto-delete-objects
+          Value: 'true'
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Bucket/Resource
+  BucketPolicyE9A3008A:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket:
+        Ref: Bucket83908E77
+      PolicyDocument:
+        Statement:
+          - Action:
+              - s3:GetBucket*
+              - s3:List*
+              - s3:DeleteObject*
+            Effect: Allow
+            Principal:
+              AWS:
+                Fn::GetAtt:
+                  - CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092
+                  - Arn
+            Resource:
+              - Fn::GetAtt:
+                  - Bucket83908E77
+                  - Arn
+              - Fn::Join:
+                  - ''
+                  - - Fn::GetAtt:
+                        - Bucket83908E77
+                        - Arn
+                    - /*
+        Version: '2012-10-17'
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Bucket/Policy/Resource
+  BucketAutoDeleteObjectsCustomResourceBAFD23C2:
+    Type: Custom::S3AutoDeleteObjects
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+          - CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F
+          - Arn
+      BucketName:
+        Ref: Bucket83908E77
+    DependsOn:
+      - BucketPolicyE9A3008A
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-debug-stack/Bucket/AutoDeleteObjectsCustomResource/Default
+  CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+      ManagedPolicyArns:
+        - Fn::Sub: >-
+            arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-debug-stack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role
+  CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: bdb08b9984816ecf43301a0c6d8913e270ee2448940b6b95e430dd222a4d90be.zip
+      Timeout: 900
+      MemorySize: 128
+      Handler: __entrypoint__.handler
+      Role:
+        Fn::GetAtt:
+          - CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092
+          - Arn
+      Runtime: nodejs12.x
+      Description:
+        Fn::Join:
+          - ''
+          - - 'Lambda function for auto-deleting objects in '
+            - Ref: Bucket83908E77
+            - ' S3 bucket.'
+    DependsOn:
+      - CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-debug-stack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler
+      aws:asset:path: asset.bdb08b9984816ecf43301a0c6d8913e270ee2448940b6b95e430dd222a4d90be
+      aws:asset:property: Code
+  Api:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: kriscard-notes-debug-stack-api
+      ProtocolType: WEBSOCKET
+      RouteSelectionExpression: $request.body.action
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Api
+  ApiStage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId:
+        Ref: Api
+      StageName: kriscard
+      AutoDeploy: true
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/ApiStage
+  ConnectServiceRole07B61CE8:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Connect/ServiceRole/Resource
+  ConnectServiceRoleDefaultPolicyCE008EDB:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - apigateway:*
+              - dynamodb:*
+              - execute-api:ManageConnections
+            Effect: Allow
+            Resource: '*'
+        Version: '2012-10-17'
+      PolicyName: ConnectServiceRoleDefaultPolicyCE008EDB
+      Roles:
+        - Ref: ConnectServiceRole07B61CE8
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Connect/ServiceRole/DefaultPolicy/Resource
+  Connect5B7625CA:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 0d89df84ea307d9cb0d70fbd76481e4e86f449d075a2a082cc2d323ee69a98e4.zip
+      Role:
+        Fn::GetAtt:
+          - ConnectServiceRole07B61CE8
+          - Arn
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: TableCD117FA1
+      Handler: wsConnect.main
+      MemorySize: 256
+      Runtime: nodejs12.x
+      Timeout: 10
+    DependsOn:
+      - ConnectServiceRoleDefaultPolicyCE008EDB
+      - ConnectServiceRole07B61CE8
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Connect/Resource
+      aws:asset:path: asset.0d89df84ea307d9cb0d70fbd76481e4e86f449d075a2a082cc2d323ee69a98e4
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  ConnectLogRetentionC1F463CD:
+    Type: Custom::LogRetention
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+          - LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A
+          - Arn
+      LogGroupName:
+        Fn::Join:
+          - ''
+          - - /aws/lambda/
+            - Ref: Connect5B7625CA
+      RetentionInDays: 7
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Connect/LogRetention/Resource
+  ConnectConnectPermission9DBC7813:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - Connect5B7625CA
+          - Arn
+      Principal: apigateway.amazonaws.com
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Connect/ConnectPermission
+  LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-debug-stack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource
+  LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - logs:PutRetentionPolicy
+              - logs:DeleteRetentionPolicy
+            Effect: Allow
+            Resource: '*'
+        Version: '2012-10-17'
+      PolicyName: >-
+        LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB
+      Roles:
+        - Ref: LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-debug-stack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource
+  LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs14.x
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 6c0316fef24d0df8a9a705c77052001217d864f49af386539d01df54618cd131.zip
+      Role:
+        Fn::GetAtt:
+          - LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB
+          - Arn
+    DependsOn:
+      - >-
+        LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB
+      - LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-debug-stack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource
+      aws:asset:path: asset.6c0316fef24d0df8a9a705c77052001217d864f49af386539d01df54618cd131
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  ConnectIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: Api
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::Join:
+          - ''
+          - - 'arn:'
+            - Ref: AWS::Partition
+            - ':apigateway:us-east-1:lambda:path/2015-03-31/functions/'
+            - Fn::GetAtt:
+                - Connect5B7625CA
+                - Arn
+            - /invocations
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/ConnectIntegration
+  ConnectRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: Api
+      RouteKey: $connect
+      AuthorizationType: NONE
+      Target:
+        Fn::Join:
+          - ''
+          - - integrations/
+            - Ref: ConnectIntegration
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/ConnectRoute
+  DisconnectServiceRole90AEC2EB:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Disconnect/ServiceRole/Resource
+  DisconnectServiceRoleDefaultPolicy32856207:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - apigateway:*
+              - dynamodb:*
+              - execute-api:ManageConnections
+            Effect: Allow
+            Resource: '*'
+        Version: '2012-10-17'
+      PolicyName: DisconnectServiceRoleDefaultPolicy32856207
+      Roles:
+        - Ref: DisconnectServiceRole90AEC2EB
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Disconnect/ServiceRole/DefaultPolicy/Resource
+  Disconnect7D6B12BD:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 0d89df84ea307d9cb0d70fbd76481e4e86f449d075a2a082cc2d323ee69a98e4.zip
+      Role:
+        Fn::GetAtt:
+          - DisconnectServiceRole90AEC2EB
+          - Arn
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: TableCD117FA1
+      Handler: wsDisconnect.main
+      MemorySize: 256
+      Runtime: nodejs12.x
+      Timeout: 10
+    DependsOn:
+      - DisconnectServiceRoleDefaultPolicy32856207
+      - DisconnectServiceRole90AEC2EB
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Disconnect/Resource
+      aws:asset:path: asset.0d89df84ea307d9cb0d70fbd76481e4e86f449d075a2a082cc2d323ee69a98e4
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  DisconnectLogRetentionE61D7937:
+    Type: Custom::LogRetention
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+          - LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A
+          - Arn
+      LogGroupName:
+        Fn::Join:
+          - ''
+          - - /aws/lambda/
+            - Ref: Disconnect7D6B12BD
+      RetentionInDays: 7
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Disconnect/LogRetention/Resource
+  DisconnectDisconnectPermission933E876E:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - Disconnect7D6B12BD
+          - Arn
+      Principal: apigateway.amazonaws.com
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Disconnect/DisconnectPermission
+  DisconnectIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: Api
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::Join:
+          - ''
+          - - 'arn:'
+            - Ref: AWS::Partition
+            - ':apigateway:us-east-1:lambda:path/2015-03-31/functions/'
+            - Fn::GetAtt:
+                - Disconnect7D6B12BD
+                - Arn
+            - /invocations
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/DisconnectIntegration
+  DisconnectRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: Api
+      RouteKey: $disconnect
+      AuthorizationType: NONE
+      Target:
+        Fn::Join:
+          - ''
+          - - integrations/
+            - Ref: DisconnectIntegration
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/DisconnectRoute
+  ServiceRole4288B192:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Default/ServiceRole/Resource
+  ServiceRoleDefaultPolicy94CF55F6:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - apigateway:*
+              - dynamodb:*
+              - execute-api:ManageConnections
+            Effect: Allow
+            Resource: '*'
+        Version: '2012-10-17'
+      PolicyName: ServiceRoleDefaultPolicy94CF55F6
+      Roles:
+        - Ref: ServiceRole4288B192
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Default/ServiceRole/DefaultPolicy/Resource
+  Resource:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 0d89df84ea307d9cb0d70fbd76481e4e86f449d075a2a082cc2d323ee69a98e4.zip
+      Role:
+        Fn::GetAtt:
+          - ServiceRole4288B192
+          - Arn
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: TableCD117FA1
+      Handler: wsDefault.main
+      MemorySize: 256
+      Runtime: nodejs12.x
+      Timeout: 10
+    DependsOn:
+      - ServiceRoleDefaultPolicy94CF55F6
+      - ServiceRole4288B192
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Default/Resource
+      aws:asset:path: asset.0d89df84ea307d9cb0d70fbd76481e4e86f449d075a2a082cc2d323ee69a98e4
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  LogRetentionDD0A1FA1:
+    Type: Custom::LogRetention
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+          - LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A
+          - Arn
+      LogGroupName:
+        Fn::Join:
+          - ''
+          - - /aws/lambda/
+            - Ref: Resource
+      RetentionInDays: 7
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Default/LogRetention/Resource
+  DefaultPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - Resource
+          - Arn
+      Principal: apigateway.amazonaws.com
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/Default/DefaultPermission
+  DefaultIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: Api
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::Join:
+          - ''
+          - - 'arn:'
+            - Ref: AWS::Partition
+            - ':apigateway:us-east-1:lambda:path/2015-03-31/functions/'
+            - Fn::GetAtt:
+                - Resource
+                - Arn
+            - /invocations
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/DefaultIntegration
+  DefaultRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: Api
+      RouteKey: $default
+      AuthorizationType: NONE
+      Target:
+        Fn::Join:
+          - ''
+          - - integrations/
+            - Ref: DefaultIntegration
+    Metadata:
+      aws:cdk:path: kriscard-notes-debug-stack/DefaultRoute
+Outputs:
+  Endpoint:
+    Value:
+      Fn::Join:
+        - ''
+        - - Fn::GetAtt:
+              - Api
+              - ApiEndpoint
+          - /kriscard
+  BucketArn:
+    Value:
+      Fn::GetAtt:
+        - Bucket83908E77
+        - Arn
+  BucketName:
+    Value:
+      Ref: Bucket83908E77
+Parameters:
+  BootstrapVersion:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /cdk-bootstrap/hnb659fds/version
+    Description: >-
+      Version of the CDK Bootstrap resources in this environment, automatically
+      retrieved from SSM Parameter Store. [cdk:skip]
+Rules:
+  CheckBootstrapVersion:
+    Assertions:
+      - Assert:
+          Fn::Not:
+            - Fn::Contains:
+                - - '1'
+                  - '2'
+                  - '3'
+                  - '4'
+                  - '5'
+                - Ref: BootstrapVersion
+        AssertDescription: >-
+          CDK bootstrap stack version 6 required. Please run 'cdk bootstrap'
+          with a recent version of the CDK CLI.
+
+[2022-05-23T13:22:11.606] [DEBUG] core - deploy stack: isTemplateChanged: unchanged
+[2022-05-23T13:22:11.606] [DEBUG] core - deploy stack: done kriscard-notes-debug-stack {
+  status: 'unchanged',
+  statusReason: undefined,
+  account: '591688379258',
+  outputs: {
+    BucketArn: 'arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko',
+    BucketName: 'kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko',
+    Endpoint: 'wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard'
+  },
+  exports: {}
+}
+[2022-05-23T13:22:11.607] [INFO] core - [32m[39m
+[32m ✅  kriscard-notes-debug-stack (no changes)[39m
+[32m[39m
+[2022-05-23T13:22:11.607] [DEBUG] core - At least 1 stack successfully deployed, call deployStacks() again
+[2022-05-23T13:22:11.607] [TRACE] core - After deploy stacks: [{"id":"kriscard-notes-debug-stack","name":"kriscard-notes-debug-stack","status":"unchanged","dependencies":[],"account":"591688379258","region":"us-east-1","startedAt":1653326531607,"endedAt":1653326531607,"events":[],"outputs":{"BucketArn":"arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko","BucketName":"kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko","Endpoint":"wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard"},"exports":{}}]
+[2022-05-23T13:22:11.608] [INFO] default - 
+Stack kriscard-notes-debug-stack
+[2022-05-23T13:22:11.609] [INFO] default -   Status: no changes
+[2022-05-23T13:22:11.609] [INFO] default -   Outputs:
+[2022-05-23T13:22:11.610] [INFO] default -     BucketArn: arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+[2022-05-23T13:22:11.610] [INFO] default -     BucketName: kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+[2022-05-23T13:22:11.611] [INFO] default -     Endpoint: wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard
+[2022-05-23T13:22:11.611] [INFO] default - 
+[2022-05-23T13:22:11.611] [DEBUG] default - deployRet [
+  {
+    id: 'kriscard-notes-debug-stack',
+    name: 'kriscard-notes-debug-stack',
+    region: 'us-east-1',
+    status: 'unchanged',
+    errorMessage: undefined,
+    outputs: {
+      BucketArn: 'arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko',
+      BucketName: 'kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko',
+      Endpoint: 'wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard'
+    },
+    exports: {}
+  }
+]
+[2022-05-23T13:22:11.612] [INFO] default - 
+[2022-05-23T13:22:11.613] [INFO] default - ===============
+[2022-05-23T13:22:11.613] [INFO] default -  Deploying app
+[2022-05-23T13:22:11.613] [INFO] default - ===============
+[2022-05-23T13:22:11.613] [INFO] default - 
+[2022-05-23T13:22:11.614] [DEBUG] core - synth {
+  output: '.build/cdk.out',
+  app: 'node .build/run.js',
+  rollback: true,
+  roleArn: undefined,
+  verbose: 0,
+  noColor: false
+}
+[2022-05-23T13:22:15.963] [TRACE] cdk - [32mSuccessfully synthesized to [34m/Users/christopher/playground/serverless-stack/notes/.build/cdk.out[39m[32m[39m
+Supply a stack id ([32mkriscard-notes-storage[39m, [32mkriscard-notes-api[39m, [32mkriscard-notes-auth[39m) to display its template.
+
+[2022-05-23T13:22:15.982] [TRACE] cdk - 
+
+[2022-05-23T13:22:16.017] [INFO] default - [90mDeploying stacks[39m
+[2022-05-23T13:22:16.019] [TRACE] core - Initial stack states: [{"id":"kriscard-notes-storage","name":"kriscard-notes-storage","status":"pending","dependencies":[],"region":"us-east-1","events":[]},{"id":"kriscard-notes-api","name":"kriscard-notes-api","status":"pending","dependencies":["kriscard-notes-storage"],"region":"us-east-1","events":[]},{"id":"kriscard-notes-auth","name":"kriscard-notes-auth","status":"pending","dependencies":["kriscard-notes-api","kriscard-notes-storage"],"region":"us-east-1","events":[]}]
+[2022-05-23T13:22:16.019] [TRACE] core - After update deploy statuses: [{"id":"kriscard-notes-storage","name":"kriscard-notes-storage","status":"pending","dependencies":[],"region":"us-east-1","events":[]},{"id":"kriscard-notes-api","name":"kriscard-notes-api","status":"pending","dependencies":["kriscard-notes-storage"],"region":"us-east-1","events":[]},{"id":"kriscard-notes-auth","name":"kriscard-notes-auth","status":"pending","dependencies":["kriscard-notes-api","kriscard-notes-storage"],"region":"us-east-1","events":[]}]
+[2022-05-23T13:22:16.019] [DEBUG] core - deploy stack: started kriscard-notes-storage
+[2022-05-23T13:22:16.020] [DEBUG] core - deploy stack: get pre-deploy status
+[2022-05-23T13:22:16.233] [DEBUG] core - deploy stack: get pre-deploy status: {
+  StackStatus: 'UPDATE_COMPLETE',
+  LastUpdatedTime: 2022-05-23T02:07:53.717Z
+}
+[2022-05-23T13:22:16.233] [DEBUG] core - deploy stack: addInUseExports
+[2022-05-23T13:22:16.235] [DEBUG] core - deploy stack: isTemplateChanged
+[2022-05-23T13:22:16.419] [DEBUG] core - Resources:
+  SSTMetadata:
+    Type: AWS::CDK::Metadata
+    Metadata:
+      aws:cdk:path: kriscard-notes-storage/SSTMetadata
+      sst:version: 0.69.7
+      sst:constructs:
+        - id: Notes
+          addr: c8e20f17e611fbd481391ed2908747756f862a06cb
+          stack: kriscard-notes-storage
+          type: Table
+          data:
+            tableName:
+              Ref: NotesTable7100B0E8
+            consumers: []
+        - id: Uploads
+          addr: c8077abe277e9751b819945a557a9ecc293b152b98
+          stack: kriscard-notes-storage
+          type: Bucket
+          data:
+            name:
+              Ref: UploadsBucketC4B27CC7
+            notifications: []
+  NotesTable7100B0E8:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+        - AttributeName: noteId
+          KeyType: RANGE
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: noteId
+          AttributeType: S
+      BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      TableName: kriscard-notes-Notes
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Metadata:
+      aws:cdk:path: kriscard-notes-storage/Notes/Table/Resource
+  UploadsBucketC4B27CC7:
+    Type: AWS::S3::Bucket
+    Properties:
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Metadata:
+      aws:cdk:path: kriscard-notes-storage/Uploads/Bucket/Resource
+Outputs:
+  ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38:
+    Value:
+      Fn::GetAtt:
+        - NotesTable7100B0E8
+        - Arn
+    Export:
+      Name: >-
+        kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+  ExportsOutputRefNotesTable7100B0E8C879CB95:
+    Value:
+      Ref: NotesTable7100B0E8
+    Export:
+      Name: kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95
+  ExportsOutputFnGetAttUploadsBucketC4B27CC7Arn515ECA45:
+    Value:
+      Fn::GetAtt:
+        - UploadsBucketC4B27CC7
+        - Arn
+    Export:
+      Name: >-
+        kriscard-notes-storage:ExportsOutputFnGetAttUploadsBucketC4B27CC7Arn515ECA45
+Parameters:
+  BootstrapVersion:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /cdk-bootstrap/hnb659fds/version
+    Description: >-
+      Version of the CDK Bootstrap resources in this environment, automatically
+      retrieved from SSM Parameter Store. [cdk:skip]
+Rules:
+  CheckBootstrapVersion:
+    Assertions:
+      - Assert:
+          Fn::Not:
+            - Fn::Contains:
+                - - '1'
+                  - '2'
+                  - '3'
+                  - '4'
+                  - '5'
+                - Ref: BootstrapVersion
+        AssertDescription: >-
+          CDK bootstrap stack version 6 required. Please run 'cdk bootstrap'
+          with a recent version of the CDK CLI.
+
+[2022-05-23T13:22:16.420] [DEBUG] core - Resources:
+  SSTMetadata:
+    Type: AWS::CDK::Metadata
+    Metadata:
+      aws:cdk:path: kriscard-notes-storage/SSTMetadata
+      sst:version: 0.69.7
+      sst:constructs:
+        - id: Notes
+          addr: c8e20f17e611fbd481391ed2908747756f862a06cb
+          stack: kriscard-notes-storage
+          type: Table
+          data:
+            tableName:
+              Ref: NotesTable7100B0E8
+            consumers: []
+        - id: Uploads
+          addr: c8077abe277e9751b819945a557a9ecc293b152b98
+          stack: kriscard-notes-storage
+          type: Bucket
+          data:
+            name:
+              Ref: UploadsBucketC4B27CC7
+            notifications: []
+  NotesTable7100B0E8:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+        - AttributeName: noteId
+          KeyType: RANGE
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: noteId
+          AttributeType: S
+      BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      TableName: kriscard-notes-Notes
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Metadata:
+      aws:cdk:path: kriscard-notes-storage/Notes/Table/Resource
+  UploadsBucketC4B27CC7:
+    Type: AWS::S3::Bucket
+    Properties:
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Metadata:
+      aws:cdk:path: kriscard-notes-storage/Uploads/Bucket/Resource
+Outputs:
+  ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38:
+    Value:
+      Fn::GetAtt:
+        - NotesTable7100B0E8
+        - Arn
+    Export:
+      Name: >-
+        kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+  ExportsOutputRefNotesTable7100B0E8C879CB95:
+    Value:
+      Ref: NotesTable7100B0E8
+    Export:
+      Name: kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95
+  ExportsOutputFnGetAttUploadsBucketC4B27CC7Arn515ECA45:
+    Value:
+      Fn::GetAtt:
+        - UploadsBucketC4B27CC7
+        - Arn
+    Export:
+      Name: >-
+        kriscard-notes-storage:ExportsOutputFnGetAttUploadsBucketC4B27CC7Arn515ECA45
+Parameters:
+  BootstrapVersion:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /cdk-bootstrap/hnb659fds/version
+    Description: >-
+      Version of the CDK Bootstrap resources in this environment, automatically
+      retrieved from SSM Parameter Store. [cdk:skip]
+Rules:
+  CheckBootstrapVersion:
+    Assertions:
+      - Assert:
+          Fn::Not:
+            - Fn::Contains:
+                - - '1'
+                  - '2'
+                  - '3'
+                  - '4'
+                  - '5'
+                - Ref: BootstrapVersion
+        AssertDescription: >-
+          CDK bootstrap stack version 6 required. Please run 'cdk bootstrap'
+          with a recent version of the CDK CLI.
+
+[2022-05-23T13:22:16.420] [DEBUG] core - deploy stack: isTemplateChanged: unchanged
+[2022-05-23T13:22:16.420] [DEBUG] core - deploy stack: done kriscard-notes-storage {
+  status: 'unchanged',
+  statusReason: undefined,
+  account: '591688379258',
+  outputs: {
+    ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38: 'arn:aws:dynamodb:us-east-1:591688379258:table/kriscard-notes-Notes',
+    ExportsOutputFnGetAttUploadsBucketC4B27CC7Arn515ECA45: 'arn:aws:s3:::kriscard-notes-storage-uploadsbucketc4b27cc7-yjhbegkl7pmu',
+    ExportsOutputRefNotesTable7100B0E8C879CB95: 'kriscard-notes-Notes'
+  },
+  exports: {
+    'kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38': 'arn:aws:dynamodb:us-east-1:591688379258:table/kriscard-notes-Notes',
+    'kriscard-notes-storage:ExportsOutputFnGetAttUploadsBucketC4B27CC7Arn515ECA45': 'arn:aws:s3:::kriscard-notes-storage-uploadsbucketc4b27cc7-yjhbegkl7pmu',
+    'kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95': 'kriscard-notes-Notes'
+  }
+}
+[2022-05-23T13:22:16.421] [INFO] core - [32m[39m
+[32m ✅  kriscard-notes-storage (no changes)[39m
+[32m[39m
+[2022-05-23T13:22:16.421] [DEBUG] core - At least 1 stack successfully deployed, call deployStacks() again
+[2022-05-23T13:22:16.421] [DEBUG] core - deploy stack: started kriscard-notes-api
+[2022-05-23T13:22:16.421] [DEBUG] core - deploy stack: get pre-deploy status
+[2022-05-23T13:22:16.813] [DEBUG] core - deploy stack: get pre-deploy status: {
+  StackStatus: 'UPDATE_COMPLETE',
+  LastUpdatedTime: 2022-05-23T03:59:18.555Z
+}
+[2022-05-23T13:22:16.814] [DEBUG] core - deploy stack: addInUseExports
+[2022-05-23T13:22:16.816] [DEBUG] core - deploy stack: isTemplateChanged
+[2022-05-23T13:22:17.189] [DEBUG] core - Resources:
+  SSTMetadata:
+    Type: AWS::CDK::Metadata
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/SSTMetadata
+      sst:version: 0.69.7
+      sst:constructs:
+        - id: Api
+          addr: c81c135721394fd76dd11dae3a6e57762458f97048
+          stack: kriscard-notes-api
+          type: Api
+          data:
+            graphql: false
+            url:
+              Fn::Join:
+                - ''
+                - - https://
+                  - Ref: ApiCD79AAA0
+                  - .execute-api.us-east-1.
+                  - Ref: AWS::URLSuffix
+                  - /
+            httpApiId:
+              Ref: ApiCD79AAA0
+            routes:
+              - route: POST /notes
+                fn:
+                  node: c88a76056890c5b63cc654096d3b302f7250760541
+                  stack: kriscard-notes-api
+              - route: GET /notes/{id}
+                fn:
+                  node: c8265c8ed16fe49204b779469703e9189fc698b8f5
+                  stack: kriscard-notes-api
+              - route: GET /notes
+                fn:
+                  node: c88c209e5d3406cc30e672a0f653f820e054c238a2
+                  stack: kriscard-notes-api
+              - route: PUT /notes/{id}
+                fn:
+                  node: c8dcb3cd00f75a1877da1df0e8c015deb61d9d79b4
+                  stack: kriscard-notes-api
+              - route: DELETE /notes/{id}
+                fn:
+                  node: c8df5434e5844746d8a99feba191665b043016d52b
+                  stack: kriscard-notes-api
+              - route: POST /billing
+                fn:
+                  node: c8e0053f8c65be24a8457e8b8f8e9fba97057730ab
+                  stack: kriscard-notes-api
+        - id: Lambda_POST_--notes
+          addr: c88a76056890c5b63cc654096d3b302f7250760541
+          stack: kriscard-notes-api
+          type: Function
+          data:
+            localId: kriscard-notes-api-Api-Lambda_POST_-notes
+            arn:
+              Fn::GetAtt:
+                - ApiLambdaPOSTnotes3B067E1B
+                - Arn
+        - id: Lambda_GET_--notes--{id}
+          addr: c8265c8ed16fe49204b779469703e9189fc698b8f5
+          stack: kriscard-notes-api
+          type: Function
+          data:
+            localId: kriscard-notes-api-Api-Lambda_GET_-notes-{id}
+            arn:
+              Fn::GetAtt:
+                - ApiLambdaGETnotesidBDFD7F2C
+                - Arn
+        - id: Lambda_GET_--notes
+          addr: c88c209e5d3406cc30e672a0f653f820e054c238a2
+          stack: kriscard-notes-api
+          type: Function
+          data:
+            localId: kriscard-notes-api-Api-Lambda_GET_-notes
+            arn:
+              Fn::GetAtt:
+                - ApiLambdaGETnotesA3E56CF7
+                - Arn
+        - id: Lambda_PUT_--notes--{id}
+          addr: c8dcb3cd00f75a1877da1df0e8c015deb61d9d79b4
+          stack: kriscard-notes-api
+          type: Function
+          data:
+            localId: kriscard-notes-api-Api-Lambda_PUT_-notes-{id}
+            arn:
+              Fn::GetAtt:
+                - ApiLambdaPUTnotesid28D10C39
+                - Arn
+        - id: Lambda_DELETE_--notes--{id}
+          addr: c8df5434e5844746d8a99feba191665b043016d52b
+          stack: kriscard-notes-api
+          type: Function
+          data:
+            localId: kriscard-notes-api-Api-Lambda_DELETE_-notes-{id}
+            arn:
+              Fn::GetAtt:
+                - ApiLambdaDELETEnotesid69A96EAD
+                - Arn
+        - id: Lambda_POST_--billing
+          addr: c8e0053f8c65be24a8457e8b8f8e9fba97057730ab
+          stack: kriscard-notes-api
+          type: Function
+          data:
+            localId: kriscard-notes-api-Api-Lambda_POST_-billing
+            arn:
+              Fn::GetAtt:
+                - ApiLambdaPOSTbilling71E49732
+                - Arn
+  ApiCD79AAA0:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      CorsConfiguration:
+        AllowHeaders:
+          - '*'
+        AllowMethods:
+          - '*'
+        AllowOrigins:
+          - '*'
+      Name: kriscard-notes-Api
+      ProtocolType: HTTP
+      Tags:
+        sst:app: notes
+        sst:stage: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Api/Resource
+  ApiDefaultStage1AAE989B:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      StageName: $default
+      AccessLogSettings:
+        DestinationArn:
+          Fn::GetAtt:
+            - ApiLogGroup1717FE17
+            - Arn
+        Format: >-
+          {"requestTime":"$context.requestTime","requestId":"$context.requestId","httpMethod":"$context.httpMethod","path":"$context.path","routeKey":"$context.routeKey","status":$context.status,"responseLatency":$context.responseLatency,"integrationRequestId":"$context.integration.requestId","integrationStatus":"$context.integration.status","integrationLatency":"$context.integration.latency","integrationServiceStatus":"$context.integration.integrationStatus","ip":"$context.identity.sourceIp","userAgent":"$context.identity.userAgent","cognitoIdentityId":"$context.identity.cognitoIdentityId"}
+      AutoDeploy: true
+      Tags:
+        sst:app: notes
+        sst:stage: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Api/DefaultStage/Resource
+  ApiLogGroup1717FE17:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName:
+        Fn::Join:
+          - ''
+          - - /aws/vendedlogs/apis/kriscard-notes-Api-
+            - Ref: ApiCD79AAA0
+            - /default
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/LogGroup/Resource
+  ApiLambdaPOSTnotesServiceRoleD16681D3:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_POST_--notes/ServiceRole/Resource
+  ApiLambdaPOSTnotesServiceRoleDefaultPolicy6D85CF6B:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - xray:PutTraceSegments
+              - xray:PutTelemetryRecords
+            Effect: Allow
+            Resource: '*'
+          - Action: s3:*
+            Effect: Allow
+            Resource:
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*
+          - Action: dynamodb:*
+            Effect: Allow
+            Resource:
+              - Fn::ImportValue: >-
+                  kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+              - Fn::Join:
+                  - ''
+                  - - Fn::ImportValue: >-
+                        kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+                    - /*
+        Version: '2012-10-17'
+      PolicyName: ApiLambdaPOSTnotesServiceRoleDefaultPolicy6D85CF6B
+      Roles:
+        - Ref: ApiLambdaPOSTnotesServiceRoleD16681D3
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Lambda_POST_--notes/ServiceRole/DefaultPolicy/Resource
+  ApiLambdaPOSTnotes3B067E1B:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      Role:
+        Fn::GetAtt:
+          - ApiLambdaPOSTnotesServiceRoleD16681D3
+          - Arn
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Fn::ImportValue: kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95
+          STRIPE_SECRET_KEY: >-
+            sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD
+          SST_DEBUG_SRC_PATH: .
+          SST_DEBUG_SRC_HANDLER: src/create.main
+          SST_DEBUG_ENDPOINT: wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard
+          SST_DEBUG_BUCKET_NAME: kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+          SST_FUNCTION_ID: kriscard-notes-api-Api-Lambda_POST_-notes
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
+          SST_DEBUG_IS_API_ROUTE: '1'
+      Handler: index.main
+      MemorySize: 1024
+      Runtime: nodejs12.x
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+      Timeout: 10
+      TracingConfig:
+        Mode: Active
+    DependsOn:
+      - ApiLambdaPOSTnotesServiceRoleDefaultPolicy6D85CF6B
+      - ApiLambdaPOSTnotesServiceRoleD16681D3
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_POST_--notes/Resource
+      aws:asset:path: >-
+        asset.949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  ApiLambdaPOSTnotesEventInvokeConfig78ADA2E8:
+    Type: AWS::Lambda::EventInvokeConfig
+    Properties:
+      FunctionName:
+        Ref: ApiLambdaPOSTnotes3B067E1B
+      Qualifier: $LATEST
+      MaximumRetryAttempts: 0
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_POST_--notes/EventInvokeConfig/Resource
+  ApiRoutePOSTnotesIntegrationPOSTnotesPermission83B10601:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - ApiLambdaPOSTnotes3B067E1B
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ''
+          - - 'arn:'
+            - Ref: AWS::Partition
+            - ':execute-api:us-east-1:591688379258:'
+            - Ref: ApiCD79AAA0
+            - /*/*/notes
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_POST_--notes/Integration_POST_--notes-Permission
+  ApiRoutePOSTnotesIntegrationPOSTnotes44F9E77C:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::GetAtt:
+          - ApiLambdaPOSTnotes3B067E1B
+          - Arn
+      PayloadFormatVersion: '2.0'
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_POST_--notes/Integration_POST_--notes/Resource
+  ApiRoutePOSTnotes66667A1D:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      RouteKey: POST /notes
+      AuthorizationType: AWS_IAM
+      Target:
+        Fn::Join:
+          - ''
+          - - integrations/
+            - Ref: ApiRoutePOSTnotesIntegrationPOSTnotes44F9E77C
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Route_POST_--notes/Resource
+  ApiLambdaGETnotesidServiceRole5ED71CA8:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_GET_--notes--{id}/ServiceRole/Resource
+  ApiLambdaGETnotesidServiceRoleDefaultPolicy0BDDFC9B:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - xray:PutTraceSegments
+              - xray:PutTelemetryRecords
+            Effect: Allow
+            Resource: '*'
+          - Action: s3:*
+            Effect: Allow
+            Resource:
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*
+          - Action: dynamodb:*
+            Effect: Allow
+            Resource:
+              - Fn::ImportValue: >-
+                  kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+              - Fn::Join:
+                  - ''
+                  - - Fn::ImportValue: >-
+                        kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+                    - /*
+        Version: '2012-10-17'
+      PolicyName: ApiLambdaGETnotesidServiceRoleDefaultPolicy0BDDFC9B
+      Roles:
+        - Ref: ApiLambdaGETnotesidServiceRole5ED71CA8
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Lambda_GET_--notes--{id}/ServiceRole/DefaultPolicy/Resource
+  ApiLambdaGETnotesidBDFD7F2C:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      Role:
+        Fn::GetAtt:
+          - ApiLambdaGETnotesidServiceRole5ED71CA8
+          - Arn
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Fn::ImportValue: kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95
+          STRIPE_SECRET_KEY: >-
+            sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD
+          SST_DEBUG_SRC_PATH: .
+          SST_DEBUG_SRC_HANDLER: src/get.main
+          SST_DEBUG_ENDPOINT: wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard
+          SST_DEBUG_BUCKET_NAME: kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+          SST_FUNCTION_ID: kriscard-notes-api-Api-Lambda_GET_-notes-{id}
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
+          SST_DEBUG_IS_API_ROUTE: '1'
+      Handler: index.main
+      MemorySize: 1024
+      Runtime: nodejs12.x
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+      Timeout: 10
+      TracingConfig:
+        Mode: Active
+    DependsOn:
+      - ApiLambdaGETnotesidServiceRoleDefaultPolicy0BDDFC9B
+      - ApiLambdaGETnotesidServiceRole5ED71CA8
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_GET_--notes--{id}/Resource
+      aws:asset:path: >-
+        asset.949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  ApiLambdaGETnotesidEventInvokeConfig638AD083:
+    Type: AWS::Lambda::EventInvokeConfig
+    Properties:
+      FunctionName:
+        Ref: ApiLambdaGETnotesidBDFD7F2C
+      Qualifier: $LATEST
+      MaximumRetryAttempts: 0
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Lambda_GET_--notes--{id}/EventInvokeConfig/Resource
+  ApiRouteGETnotesidIntegrationGETnotesidPermissionC332DC73:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - ApiLambdaGETnotesidBDFD7F2C
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ''
+          - - 'arn:'
+            - Ref: AWS::Partition
+            - ':execute-api:us-east-1:591688379258:'
+            - Ref: ApiCD79AAA0
+            - /*/*/notes/{id}
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_GET_--notes--{id}/Integration_GET_--notes--{id}-Permission
+  ApiRouteGETnotesidIntegrationGETnotesidDDEC4C94:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::GetAtt:
+          - ApiLambdaGETnotesidBDFD7F2C
+          - Arn
+      PayloadFormatVersion: '2.0'
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_GET_--notes--{id}/Integration_GET_--notes--{id}/Resource
+  ApiRouteGETnotesid7B39CB5A:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      RouteKey: GET /notes/{id}
+      AuthorizationType: AWS_IAM
+      Target:
+        Fn::Join:
+          - ''
+          - - integrations/
+            - Ref: ApiRouteGETnotesidIntegrationGETnotesidDDEC4C94
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Route_GET_--notes--{id}/Resource
+  ApiLambdaGETnotesServiceRoleFAD2F768:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_GET_--notes/ServiceRole/Resource
+  ApiLambdaGETnotesServiceRoleDefaultPolicy46521967:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - xray:PutTraceSegments
+              - xray:PutTelemetryRecords
+            Effect: Allow
+            Resource: '*'
+          - Action: s3:*
+            Effect: Allow
+            Resource:
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*
+          - Action: dynamodb:*
+            Effect: Allow
+            Resource:
+              - Fn::ImportValue: >-
+                  kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+              - Fn::Join:
+                  - ''
+                  - - Fn::ImportValue: >-
+                        kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+                    - /*
+        Version: '2012-10-17'
+      PolicyName: ApiLambdaGETnotesServiceRoleDefaultPolicy46521967
+      Roles:
+        - Ref: ApiLambdaGETnotesServiceRoleFAD2F768
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Lambda_GET_--notes/ServiceRole/DefaultPolicy/Resource
+  ApiLambdaGETnotesA3E56CF7:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      Role:
+        Fn::GetAtt:
+          - ApiLambdaGETnotesServiceRoleFAD2F768
+          - Arn
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Fn::ImportValue: kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95
+          STRIPE_SECRET_KEY: >-
+            sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD
+          SST_DEBUG_SRC_PATH: .
+          SST_DEBUG_SRC_HANDLER: src/list.main
+          SST_DEBUG_ENDPOINT: wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard
+          SST_DEBUG_BUCKET_NAME: kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+          SST_FUNCTION_ID: kriscard-notes-api-Api-Lambda_GET_-notes
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
+          SST_DEBUG_IS_API_ROUTE: '1'
+      Handler: index.main
+      MemorySize: 1024
+      Runtime: nodejs12.x
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+      Timeout: 10
+      TracingConfig:
+        Mode: Active
+    DependsOn:
+      - ApiLambdaGETnotesServiceRoleDefaultPolicy46521967
+      - ApiLambdaGETnotesServiceRoleFAD2F768
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_GET_--notes/Resource
+      aws:asset:path: >-
+        asset.949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  ApiLambdaGETnotesEventInvokeConfigE155863D:
+    Type: AWS::Lambda::EventInvokeConfig
+    Properties:
+      FunctionName:
+        Ref: ApiLambdaGETnotesA3E56CF7
+      Qualifier: $LATEST
+      MaximumRetryAttempts: 0
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_GET_--notes/EventInvokeConfig/Resource
+  ApiRouteGETnotesIntegrationGETnotesPermissionA18F8817:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - ApiLambdaGETnotesA3E56CF7
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ''
+          - - 'arn:'
+            - Ref: AWS::Partition
+            - ':execute-api:us-east-1:591688379258:'
+            - Ref: ApiCD79AAA0
+            - /*/*/notes
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_GET_--notes/Integration_GET_--notes-Permission
+  ApiRouteGETnotesIntegrationGETnotes809882CF:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::GetAtt:
+          - ApiLambdaGETnotesA3E56CF7
+          - Arn
+      PayloadFormatVersion: '2.0'
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_GET_--notes/Integration_GET_--notes/Resource
+  ApiRouteGETnotesBFEE3C9D:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      RouteKey: GET /notes
+      AuthorizationType: AWS_IAM
+      Target:
+        Fn::Join:
+          - ''
+          - - integrations/
+            - Ref: ApiRouteGETnotesIntegrationGETnotes809882CF
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Route_GET_--notes/Resource
+  ApiLambdaPUTnotesidServiceRole7A962796:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/ServiceRole/Resource
+  ApiLambdaPUTnotesidServiceRoleDefaultPolicyB3FF9AED:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - xray:PutTraceSegments
+              - xray:PutTelemetryRecords
+            Effect: Allow
+            Resource: '*'
+          - Action: s3:*
+            Effect: Allow
+            Resource:
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*
+          - Action: dynamodb:*
+            Effect: Allow
+            Resource:
+              - Fn::ImportValue: >-
+                  kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+              - Fn::Join:
+                  - ''
+                  - - Fn::ImportValue: >-
+                        kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+                    - /*
+        Version: '2012-10-17'
+      PolicyName: ApiLambdaPUTnotesidServiceRoleDefaultPolicyB3FF9AED
+      Roles:
+        - Ref: ApiLambdaPUTnotesidServiceRole7A962796
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/ServiceRole/DefaultPolicy/Resource
+  ApiLambdaPUTnotesid28D10C39:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      Role:
+        Fn::GetAtt:
+          - ApiLambdaPUTnotesidServiceRole7A962796
+          - Arn
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Fn::ImportValue: kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95
+          STRIPE_SECRET_KEY: >-
+            sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD
+          SST_DEBUG_SRC_PATH: .
+          SST_DEBUG_SRC_HANDLER: src/update.main
+          SST_DEBUG_ENDPOINT: wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard
+          SST_DEBUG_BUCKET_NAME: kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+          SST_FUNCTION_ID: kriscard-notes-api-Api-Lambda_PUT_-notes-{id}
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
+          SST_DEBUG_IS_API_ROUTE: '1'
+      Handler: index.main
+      MemorySize: 1024
+      Runtime: nodejs12.x
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+      Timeout: 10
+      TracingConfig:
+        Mode: Active
+    DependsOn:
+      - ApiLambdaPUTnotesidServiceRoleDefaultPolicyB3FF9AED
+      - ApiLambdaPUTnotesidServiceRole7A962796
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/Resource
+      aws:asset:path: >-
+        asset.949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  ApiLambdaPUTnotesidEventInvokeConfig80B67243:
+    Type: AWS::Lambda::EventInvokeConfig
+    Properties:
+      FunctionName:
+        Ref: ApiLambdaPUTnotesid28D10C39
+      Qualifier: $LATEST
+      MaximumRetryAttempts: 0
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/EventInvokeConfig/Resource
+  ApiRoutePUTnotesidIntegrationPUTnotesidPermissionDD71990C:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - ApiLambdaPUTnotesid28D10C39
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ''
+          - - 'arn:'
+            - Ref: AWS::Partition
+            - ':execute-api:us-east-1:591688379258:'
+            - Ref: ApiCD79AAA0
+            - /*/*/notes/{id}
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_PUT_--notes--{id}/Integration_PUT_--notes--{id}-Permission
+  ApiRoutePUTnotesidIntegrationPUTnotesid0B48B9D7:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::GetAtt:
+          - ApiLambdaPUTnotesid28D10C39
+          - Arn
+      PayloadFormatVersion: '2.0'
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_PUT_--notes--{id}/Integration_PUT_--notes--{id}/Resource
+  ApiRoutePUTnotesidFAE087B0:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      RouteKey: PUT /notes/{id}
+      AuthorizationType: AWS_IAM
+      Target:
+        Fn::Join:
+          - ''
+          - - integrations/
+            - Ref: ApiRoutePUTnotesidIntegrationPUTnotesid0B48B9D7
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Route_PUT_--notes--{id}/Resource
+  ApiLambdaDELETEnotesidServiceRole196EBA58:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/ServiceRole/Resource
+  ApiLambdaDELETEnotesidServiceRoleDefaultPolicy451F8A74:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - xray:PutTraceSegments
+              - xray:PutTelemetryRecords
+            Effect: Allow
+            Resource: '*'
+          - Action: s3:*
+            Effect: Allow
+            Resource:
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*
+          - Action: dynamodb:*
+            Effect: Allow
+            Resource:
+              - Fn::ImportValue: >-
+                  kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+              - Fn::Join:
+                  - ''
+                  - - Fn::ImportValue: >-
+                        kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+                    - /*
+        Version: '2012-10-17'
+      PolicyName: ApiLambdaDELETEnotesidServiceRoleDefaultPolicy451F8A74
+      Roles:
+        - Ref: ApiLambdaDELETEnotesidServiceRole196EBA58
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/ServiceRole/DefaultPolicy/Resource
+  ApiLambdaDELETEnotesid69A96EAD:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      Role:
+        Fn::GetAtt:
+          - ApiLambdaDELETEnotesidServiceRole196EBA58
+          - Arn
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Fn::ImportValue: kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95
+          STRIPE_SECRET_KEY: >-
+            sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD
+          SST_DEBUG_SRC_PATH: .
+          SST_DEBUG_SRC_HANDLER: src/delete.main
+          SST_DEBUG_ENDPOINT: wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard
+          SST_DEBUG_BUCKET_NAME: kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+          SST_FUNCTION_ID: kriscard-notes-api-Api-Lambda_DELETE_-notes-{id}
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
+          SST_DEBUG_IS_API_ROUTE: '1'
+      Handler: index.main
+      MemorySize: 1024
+      Runtime: nodejs12.x
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+      Timeout: 10
+      TracingConfig:
+        Mode: Active
+    DependsOn:
+      - ApiLambdaDELETEnotesidServiceRoleDefaultPolicy451F8A74
+      - ApiLambdaDELETEnotesidServiceRole196EBA58
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/Resource
+      aws:asset:path: >-
+        asset.949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  ApiLambdaDELETEnotesidEventInvokeConfigC7520EFE:
+    Type: AWS::Lambda::EventInvokeConfig
+    Properties:
+      FunctionName:
+        Ref: ApiLambdaDELETEnotesid69A96EAD
+      Qualifier: $LATEST
+      MaximumRetryAttempts: 0
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/EventInvokeConfig/Resource
+  ApiRouteDELETEnotesidIntegrationDELETEnotesidPermission717CBC89:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - ApiLambdaDELETEnotesid69A96EAD
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ''
+          - - 'arn:'
+            - Ref: AWS::Partition
+            - ':execute-api:us-east-1:591688379258:'
+            - Ref: ApiCD79AAA0
+            - /*/*/notes/{id}
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_DELETE_--notes--{id}/Integration_DELETE_--notes--{id}-Permission
+  ApiRouteDELETEnotesidIntegrationDELETEnotesidE2F04DD5:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::GetAtt:
+          - ApiLambdaDELETEnotesid69A96EAD
+          - Arn
+      PayloadFormatVersion: '2.0'
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_DELETE_--notes--{id}/Integration_DELETE_--notes--{id}/Resource
+  ApiRouteDELETEnotesidCFA3191E:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      RouteKey: DELETE /notes/{id}
+      AuthorizationType: AWS_IAM
+      Target:
+        Fn::Join:
+          - ''
+          - - integrations/
+            - Ref: ApiRouteDELETEnotesidIntegrationDELETEnotesidE2F04DD5
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Route_DELETE_--notes--{id}/Resource
+  ApiLambdaPOSTbillingServiceRoleB5827DFF:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_POST_--billing/ServiceRole/Resource
+  ApiLambdaPOSTbillingServiceRoleDefaultPolicy23915694:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - xray:PutTraceSegments
+              - xray:PutTelemetryRecords
+            Effect: Allow
+            Resource: '*'
+          - Action: s3:*
+            Effect: Allow
+            Resource:
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*
+          - Action: dynamodb:*
+            Effect: Allow
+            Resource:
+              - Fn::ImportValue: >-
+                  kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+              - Fn::Join:
+                  - ''
+                  - - Fn::ImportValue: >-
+                        kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+                    - /*
+        Version: '2012-10-17'
+      PolicyName: ApiLambdaPOSTbillingServiceRoleDefaultPolicy23915694
+      Roles:
+        - Ref: ApiLambdaPOSTbillingServiceRoleB5827DFF
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Lambda_POST_--billing/ServiceRole/DefaultPolicy/Resource
+  ApiLambdaPOSTbilling71E49732:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      Role:
+        Fn::GetAtt:
+          - ApiLambdaPOSTbillingServiceRoleB5827DFF
+          - Arn
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Fn::ImportValue: kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95
+          STRIPE_SECRET_KEY: >-
+            sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD
+          SST_DEBUG_SRC_PATH: .
+          SST_DEBUG_SRC_HANDLER: functions/billing.main
+          SST_DEBUG_ENDPOINT: wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard
+          SST_DEBUG_BUCKET_NAME: kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+          SST_FUNCTION_ID: kriscard-notes-api-Api-Lambda_POST_-billing
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
+          SST_DEBUG_IS_API_ROUTE: '1'
+      Handler: index.main
+      MemorySize: 1024
+      Runtime: nodejs12.x
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+      Timeout: 10
+      TracingConfig:
+        Mode: Active
+    DependsOn:
+      - ApiLambdaPOSTbillingServiceRoleDefaultPolicy23915694
+      - ApiLambdaPOSTbillingServiceRoleB5827DFF
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_POST_--billing/Resource
+      aws:asset:path: >-
+        asset.949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  ApiLambdaPOSTbillingEventInvokeConfigFF3A6E0D:
+    Type: AWS::Lambda::EventInvokeConfig
+    Properties:
+      FunctionName:
+        Ref: ApiLambdaPOSTbilling71E49732
+      Qualifier: $LATEST
+      MaximumRetryAttempts: 0
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_POST_--billing/EventInvokeConfig/Resource
+  ApiRoutePOSTbillingIntegrationPOSTbillingPermissionF7A0B32C:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - ApiLambdaPOSTbilling71E49732
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ''
+          - - 'arn:'
+            - Ref: AWS::Partition
+            - ':execute-api:us-east-1:591688379258:'
+            - Ref: ApiCD79AAA0
+            - /*/*/billing
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_POST_--billing/Integration_POST_--billing-Permission
+  ApiRoutePOSTbillingIntegrationPOSTbillingE351CA9B:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::GetAtt:
+          - ApiLambdaPOSTbilling71E49732
+          - Arn
+      PayloadFormatVersion: '2.0'
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_POST_--billing/Integration_POST_--billing/Resource
+  ApiRoutePOSTbilling09AED9DA:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      RouteKey: POST /billing
+      AuthorizationType: AWS_IAM
+      Target:
+        Fn::Join:
+          - ''
+          - - integrations/
+            - Ref: ApiRoutePOSTbillingIntegrationPOSTbillingE351CA9B
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Route_POST_--billing/Resource
+Outputs:
+  ApiEndpoint:
+    Value:
+      Fn::GetAtt:
+        - ApiCD79AAA0
+        - ApiEndpoint
+  ExportsOutputRefApiCD79AAA0A1504A18:
+    Value:
+      Ref: ApiCD79AAA0
+    Export:
+      Name: kriscard-notes-api:ExportsOutputRefApiCD79AAA0A1504A18
+Parameters:
+  BootstrapVersion:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /cdk-bootstrap/hnb659fds/version
+    Description: >-
+      Version of the CDK Bootstrap resources in this environment, automatically
+      retrieved from SSM Parameter Store. [cdk:skip]
+Rules:
+  CheckBootstrapVersion:
+    Assertions:
+      - Assert:
+          Fn::Not:
+            - Fn::Contains:
+                - - '1'
+                  - '2'
+                  - '3'
+                  - '4'
+                  - '5'
+                - Ref: BootstrapVersion
+        AssertDescription: >-
+          CDK bootstrap stack version 6 required. Please run 'cdk bootstrap'
+          with a recent version of the CDK CLI.
+
+[2022-05-23T13:22:17.190] [DEBUG] core - Resources:
+  SSTMetadata:
+    Type: AWS::CDK::Metadata
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/SSTMetadata
+      sst:version: 0.69.7
+      sst:constructs:
+        - id: Api
+          addr: c81c135721394fd76dd11dae3a6e57762458f97048
+          stack: kriscard-notes-api
+          type: Api
+          data:
+            graphql: false
+            url:
+              Fn::Join:
+                - ''
+                - - https://
+                  - Ref: ApiCD79AAA0
+                  - .execute-api.us-east-1.
+                  - Ref: AWS::URLSuffix
+                  - /
+            httpApiId:
+              Ref: ApiCD79AAA0
+            routes:
+              - route: POST /notes
+                fn:
+                  node: c88a76056890c5b63cc654096d3b302f7250760541
+                  stack: kriscard-notes-api
+              - route: GET /notes/{id}
+                fn:
+                  node: c8265c8ed16fe49204b779469703e9189fc698b8f5
+                  stack: kriscard-notes-api
+              - route: GET /notes
+                fn:
+                  node: c88c209e5d3406cc30e672a0f653f820e054c238a2
+                  stack: kriscard-notes-api
+              - route: PUT /notes/{id}
+                fn:
+                  node: c8dcb3cd00f75a1877da1df0e8c015deb61d9d79b4
+                  stack: kriscard-notes-api
+              - route: DELETE /notes/{id}
+                fn:
+                  node: c8df5434e5844746d8a99feba191665b043016d52b
+                  stack: kriscard-notes-api
+              - route: POST /billing
+                fn:
+                  node: c8e0053f8c65be24a8457e8b8f8e9fba97057730ab
+                  stack: kriscard-notes-api
+        - id: Lambda_POST_--notes
+          addr: c88a76056890c5b63cc654096d3b302f7250760541
+          stack: kriscard-notes-api
+          type: Function
+          data:
+            localId: kriscard-notes-api-Api-Lambda_POST_-notes
+            arn:
+              Fn::GetAtt:
+                - ApiLambdaPOSTnotes3B067E1B
+                - Arn
+        - id: Lambda_GET_--notes--{id}
+          addr: c8265c8ed16fe49204b779469703e9189fc698b8f5
+          stack: kriscard-notes-api
+          type: Function
+          data:
+            localId: kriscard-notes-api-Api-Lambda_GET_-notes-{id}
+            arn:
+              Fn::GetAtt:
+                - ApiLambdaGETnotesidBDFD7F2C
+                - Arn
+        - id: Lambda_GET_--notes
+          addr: c88c209e5d3406cc30e672a0f653f820e054c238a2
+          stack: kriscard-notes-api
+          type: Function
+          data:
+            localId: kriscard-notes-api-Api-Lambda_GET_-notes
+            arn:
+              Fn::GetAtt:
+                - ApiLambdaGETnotesA3E56CF7
+                - Arn
+        - id: Lambda_PUT_--notes--{id}
+          addr: c8dcb3cd00f75a1877da1df0e8c015deb61d9d79b4
+          stack: kriscard-notes-api
+          type: Function
+          data:
+            localId: kriscard-notes-api-Api-Lambda_PUT_-notes-{id}
+            arn:
+              Fn::GetAtt:
+                - ApiLambdaPUTnotesid28D10C39
+                - Arn
+        - id: Lambda_DELETE_--notes--{id}
+          addr: c8df5434e5844746d8a99feba191665b043016d52b
+          stack: kriscard-notes-api
+          type: Function
+          data:
+            localId: kriscard-notes-api-Api-Lambda_DELETE_-notes-{id}
+            arn:
+              Fn::GetAtt:
+                - ApiLambdaDELETEnotesid69A96EAD
+                - Arn
+        - id: Lambda_POST_--billing
+          addr: c8e0053f8c65be24a8457e8b8f8e9fba97057730ab
+          stack: kriscard-notes-api
+          type: Function
+          data:
+            localId: kriscard-notes-api-Api-Lambda_POST_-billing
+            arn:
+              Fn::GetAtt:
+                - ApiLambdaPOSTbilling71E49732
+                - Arn
+  ApiCD79AAA0:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      CorsConfiguration:
+        AllowHeaders:
+          - '*'
+        AllowMethods:
+          - '*'
+        AllowOrigins:
+          - '*'
+      Name: kriscard-notes-Api
+      ProtocolType: HTTP
+      Tags:
+        sst:app: notes
+        sst:stage: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Api/Resource
+  ApiDefaultStage1AAE989B:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      StageName: $default
+      AccessLogSettings:
+        DestinationArn:
+          Fn::GetAtt:
+            - ApiLogGroup1717FE17
+            - Arn
+        Format: >-
+          {"requestTime":"$context.requestTime","requestId":"$context.requestId","httpMethod":"$context.httpMethod","path":"$context.path","routeKey":"$context.routeKey","status":$context.status,"responseLatency":$context.responseLatency,"integrationRequestId":"$context.integration.requestId","integrationStatus":"$context.integration.status","integrationLatency":"$context.integration.latency","integrationServiceStatus":"$context.integration.integrationStatus","ip":"$context.identity.sourceIp","userAgent":"$context.identity.userAgent","cognitoIdentityId":"$context.identity.cognitoIdentityId"}
+      AutoDeploy: true
+      Tags:
+        sst:app: notes
+        sst:stage: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Api/DefaultStage/Resource
+  ApiLogGroup1717FE17:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName:
+        Fn::Join:
+          - ''
+          - - /aws/vendedlogs/apis/kriscard-notes-Api-
+            - Ref: ApiCD79AAA0
+            - /default
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/LogGroup/Resource
+  ApiLambdaPOSTnotesServiceRoleD16681D3:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_POST_--notes/ServiceRole/Resource
+  ApiLambdaPOSTnotesServiceRoleDefaultPolicy6D85CF6B:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - xray:PutTraceSegments
+              - xray:PutTelemetryRecords
+            Effect: Allow
+            Resource: '*'
+          - Action: s3:*
+            Effect: Allow
+            Resource:
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*
+          - Action: dynamodb:*
+            Effect: Allow
+            Resource:
+              - Fn::ImportValue: >-
+                  kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+              - Fn::Join:
+                  - ''
+                  - - Fn::ImportValue: >-
+                        kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+                    - /*
+        Version: '2012-10-17'
+      PolicyName: ApiLambdaPOSTnotesServiceRoleDefaultPolicy6D85CF6B
+      Roles:
+        - Ref: ApiLambdaPOSTnotesServiceRoleD16681D3
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Lambda_POST_--notes/ServiceRole/DefaultPolicy/Resource
+  ApiLambdaPOSTnotes3B067E1B:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      Role:
+        Fn::GetAtt:
+          - ApiLambdaPOSTnotesServiceRoleD16681D3
+          - Arn
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Fn::ImportValue: kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95
+          STRIPE_SECRET_KEY: >-
+            sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD
+          SST_DEBUG_SRC_PATH: .
+          SST_DEBUG_SRC_HANDLER: src/create.main
+          SST_DEBUG_ENDPOINT: wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard
+          SST_DEBUG_BUCKET_NAME: kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+          SST_FUNCTION_ID: kriscard-notes-api-Api-Lambda_POST_-notes
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
+          SST_DEBUG_IS_API_ROUTE: '1'
+      Handler: index.main
+      MemorySize: 1024
+      Runtime: nodejs12.x
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+      Timeout: 10
+      TracingConfig:
+        Mode: Active
+    DependsOn:
+      - ApiLambdaPOSTnotesServiceRoleDefaultPolicy6D85CF6B
+      - ApiLambdaPOSTnotesServiceRoleD16681D3
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_POST_--notes/Resource
+      aws:asset:path: >-
+        asset.949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  ApiLambdaPOSTnotesEventInvokeConfig78ADA2E8:
+    Type: AWS::Lambda::EventInvokeConfig
+    Properties:
+      FunctionName:
+        Ref: ApiLambdaPOSTnotes3B067E1B
+      Qualifier: $LATEST
+      MaximumRetryAttempts: 0
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_POST_--notes/EventInvokeConfig/Resource
+  ApiRoutePOSTnotesIntegrationPOSTnotesPermission83B10601:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - ApiLambdaPOSTnotes3B067E1B
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ''
+          - - 'arn:'
+            - Ref: AWS::Partition
+            - ':execute-api:us-east-1:591688379258:'
+            - Ref: ApiCD79AAA0
+            - /*/*/notes
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_POST_--notes/Integration_POST_--notes-Permission
+  ApiRoutePOSTnotesIntegrationPOSTnotes44F9E77C:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::GetAtt:
+          - ApiLambdaPOSTnotes3B067E1B
+          - Arn
+      PayloadFormatVersion: '2.0'
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_POST_--notes/Integration_POST_--notes/Resource
+  ApiRoutePOSTnotes66667A1D:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      RouteKey: POST /notes
+      AuthorizationType: AWS_IAM
+      Target:
+        Fn::Join:
+          - ''
+          - - integrations/
+            - Ref: ApiRoutePOSTnotesIntegrationPOSTnotes44F9E77C
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Route_POST_--notes/Resource
+  ApiLambdaGETnotesidServiceRole5ED71CA8:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_GET_--notes--{id}/ServiceRole/Resource
+  ApiLambdaGETnotesidServiceRoleDefaultPolicy0BDDFC9B:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - xray:PutTraceSegments
+              - xray:PutTelemetryRecords
+            Effect: Allow
+            Resource: '*'
+          - Action: s3:*
+            Effect: Allow
+            Resource:
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*
+          - Action: dynamodb:*
+            Effect: Allow
+            Resource:
+              - Fn::ImportValue: >-
+                  kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+              - Fn::Join:
+                  - ''
+                  - - Fn::ImportValue: >-
+                        kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+                    - /*
+        Version: '2012-10-17'
+      PolicyName: ApiLambdaGETnotesidServiceRoleDefaultPolicy0BDDFC9B
+      Roles:
+        - Ref: ApiLambdaGETnotesidServiceRole5ED71CA8
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Lambda_GET_--notes--{id}/ServiceRole/DefaultPolicy/Resource
+  ApiLambdaGETnotesidBDFD7F2C:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      Role:
+        Fn::GetAtt:
+          - ApiLambdaGETnotesidServiceRole5ED71CA8
+          - Arn
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Fn::ImportValue: kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95
+          STRIPE_SECRET_KEY: >-
+            sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD
+          SST_DEBUG_SRC_PATH: .
+          SST_DEBUG_SRC_HANDLER: src/get.main
+          SST_DEBUG_ENDPOINT: wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard
+          SST_DEBUG_BUCKET_NAME: kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+          SST_FUNCTION_ID: kriscard-notes-api-Api-Lambda_GET_-notes-{id}
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
+          SST_DEBUG_IS_API_ROUTE: '1'
+      Handler: index.main
+      MemorySize: 1024
+      Runtime: nodejs12.x
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+      Timeout: 10
+      TracingConfig:
+        Mode: Active
+    DependsOn:
+      - ApiLambdaGETnotesidServiceRoleDefaultPolicy0BDDFC9B
+      - ApiLambdaGETnotesidServiceRole5ED71CA8
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_GET_--notes--{id}/Resource
+      aws:asset:path: >-
+        asset.949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  ApiLambdaGETnotesidEventInvokeConfig638AD083:
+    Type: AWS::Lambda::EventInvokeConfig
+    Properties:
+      FunctionName:
+        Ref: ApiLambdaGETnotesidBDFD7F2C
+      Qualifier: $LATEST
+      MaximumRetryAttempts: 0
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Lambda_GET_--notes--{id}/EventInvokeConfig/Resource
+  ApiRouteGETnotesidIntegrationGETnotesidPermissionC332DC73:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - ApiLambdaGETnotesidBDFD7F2C
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ''
+          - - 'arn:'
+            - Ref: AWS::Partition
+            - ':execute-api:us-east-1:591688379258:'
+            - Ref: ApiCD79AAA0
+            - /*/*/notes/{id}
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_GET_--notes--{id}/Integration_GET_--notes--{id}-Permission
+  ApiRouteGETnotesidIntegrationGETnotesidDDEC4C94:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::GetAtt:
+          - ApiLambdaGETnotesidBDFD7F2C
+          - Arn
+      PayloadFormatVersion: '2.0'
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_GET_--notes--{id}/Integration_GET_--notes--{id}/Resource
+  ApiRouteGETnotesid7B39CB5A:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      RouteKey: GET /notes/{id}
+      AuthorizationType: AWS_IAM
+      Target:
+        Fn::Join:
+          - ''
+          - - integrations/
+            - Ref: ApiRouteGETnotesidIntegrationGETnotesidDDEC4C94
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Route_GET_--notes--{id}/Resource
+  ApiLambdaGETnotesServiceRoleFAD2F768:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_GET_--notes/ServiceRole/Resource
+  ApiLambdaGETnotesServiceRoleDefaultPolicy46521967:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - xray:PutTraceSegments
+              - xray:PutTelemetryRecords
+            Effect: Allow
+            Resource: '*'
+          - Action: s3:*
+            Effect: Allow
+            Resource:
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*
+          - Action: dynamodb:*
+            Effect: Allow
+            Resource:
+              - Fn::ImportValue: >-
+                  kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+              - Fn::Join:
+                  - ''
+                  - - Fn::ImportValue: >-
+                        kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+                    - /*
+        Version: '2012-10-17'
+      PolicyName: ApiLambdaGETnotesServiceRoleDefaultPolicy46521967
+      Roles:
+        - Ref: ApiLambdaGETnotesServiceRoleFAD2F768
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Lambda_GET_--notes/ServiceRole/DefaultPolicy/Resource
+  ApiLambdaGETnotesA3E56CF7:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      Role:
+        Fn::GetAtt:
+          - ApiLambdaGETnotesServiceRoleFAD2F768
+          - Arn
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Fn::ImportValue: kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95
+          STRIPE_SECRET_KEY: >-
+            sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD
+          SST_DEBUG_SRC_PATH: .
+          SST_DEBUG_SRC_HANDLER: src/list.main
+          SST_DEBUG_ENDPOINT: wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard
+          SST_DEBUG_BUCKET_NAME: kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+          SST_FUNCTION_ID: kriscard-notes-api-Api-Lambda_GET_-notes
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
+          SST_DEBUG_IS_API_ROUTE: '1'
+      Handler: index.main
+      MemorySize: 1024
+      Runtime: nodejs12.x
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+      Timeout: 10
+      TracingConfig:
+        Mode: Active
+    DependsOn:
+      - ApiLambdaGETnotesServiceRoleDefaultPolicy46521967
+      - ApiLambdaGETnotesServiceRoleFAD2F768
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_GET_--notes/Resource
+      aws:asset:path: >-
+        asset.949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  ApiLambdaGETnotesEventInvokeConfigE155863D:
+    Type: AWS::Lambda::EventInvokeConfig
+    Properties:
+      FunctionName:
+        Ref: ApiLambdaGETnotesA3E56CF7
+      Qualifier: $LATEST
+      MaximumRetryAttempts: 0
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_GET_--notes/EventInvokeConfig/Resource
+  ApiRouteGETnotesIntegrationGETnotesPermissionA18F8817:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - ApiLambdaGETnotesA3E56CF7
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ''
+          - - 'arn:'
+            - Ref: AWS::Partition
+            - ':execute-api:us-east-1:591688379258:'
+            - Ref: ApiCD79AAA0
+            - /*/*/notes
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_GET_--notes/Integration_GET_--notes-Permission
+  ApiRouteGETnotesIntegrationGETnotes809882CF:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::GetAtt:
+          - ApiLambdaGETnotesA3E56CF7
+          - Arn
+      PayloadFormatVersion: '2.0'
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_GET_--notes/Integration_GET_--notes/Resource
+  ApiRouteGETnotesBFEE3C9D:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      RouteKey: GET /notes
+      AuthorizationType: AWS_IAM
+      Target:
+        Fn::Join:
+          - ''
+          - - integrations/
+            - Ref: ApiRouteGETnotesIntegrationGETnotes809882CF
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Route_GET_--notes/Resource
+  ApiLambdaPUTnotesidServiceRole7A962796:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/ServiceRole/Resource
+  ApiLambdaPUTnotesidServiceRoleDefaultPolicyB3FF9AED:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - xray:PutTraceSegments
+              - xray:PutTelemetryRecords
+            Effect: Allow
+            Resource: '*'
+          - Action: s3:*
+            Effect: Allow
+            Resource:
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*
+          - Action: dynamodb:*
+            Effect: Allow
+            Resource:
+              - Fn::ImportValue: >-
+                  kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+              - Fn::Join:
+                  - ''
+                  - - Fn::ImportValue: >-
+                        kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+                    - /*
+        Version: '2012-10-17'
+      PolicyName: ApiLambdaPUTnotesidServiceRoleDefaultPolicyB3FF9AED
+      Roles:
+        - Ref: ApiLambdaPUTnotesidServiceRole7A962796
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/ServiceRole/DefaultPolicy/Resource
+  ApiLambdaPUTnotesid28D10C39:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      Role:
+        Fn::GetAtt:
+          - ApiLambdaPUTnotesidServiceRole7A962796
+          - Arn
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Fn::ImportValue: kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95
+          STRIPE_SECRET_KEY: >-
+            sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD
+          SST_DEBUG_SRC_PATH: .
+          SST_DEBUG_SRC_HANDLER: src/update.main
+          SST_DEBUG_ENDPOINT: wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard
+          SST_DEBUG_BUCKET_NAME: kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+          SST_FUNCTION_ID: kriscard-notes-api-Api-Lambda_PUT_-notes-{id}
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
+          SST_DEBUG_IS_API_ROUTE: '1'
+      Handler: index.main
+      MemorySize: 1024
+      Runtime: nodejs12.x
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+      Timeout: 10
+      TracingConfig:
+        Mode: Active
+    DependsOn:
+      - ApiLambdaPUTnotesidServiceRoleDefaultPolicyB3FF9AED
+      - ApiLambdaPUTnotesidServiceRole7A962796
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/Resource
+      aws:asset:path: >-
+        asset.949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  ApiLambdaPUTnotesidEventInvokeConfig80B67243:
+    Type: AWS::Lambda::EventInvokeConfig
+    Properties:
+      FunctionName:
+        Ref: ApiLambdaPUTnotesid28D10C39
+      Qualifier: $LATEST
+      MaximumRetryAttempts: 0
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/EventInvokeConfig/Resource
+  ApiRoutePUTnotesidIntegrationPUTnotesidPermissionDD71990C:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - ApiLambdaPUTnotesid28D10C39
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ''
+          - - 'arn:'
+            - Ref: AWS::Partition
+            - ':execute-api:us-east-1:591688379258:'
+            - Ref: ApiCD79AAA0
+            - /*/*/notes/{id}
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_PUT_--notes--{id}/Integration_PUT_--notes--{id}-Permission
+  ApiRoutePUTnotesidIntegrationPUTnotesid0B48B9D7:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::GetAtt:
+          - ApiLambdaPUTnotesid28D10C39
+          - Arn
+      PayloadFormatVersion: '2.0'
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_PUT_--notes--{id}/Integration_PUT_--notes--{id}/Resource
+  ApiRoutePUTnotesidFAE087B0:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      RouteKey: PUT /notes/{id}
+      AuthorizationType: AWS_IAM
+      Target:
+        Fn::Join:
+          - ''
+          - - integrations/
+            - Ref: ApiRoutePUTnotesidIntegrationPUTnotesid0B48B9D7
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Route_PUT_--notes--{id}/Resource
+  ApiLambdaDELETEnotesidServiceRole196EBA58:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/ServiceRole/Resource
+  ApiLambdaDELETEnotesidServiceRoleDefaultPolicy451F8A74:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - xray:PutTraceSegments
+              - xray:PutTelemetryRecords
+            Effect: Allow
+            Resource: '*'
+          - Action: s3:*
+            Effect: Allow
+            Resource:
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*
+          - Action: dynamodb:*
+            Effect: Allow
+            Resource:
+              - Fn::ImportValue: >-
+                  kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+              - Fn::Join:
+                  - ''
+                  - - Fn::ImportValue: >-
+                        kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+                    - /*
+        Version: '2012-10-17'
+      PolicyName: ApiLambdaDELETEnotesidServiceRoleDefaultPolicy451F8A74
+      Roles:
+        - Ref: ApiLambdaDELETEnotesidServiceRole196EBA58
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/ServiceRole/DefaultPolicy/Resource
+  ApiLambdaDELETEnotesid69A96EAD:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      Role:
+        Fn::GetAtt:
+          - ApiLambdaDELETEnotesidServiceRole196EBA58
+          - Arn
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Fn::ImportValue: kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95
+          STRIPE_SECRET_KEY: >-
+            sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD
+          SST_DEBUG_SRC_PATH: .
+          SST_DEBUG_SRC_HANDLER: src/delete.main
+          SST_DEBUG_ENDPOINT: wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard
+          SST_DEBUG_BUCKET_NAME: kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+          SST_FUNCTION_ID: kriscard-notes-api-Api-Lambda_DELETE_-notes-{id}
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
+          SST_DEBUG_IS_API_ROUTE: '1'
+      Handler: index.main
+      MemorySize: 1024
+      Runtime: nodejs12.x
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+      Timeout: 10
+      TracingConfig:
+        Mode: Active
+    DependsOn:
+      - ApiLambdaDELETEnotesidServiceRoleDefaultPolicy451F8A74
+      - ApiLambdaDELETEnotesidServiceRole196EBA58
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/Resource
+      aws:asset:path: >-
+        asset.949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  ApiLambdaDELETEnotesidEventInvokeConfigC7520EFE:
+    Type: AWS::Lambda::EventInvokeConfig
+    Properties:
+      FunctionName:
+        Ref: ApiLambdaDELETEnotesid69A96EAD
+      Qualifier: $LATEST
+      MaximumRetryAttempts: 0
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/EventInvokeConfig/Resource
+  ApiRouteDELETEnotesidIntegrationDELETEnotesidPermission717CBC89:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - ApiLambdaDELETEnotesid69A96EAD
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ''
+          - - 'arn:'
+            - Ref: AWS::Partition
+            - ':execute-api:us-east-1:591688379258:'
+            - Ref: ApiCD79AAA0
+            - /*/*/notes/{id}
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_DELETE_--notes--{id}/Integration_DELETE_--notes--{id}-Permission
+  ApiRouteDELETEnotesidIntegrationDELETEnotesidE2F04DD5:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::GetAtt:
+          - ApiLambdaDELETEnotesid69A96EAD
+          - Arn
+      PayloadFormatVersion: '2.0'
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_DELETE_--notes--{id}/Integration_DELETE_--notes--{id}/Resource
+  ApiRouteDELETEnotesidCFA3191E:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      RouteKey: DELETE /notes/{id}
+      AuthorizationType: AWS_IAM
+      Target:
+        Fn::Join:
+          - ''
+          - - integrations/
+            - Ref: ApiRouteDELETEnotesidIntegrationDELETEnotesidE2F04DD5
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Route_DELETE_--notes--{id}/Resource
+  ApiLambdaPOSTbillingServiceRoleB5827DFF:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_POST_--billing/ServiceRole/Resource
+  ApiLambdaPOSTbillingServiceRoleDefaultPolicy23915694:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - xray:PutTraceSegments
+              - xray:PutTelemetryRecords
+            Effect: Allow
+            Resource: '*'
+          - Action: s3:*
+            Effect: Allow
+            Resource:
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+              - >-
+                arn:aws:s3:::kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko/*
+          - Action: dynamodb:*
+            Effect: Allow
+            Resource:
+              - Fn::ImportValue: >-
+                  kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+              - Fn::Join:
+                  - ''
+                  - - Fn::ImportValue: >-
+                        kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38
+                    - /*
+        Version: '2012-10-17'
+      PolicyName: ApiLambdaPOSTbillingServiceRoleDefaultPolicy23915694
+      Roles:
+        - Ref: ApiLambdaPOSTbillingServiceRoleB5827DFF
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Lambda_POST_--billing/ServiceRole/DefaultPolicy/Resource
+  ApiLambdaPOSTbilling71E49732:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: cdk-hnb659fds-assets-591688379258-us-east-1
+        S3Key: 949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      Role:
+        Fn::GetAtt:
+          - ApiLambdaPOSTbillingServiceRoleB5827DFF
+          - Arn
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Fn::ImportValue: kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95
+          STRIPE_SECRET_KEY: >-
+            sk_test_51L2SAKLo32w4Nl8EaGF0rkS6C8D37mklwGzko5z1cYlc0sfY8QZs0Mo83ykAYWlFTclpskr7NAL1pUPiYXNJMIQf00wkrDFdQD
+          SST_DEBUG_SRC_PATH: .
+          SST_DEBUG_SRC_HANDLER: functions/billing.main
+          SST_DEBUG_ENDPOINT: wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard
+          SST_DEBUG_BUCKET_NAME: kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+          SST_FUNCTION_ID: kriscard-notes-api-Api-Lambda_POST_-billing
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
+          SST_DEBUG_IS_API_ROUTE: '1'
+      Handler: index.main
+      MemorySize: 1024
+      Runtime: nodejs12.x
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+      Timeout: 10
+      TracingConfig:
+        Mode: Active
+    DependsOn:
+      - ApiLambdaPOSTbillingServiceRoleDefaultPolicy23915694
+      - ApiLambdaPOSTbillingServiceRoleB5827DFF
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_POST_--billing/Resource
+      aws:asset:path: >-
+        asset.949d0652fd4064bec4d9924b3eeb3b03241aa0e69fbe79b485e9a6c05c82b9d4.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  ApiLambdaPOSTbillingEventInvokeConfigFF3A6E0D:
+    Type: AWS::Lambda::EventInvokeConfig
+    Properties:
+      FunctionName:
+        Ref: ApiLambdaPOSTbilling71E49732
+      Qualifier: $LATEST
+      MaximumRetryAttempts: 0
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Lambda_POST_--billing/EventInvokeConfig/Resource
+  ApiRoutePOSTbillingIntegrationPOSTbillingPermissionF7A0B32C:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - ApiLambdaPOSTbilling71E49732
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ''
+          - - 'arn:'
+            - Ref: AWS::Partition
+            - ':execute-api:us-east-1:591688379258:'
+            - Ref: ApiCD79AAA0
+            - /*/*/billing
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_POST_--billing/Integration_POST_--billing-Permission
+  ApiRoutePOSTbillingIntegrationPOSTbillingE351CA9B:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::GetAtt:
+          - ApiLambdaPOSTbilling71E49732
+          - Arn
+      PayloadFormatVersion: '2.0'
+    Metadata:
+      aws:cdk:path: >-
+        kriscard-notes-api/Api/Route_POST_--billing/Integration_POST_--billing/Resource
+  ApiRoutePOSTbilling09AED9DA:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: ApiCD79AAA0
+      RouteKey: POST /billing
+      AuthorizationType: AWS_IAM
+      Target:
+        Fn::Join:
+          - ''
+          - - integrations/
+            - Ref: ApiRoutePOSTbillingIntegrationPOSTbillingE351CA9B
+    Metadata:
+      aws:cdk:path: kriscard-notes-api/Api/Route_POST_--billing/Resource
+Outputs:
+  ApiEndpoint:
+    Value:
+      Fn::GetAtt:
+        - ApiCD79AAA0
+        - ApiEndpoint
+  ExportsOutputRefApiCD79AAA0A1504A18:
+    Value:
+      Ref: ApiCD79AAA0
+    Export:
+      Name: kriscard-notes-api:ExportsOutputRefApiCD79AAA0A1504A18
+Parameters:
+  BootstrapVersion:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /cdk-bootstrap/hnb659fds/version
+    Description: >-
+      Version of the CDK Bootstrap resources in this environment, automatically
+      retrieved from SSM Parameter Store. [cdk:skip]
+Rules:
+  CheckBootstrapVersion:
+    Assertions:
+      - Assert:
+          Fn::Not:
+            - Fn::Contains:
+                - - '1'
+                  - '2'
+                  - '3'
+                  - '4'
+                  - '5'
+                - Ref: BootstrapVersion
+        AssertDescription: >-
+          CDK bootstrap stack version 6 required. Please run 'cdk bootstrap'
+          with a recent version of the CDK CLI.
+
+[2022-05-23T13:22:17.193] [DEBUG] core - deploy stack: isTemplateChanged: unchanged
+[2022-05-23T13:22:17.195] [DEBUG] core - deploy stack: done kriscard-notes-api {
+  status: 'unchanged',
+  statusReason: undefined,
+  account: '591688379258',
+  outputs: {
+    ApiEndpoint: 'https://wl6s7kmb1m.execute-api.us-east-1.amazonaws.com',
+    ExportsOutputRefApiCD79AAA0A1504A18: 'wl6s7kmb1m'
+  },
+  exports: {
+    'kriscard-notes-api:ExportsOutputRefApiCD79AAA0A1504A18': 'wl6s7kmb1m'
+  }
+}
+[2022-05-23T13:22:17.196] [INFO] core - [32m[39m
+[32m ✅  kriscard-notes-api (no changes)[39m
+[32m[39m
+[2022-05-23T13:22:17.197] [DEBUG] core - At least 1 stack successfully deployed, call deployStacks() again
+[2022-05-23T13:22:17.198] [DEBUG] core - deploy stack: started kriscard-notes-auth
+[2022-05-23T13:22:17.199] [DEBUG] core - deploy stack: get pre-deploy status
+[2022-05-23T13:22:17.370] [DEBUG] core - deploy stack: get pre-deploy status: {
+  StackStatus: 'CREATE_COMPLETE',
+  LastUpdatedTime: 2022-05-23T02:09:06.906Z
+}
+[2022-05-23T13:22:17.370] [DEBUG] core - deploy stack: addInUseExports
+[2022-05-23T13:22:17.373] [DEBUG] core - deploy stack: isTemplateChanged
+[2022-05-23T13:22:17.538] [DEBUG] core - Resources:
+  SSTMetadata:
+    Type: AWS::CDK::Metadata
+    Metadata:
+      aws:cdk:path: kriscard-notes-auth/SSTMetadata
+      sst:version: 0.69.7
+      sst:constructs:
+        - id: Auth
+          addr: c8b3e3ef10f9a1d29e5a5a5a12e52809f9462ca5e8
+          stack: kriscard-notes-auth
+          type: Auth
+          data:
+            identityPoolId:
+              Ref: AuthIdentityPool12DFB5E1
+            userPoolId:
+              Ref: AuthUserPool8115E87F
+            triggers: []
+  AuthUserPool8115E87F:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      AccountRecoverySetting:
+        RecoveryMechanisms:
+          - Name: verified_phone_number
+            Priority: 1
+          - Name: verified_email
+            Priority: 2
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: false
+      AutoVerifiedAttributes:
+        - email
+      EmailVerificationMessage: The verification code to your new account is {####}
+      EmailVerificationSubject: Verify your new account
+      SmsVerificationMessage: The verification code to your new account is {####}
+      UsernameAttributes:
+        - email
+      UsernameConfiguration:
+        CaseSensitive: false
+      UserPoolName: kriscard-notes-Auth
+      UserPoolTags:
+        sst:app: notes
+        sst:stage: kriscard
+      VerificationMessageTemplate:
+        DefaultEmailOption: CONFIRM_WITH_CODE
+        EmailMessage: The verification code to your new account is {####}
+        EmailSubject: Verify your new account
+        SmsMessage: The verification code to your new account is {####}
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Metadata:
+      aws:cdk:path: kriscard-notes-auth/Auth/UserPool/Resource
+  AuthUserPoolClient0AA456E4:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId:
+        Ref: AuthUserPool8115E87F
+      AllowedOAuthFlows:
+        - implicit
+        - code
+      AllowedOAuthFlowsUserPoolClient: true
+      AllowedOAuthScopes:
+        - profile
+        - phone
+        - email
+        - openid
+        - aws.cognito.signin.user.admin
+      CallbackURLs:
+        - https://example.com
+      SupportedIdentityProviders:
+        - COGNITO
+    Metadata:
+      aws:cdk:path: kriscard-notes-auth/Auth/UserPoolClient/Resource
+  AuthIdentityPool12DFB5E1:
+    Type: AWS::Cognito::IdentityPool
+    Properties:
+      AllowUnauthenticatedIdentities: true
+      CognitoIdentityProviders:
+        - ClientId:
+            Ref: AuthUserPoolClient0AA456E4
+          ProviderName:
+            Fn::Join:
+              - ''
+              - - cognito-idp.us-east-1.
+                - Ref: AWS::URLSuffix
+                - /
+                - Ref: AuthUserPool8115E87F
+      IdentityPoolName: kriscard-notes-Auth
+      OpenIdConnectProviderARNs: []
+      SupportedLoginProviders: {}
+    Metadata:
+      aws:cdk:path: kriscard-notes-auth/Auth/IdentityPool
+  AuthIdentityPoolAuthRoleD14DA003:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                cognito-identity.amazonaws.com:aud:
+                  Ref: AuthIdentityPool12DFB5E1
+              ForAnyValue:StringLike:
+                cognito-identity.amazonaws.com:amr: authenticated
+            Effect: Allow
+            Principal:
+              Federated: cognito-identity.amazonaws.com
+        Version: '2012-10-17'
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-auth/Auth/IdentityPoolAuthRole/Resource
+  AuthIdentityPoolAuthRoleDefaultPolicy32D17CAC:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - mobileanalytics:PutEvents
+              - cognito-sync:*
+              - cognito-identity:*
+            Effect: Allow
+            Resource: '*'
+          - Action: execute-api:Invoke
+            Effect: Allow
+            Resource:
+              Fn::Join:
+                - ''
+                - - 'arn:aws:execute-api:us-east-1:591688379258:'
+                  - Fn::ImportValue: kriscard-notes-api:ExportsOutputRefApiCD79AAA0A1504A18
+                  - /*
+          - Action: s3:*
+            Effect: Allow
+            Resource:
+              Fn::Join:
+                - ''
+                - - Fn::ImportValue: >-
+                      kriscard-notes-storage:ExportsOutputFnGetAttUploadsBucketC4B27CC7Arn515ECA45
+                  - /private/${cognito-identity.amazonaws.com:sub}/*
+        Version: '2012-10-17'
+      PolicyName: AuthIdentityPoolAuthRoleDefaultPolicy32D17CAC
+      Roles:
+        - Ref: AuthIdentityPoolAuthRoleD14DA003
+    Metadata:
+      aws:cdk:path: kriscard-notes-auth/Auth/IdentityPoolAuthRole/DefaultPolicy/Resource
+  AuthIdentityPoolUnauthRoleA8DE48F3:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                cognito-identity.amazonaws.com:aud:
+                  Ref: AuthIdentityPool12DFB5E1
+              ForAnyValue:StringLike:
+                cognito-identity.amazonaws.com:amr: unauthenticated
+            Effect: Allow
+            Principal:
+              Federated: cognito-identity.amazonaws.com
+        Version: '2012-10-17'
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-auth/Auth/IdentityPoolUnauthRole/Resource
+  AuthIdentityPoolUnauthRoleDefaultPolicy0417F857:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - mobileanalytics:PutEvents
+              - cognito-sync:*
+            Effect: Allow
+            Resource: '*'
+        Version: '2012-10-17'
+      PolicyName: AuthIdentityPoolUnauthRoleDefaultPolicy0417F857
+      Roles:
+        - Ref: AuthIdentityPoolUnauthRoleA8DE48F3
+    Metadata:
+      aws:cdk:path: kriscard-notes-auth/Auth/IdentityPoolUnauthRole/DefaultPolicy/Resource
+  AuthIdentityPoolRoleAttachmentB0D3DC72:
+    Type: AWS::Cognito::IdentityPoolRoleAttachment
+    Properties:
+      IdentityPoolId:
+        Ref: AuthIdentityPool12DFB5E1
+      Roles:
+        authenticated:
+          Fn::GetAtt:
+            - AuthIdentityPoolAuthRoleD14DA003
+            - Arn
+        unauthenticated:
+          Fn::GetAtt:
+            - AuthIdentityPoolUnauthRoleA8DE48F3
+            - Arn
+    Metadata:
+      aws:cdk:path: kriscard-notes-auth/Auth/IdentityPoolRoleAttachment
+Outputs:
+  Region:
+    Value: us-east-1
+  UserPoolId:
+    Value:
+      Ref: AuthUserPool8115E87F
+  IdentityPoolId:
+    Value:
+      Ref: AuthIdentityPool12DFB5E1
+  UserPoolClientId:
+    Value:
+      Ref: AuthUserPoolClient0AA456E4
+Parameters:
+  BootstrapVersion:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /cdk-bootstrap/hnb659fds/version
+    Description: >-
+      Version of the CDK Bootstrap resources in this environment, automatically
+      retrieved from SSM Parameter Store. [cdk:skip]
+Rules:
+  CheckBootstrapVersion:
+    Assertions:
+      - Assert:
+          Fn::Not:
+            - Fn::Contains:
+                - - '1'
+                  - '2'
+                  - '3'
+                  - '4'
+                  - '5'
+                - Ref: BootstrapVersion
+        AssertDescription: >-
+          CDK bootstrap stack version 6 required. Please run 'cdk bootstrap'
+          with a recent version of the CDK CLI.
+
+[2022-05-23T13:22:17.538] [DEBUG] core - Resources:
+  SSTMetadata:
+    Type: AWS::CDK::Metadata
+    Metadata:
+      aws:cdk:path: kriscard-notes-auth/SSTMetadata
+      sst:version: 0.69.7
+      sst:constructs:
+        - id: Auth
+          addr: c8b3e3ef10f9a1d29e5a5a5a12e52809f9462ca5e8
+          stack: kriscard-notes-auth
+          type: Auth
+          data:
+            identityPoolId:
+              Ref: AuthIdentityPool12DFB5E1
+            userPoolId:
+              Ref: AuthUserPool8115E87F
+            triggers: []
+  AuthUserPool8115E87F:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      AccountRecoverySetting:
+        RecoveryMechanisms:
+          - Name: verified_phone_number
+            Priority: 1
+          - Name: verified_email
+            Priority: 2
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: false
+      AutoVerifiedAttributes:
+        - email
+      EmailVerificationMessage: The verification code to your new account is {####}
+      EmailVerificationSubject: Verify your new account
+      SmsVerificationMessage: The verification code to your new account is {####}
+      UsernameAttributes:
+        - email
+      UsernameConfiguration:
+        CaseSensitive: false
+      UserPoolName: kriscard-notes-Auth
+      UserPoolTags:
+        sst:app: notes
+        sst:stage: kriscard
+      VerificationMessageTemplate:
+        DefaultEmailOption: CONFIRM_WITH_CODE
+        EmailMessage: The verification code to your new account is {####}
+        EmailSubject: Verify your new account
+        SmsMessage: The verification code to your new account is {####}
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Metadata:
+      aws:cdk:path: kriscard-notes-auth/Auth/UserPool/Resource
+  AuthUserPoolClient0AA456E4:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId:
+        Ref: AuthUserPool8115E87F
+      AllowedOAuthFlows:
+        - implicit
+        - code
+      AllowedOAuthFlowsUserPoolClient: true
+      AllowedOAuthScopes:
+        - profile
+        - phone
+        - email
+        - openid
+        - aws.cognito.signin.user.admin
+      CallbackURLs:
+        - https://example.com
+      SupportedIdentityProviders:
+        - COGNITO
+    Metadata:
+      aws:cdk:path: kriscard-notes-auth/Auth/UserPoolClient/Resource
+  AuthIdentityPool12DFB5E1:
+    Type: AWS::Cognito::IdentityPool
+    Properties:
+      AllowUnauthenticatedIdentities: true
+      CognitoIdentityProviders:
+        - ClientId:
+            Ref: AuthUserPoolClient0AA456E4
+          ProviderName:
+            Fn::Join:
+              - ''
+              - - cognito-idp.us-east-1.
+                - Ref: AWS::URLSuffix
+                - /
+                - Ref: AuthUserPool8115E87F
+      IdentityPoolName: kriscard-notes-Auth
+      OpenIdConnectProviderARNs: []
+      SupportedLoginProviders: {}
+    Metadata:
+      aws:cdk:path: kriscard-notes-auth/Auth/IdentityPool
+  AuthIdentityPoolAuthRoleD14DA003:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                cognito-identity.amazonaws.com:aud:
+                  Ref: AuthIdentityPool12DFB5E1
+              ForAnyValue:StringLike:
+                cognito-identity.amazonaws.com:amr: authenticated
+            Effect: Allow
+            Principal:
+              Federated: cognito-identity.amazonaws.com
+        Version: '2012-10-17'
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-auth/Auth/IdentityPoolAuthRole/Resource
+  AuthIdentityPoolAuthRoleDefaultPolicy32D17CAC:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - mobileanalytics:PutEvents
+              - cognito-sync:*
+              - cognito-identity:*
+            Effect: Allow
+            Resource: '*'
+          - Action: execute-api:Invoke
+            Effect: Allow
+            Resource:
+              Fn::Join:
+                - ''
+                - - 'arn:aws:execute-api:us-east-1:591688379258:'
+                  - Fn::ImportValue: kriscard-notes-api:ExportsOutputRefApiCD79AAA0A1504A18
+                  - /*
+          - Action: s3:*
+            Effect: Allow
+            Resource:
+              Fn::Join:
+                - ''
+                - - Fn::ImportValue: >-
+                      kriscard-notes-storage:ExportsOutputFnGetAttUploadsBucketC4B27CC7Arn515ECA45
+                  - /private/${cognito-identity.amazonaws.com:sub}/*
+        Version: '2012-10-17'
+      PolicyName: AuthIdentityPoolAuthRoleDefaultPolicy32D17CAC
+      Roles:
+        - Ref: AuthIdentityPoolAuthRoleD14DA003
+    Metadata:
+      aws:cdk:path: kriscard-notes-auth/Auth/IdentityPoolAuthRole/DefaultPolicy/Resource
+  AuthIdentityPoolUnauthRoleA8DE48F3:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                cognito-identity.amazonaws.com:aud:
+                  Ref: AuthIdentityPool12DFB5E1
+              ForAnyValue:StringLike:
+                cognito-identity.amazonaws.com:amr: unauthenticated
+            Effect: Allow
+            Principal:
+              Federated: cognito-identity.amazonaws.com
+        Version: '2012-10-17'
+      Tags:
+        - Key: sst:app
+          Value: notes
+        - Key: sst:stage
+          Value: kriscard
+    Metadata:
+      aws:cdk:path: kriscard-notes-auth/Auth/IdentityPoolUnauthRole/Resource
+  AuthIdentityPoolUnauthRoleDefaultPolicy0417F857:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - mobileanalytics:PutEvents
+              - cognito-sync:*
+            Effect: Allow
+            Resource: '*'
+        Version: '2012-10-17'
+      PolicyName: AuthIdentityPoolUnauthRoleDefaultPolicy0417F857
+      Roles:
+        - Ref: AuthIdentityPoolUnauthRoleA8DE48F3
+    Metadata:
+      aws:cdk:path: kriscard-notes-auth/Auth/IdentityPoolUnauthRole/DefaultPolicy/Resource
+  AuthIdentityPoolRoleAttachmentB0D3DC72:
+    Type: AWS::Cognito::IdentityPoolRoleAttachment
+    Properties:
+      IdentityPoolId:
+        Ref: AuthIdentityPool12DFB5E1
+      Roles:
+        authenticated:
+          Fn::GetAtt:
+            - AuthIdentityPoolAuthRoleD14DA003
+            - Arn
+        unauthenticated:
+          Fn::GetAtt:
+            - AuthIdentityPoolUnauthRoleA8DE48F3
+            - Arn
+    Metadata:
+      aws:cdk:path: kriscard-notes-auth/Auth/IdentityPoolRoleAttachment
+Outputs:
+  Region:
+    Value: us-east-1
+  UserPoolId:
+    Value:
+      Ref: AuthUserPool8115E87F
+  IdentityPoolId:
+    Value:
+      Ref: AuthIdentityPool12DFB5E1
+  UserPoolClientId:
+    Value:
+      Ref: AuthUserPoolClient0AA456E4
+Parameters:
+  BootstrapVersion:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /cdk-bootstrap/hnb659fds/version
+    Description: >-
+      Version of the CDK Bootstrap resources in this environment, automatically
+      retrieved from SSM Parameter Store. [cdk:skip]
+Rules:
+  CheckBootstrapVersion:
+    Assertions:
+      - Assert:
+          Fn::Not:
+            - Fn::Contains:
+                - - '1'
+                  - '2'
+                  - '3'
+                  - '4'
+                  - '5'
+                - Ref: BootstrapVersion
+        AssertDescription: >-
+          CDK bootstrap stack version 6 required. Please run 'cdk bootstrap'
+          with a recent version of the CDK CLI.
+
+[2022-05-23T13:22:17.541] [DEBUG] core - deploy stack: isTemplateChanged: unchanged
+[2022-05-23T13:22:17.541] [DEBUG] core - deploy stack: done kriscard-notes-auth {
+  status: 'unchanged',
+  statusReason: undefined,
+  account: '591688379258',
+  outputs: {
+    UserPoolClientId: '643cfc46bo4v30ude5v2albfff',
+    UserPoolId: 'us-east-1_sfF85XWKs',
+    Region: 'us-east-1',
+    IdentityPoolId: 'us-east-1:53dd66df-9283-4dab-9a50-8f0789572736'
+  },
+  exports: {}
+}
+[2022-05-23T13:22:17.542] [INFO] core - [32m[39m
+[32m ✅  kriscard-notes-auth (no changes)[39m
+[32m[39m
+[2022-05-23T13:22:17.543] [DEBUG] core - At least 1 stack successfully deployed, call deployStacks() again
+[2022-05-23T13:22:17.543] [TRACE] core - After deploy stacks: [{"id":"kriscard-notes-storage","name":"kriscard-notes-storage","status":"unchanged","dependencies":[],"account":"591688379258","region":"us-east-1","startedAt":1653326536421,"endedAt":1653326536421,"events":[],"outputs":{"ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38":"arn:aws:dynamodb:us-east-1:591688379258:table/kriscard-notes-Notes","ExportsOutputFnGetAttUploadsBucketC4B27CC7Arn515ECA45":"arn:aws:s3:::kriscard-notes-storage-uploadsbucketc4b27cc7-yjhbegkl7pmu","ExportsOutputRefNotesTable7100B0E8C879CB95":"kriscard-notes-Notes"},"exports":{"kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38":"arn:aws:dynamodb:us-east-1:591688379258:table/kriscard-notes-Notes","kriscard-notes-storage:ExportsOutputFnGetAttUploadsBucketC4B27CC7Arn515ECA45":"arn:aws:s3:::kriscard-notes-storage-uploadsbucketc4b27cc7-yjhbegkl7pmu","kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95":"kriscard-notes-Notes"}},{"id":"kriscard-notes-api","name":"kriscard-notes-api","status":"unchanged","dependencies":["kriscard-notes-storage"],"account":"591688379258","region":"us-east-1","startedAt":1653326537196,"endedAt":1653326537196,"events":[],"outputs":{"ApiEndpoint":"https://wl6s7kmb1m.execute-api.us-east-1.amazonaws.com","ExportsOutputRefApiCD79AAA0A1504A18":"wl6s7kmb1m"},"exports":{"kriscard-notes-api:ExportsOutputRefApiCD79AAA0A1504A18":"wl6s7kmb1m"}},{"id":"kriscard-notes-auth","name":"kriscard-notes-auth","status":"unchanged","dependencies":["kriscard-notes-api","kriscard-notes-storage"],"account":"591688379258","region":"us-east-1","startedAt":1653326537541,"endedAt":1653326537541,"events":[],"outputs":{"UserPoolClientId":"643cfc46bo4v30ude5v2albfff","UserPoolId":"us-east-1_sfF85XWKs","Region":"us-east-1","IdentityPoolId":"us-east-1:53dd66df-9283-4dab-9a50-8f0789572736"},"exports":{}}]
+[2022-05-23T13:22:17.548] [INFO] default - 
+Stack kriscard-notes-storage
+[2022-05-23T13:22:17.548] [INFO] default -   Status: no changes
+[2022-05-23T13:22:17.549] [INFO] default - 
+Stack kriscard-notes-api
+[2022-05-23T13:22:17.549] [INFO] default -   Status: no changes
+[2022-05-23T13:22:17.550] [INFO] default -   Outputs:
+[2022-05-23T13:22:17.550] [INFO] default -     ApiEndpoint: https://wl6s7kmb1m.execute-api.us-east-1.amazonaws.com
+[2022-05-23T13:22:17.550] [INFO] default - 
+Stack kriscard-notes-auth
+[2022-05-23T13:22:17.550] [INFO] default -   Status: no changes
+[2022-05-23T13:22:17.551] [INFO] default -   Outputs:
+[2022-05-23T13:22:17.551] [INFO] default -     IdentityPoolId: us-east-1:53dd66df-9283-4dab-9a50-8f0789572736
+[2022-05-23T13:22:17.551] [INFO] default -     Region: us-east-1
+[2022-05-23T13:22:17.552] [INFO] default -     UserPoolClientId: 643cfc46bo4v30ude5v2albfff
+[2022-05-23T13:22:17.552] [INFO] default -     UserPoolId: us-east-1_sfF85XWKs
+[2022-05-23T13:22:17.552] [INFO] default - 
+[2022-05-23T13:22:17.941] [INFO] default - 
+[2022-05-23T13:22:17.942] [INFO] default - ==========================
+[2022-05-23T13:22:17.943] [INFO] default -  Starting Live Lambda Dev
+[2022-05-23T13:22:17.943] [INFO] default - ==========================
+[2022-05-23T13:22:17.943] [INFO] default - 
+[2022-05-23T13:22:17.952] [DEBUG] websocket - startWebSocketClient wss://g1h8g3cwd0.execute-api.us-east-1.amazonaws.com/kriscard kriscard-notes-debug-stack-bucket83908e77-1x26ksrhlb9ko
+[2022-05-23T13:22:17.955] [DEBUG] default - Checking port 12557 on host 0.0.0.0
+[2022-05-23T13:22:17.970] [DEBUG] default - Checking port 13557 on host 0.0.0.0
+[2022-05-23T13:22:17.979] [DEBUG] client - Starting runtime server on port: 12557
+[2022-05-23T13:22:18.014] [INFO] client - SST Console: https://console.serverless-stack.com/notes/kriscard/local
+[2022-05-23T13:22:18.523] [DEBUG] websocket - WebSocket connection opened
+[2022-05-23T13:22:19.556] [INFO] client - Debug session started. Listening for requests...
+[2022-05-23T13:22:19.556] [DEBUG] client - Client connection id: Sltfoc2uIAMCJMA=
+[2022-05-23T13:23:09.208] [INFO] client - [90m4eeca83d-f672-407a-80fb-e152a6fa87d6 REQUEST kriscard-notes-api-ApiLambdaPOSTnotes3B067E1B-LNEIHoZiBgmX [src/create.main] invoked by API POST /notes[39m
+[2022-05-23T13:23:09.211] [DEBUG] client - Invoking local function...
+[2022-05-23T13:23:09.212] [DEBUG] client - Triggering {
+  id: 'kriscard-notes-api-Api-Lambda_POST_-notes',
+  handler: 'src/create.main',
+  runtime: 'nodejs12.x',
+  srcPath: '.',
+  root: '/Users/christopher/playground/serverless-stack/notes'
+}
+[2022-05-23T13:23:09.213] [DEBUG] client - First build...
+[2022-05-23T13:23:09.236] [DEBUG] client - First build finished
+[2022-05-23T13:23:09.237] [DEBUG] client - Spawning {
+  command: '/Users/christopher/.nvm/versions/node/v16.15.0/bin/node',
+  args: [
+    '/Users/christopher/playground/serverless-stack/notes/node_modules/@serverless-stack/aws-lambda-ric/bin/index.js',
+    '/Users/christopher/playground/serverless-stack/notes/.sst/artifacts/kriscard-notes-api-Api-Lambda_POST_-notes/src/create.main'
+  ],
+  env: { AWS_LAMBDA_NODEJS_USE_ALTERNATIVE_CLIENT_1: 'true' }
+}
+[2022-05-23T13:23:10.025] [DEBUG] client - Worker waiting for function kriscard-notes-api-Api-Lambda_POST_-notes
+[2022-05-23T13:23:10.025] [DEBUG] client - Sending next payload 4eeca83d-f672-407a-80fb-e152a6fa87d6 kriscard-notes-api-Api-Lambda_POST_-notes {
+  version: '2.0',
+  routeKey: 'POST /notes',
+  rawPath: '/notes',
+  rawQueryString: '',
+  headers: {
+    accept: 'application/json',
+    authorization: 'AWS4-HMAC-SHA256 Credential=ASIAYTQ3AFN5GWB5UCPG/20220523/us-east-1/execute-api/aws4_request, SignedHeaders=accept;content-type;host;x-amz-date, Signature=041ffe91a77bd48e04d3026e80237324705c5b8f4af0c78218d6b98930477522',
+    'content-length': '50',
+    'content-type': 'application/json',
+    host: 'wl6s7kmb1m.execute-api.us-east-1.amazonaws.com',
+    'user-agent': 'axios/0.18.1',
+    'x-amz-date': '20220523T172307Z',
+    'x-amz-security-token': 'IQoJb3JpZ2luX2VjEHoaCXVzLWVhc3QtMSJHMEUCIGL7Ld2ePkWuVhtNP3F1puDgXrUTFfLWPlGvAUpQ7HukAiEAk5b1q5HbG9MVsgAmnyxF9OnMLQiOdnSguA+Yo1KLLGUqxAQIYxAAGgw1OTE2ODgzNzkyNTgiDHaDvVxUMHpAftWdpyqhBNr2n2Mo/pfANLqjHSYOjIGXiBH9Ho1BPSyOk9TqLqi1le3Gcv856dH4vL9DYXYCDDGMjJPhaH7Xlyq4bF3QLalR19Xv+udvVV9zeLmCciSY11uRvdK+6Rm4hqDu7XKSLRoLBuQpWXzYPGm+K6tVykqqJXmAdE5xMK4uQmaH4b2b7JSQHmarAWVZYEAk9zOtFjxuHMXcbPNxLBvHMWgf2csgTrYaK0usKdOlxVgHZgkMtd1g4vXHRGjyPJeEnrfPeiFmopLbTl/CZ5VkZBJ0Eqk5AT93iOPQk76xaQj3oEDZrMPiB6+zH6UrEn0sy5eqgH0VLfvHFKzUeF2B9JNxo0C2JH9mzGIFSXnPalVmeTZY46tMEs/DpB5F8lwHYUDuiMxNBGQntpDZusMTn61k6Wff3+rhKsUwTXg5B4Ue9gxiKNr/aufv87cikEWev9pNWBF5D4kvyZrsc0yCkjYGXW9CMDcxHN1KSd+Z5F7jV5U1zRdaLYZXWEdQMTnYCoUmqiLCXtROHEjPnuIQDt0gnTvBLqQ1XWBbjcKbZLnDU4njjOXcKv1G+4k6TQ/BQ2kG0sJ7384H8se1GY2U0jYyDiHXvjqPBVw1DI2pnlcHSHqmKYZSBjQyEcC2ErOi/7UfvJQ0UBxVw4oVWjg9H4GeMzhfXFJG3XDa3H1awBwIGmjgYctejIJD0AWzXyIzdyQkdHYHpC6b/jo/rM7FC5RRMGE5MPuFr5QGOoUCnAj7TIyYEek6RRYPqnNCF4OOfFhBw9WmGrJjPDEugQ0/omsIWf79ZtIzCws1RzSdzSHfnUOvhAMzRvXKIDjAtL8K6feu5VyQhnxHIW01LEysBsVzeYceKA507f5tE9TCpomuJjWfiNE1NHy8BSBEr5R38mck4H+6nZk+rGwdY5vLp7NrkNVYk5kWS62Oyi++GFt3mIwlJar6748Yrhr3QYhAkop61O8vGPw38lrax7stKaEA3yKixHDI0L2Phh2ve3oArLOHEvkkFSw9g4tQSf0JsI1X72ink1WFKFB61YyzUfFry4EEpQBHE0GsQuMYiXneFjQluhH84mJdEyPQvgkoFGXG',
+    'x-amzn-trace-id': 'Root=1-628bc2fc-33ba44e079a115c6557250c2',
+    'x-forwarded-for': '184.145.63.138',
+    'x-forwarded-port': '443',
+    'x-forwarded-proto': 'https'
+  },
+  requestContext: {
+    accountId: '591688379258',
+    apiId: 'wl6s7kmb1m',
+    authorizer: { iam: [Object] },
+    domainName: 'wl6s7kmb1m.execute-api.us-east-1.amazonaws.com',
+    domainPrefix: 'wl6s7kmb1m',
+    http: {
+      method: 'POST',
+      path: '/notes',
+      protocol: 'HTTP/1.1',
+      sourceIp: '184.145.63.138',
+      userAgent: 'axios/0.18.1'
+    },
+    requestId: 'SltnciwbIAMEMnA=',
+    routeKey: 'POST /notes',
+    stage: '$default',
+    time: '23/May/2022:17:23:08 +0000',
+    timeEpoch: 1653326588205
+  },
+  body: '{"content":"hello world","attachment":"hello.jpg"}',
+  isBase64Encoded: false
+}
+[2022-05-23T13:23:10.426] [DEBUG] client - Received response for 4eeca83d-f672-407a-80fb-e152a6fa87d6 kriscard-notes-api-Api-Lambda_POST_-notes
+[2022-05-23T13:23:10.427] [DEBUG] client - Response {
+  type: 'success',
+  data: {
+    statusCode: 200,
+    body: '{"userId":"us-east-1:16ac4c16-bcf0-4717-91cf-8d06328c0194","noteId":"04789c10-dabd-11ec-81fe-c1b3d0d21ba5","content":"hello world","attachment":"hello.jpg","createdAt":1653326590033}'
+  }
+}
+[2022-05-23T13:23:10.428] [INFO] client - [90m4eeca83d-f672-407a-80fb-e152a6fa87d6 RESPONSE {"statusCode":200,"body":"{\"userId\":\"us-east-1:16ac4c16-bcf0-4717-91cf-8d06328c0194\",\"noteId\":\"04789c10-dabd-11ec-81fe-c1b3d0d... 82 more characters"}[39m
+[2022-05-23T13:23:10.433] [DEBUG] client - Worker waiting for function kriscard-notes-api-Api-Lambda_POST_-notes
+[2022-05-23T13:24:19.028] [INFO] client - [90m775c4250-12a1-4e8b-ba0f-caad5eac1692 REQUEST kriscard-notes-api-ApiLambdaPOSTbilling71E49732-OEklJlD8oocW [functions/billing.main] invoked by API POST /billing[39m
+[2022-05-23T13:24:19.030] [DEBUG] client - Invoking local function...
+[2022-05-23T13:24:19.030] [DEBUG] client - Triggering {
+  id: 'kriscard-notes-api-Api-Lambda_POST_-billing',
+  handler: 'functions/billing.main',
+  runtime: 'nodejs12.x',
+  srcPath: '.',
+  root: '/Users/christopher/playground/serverless-stack/notes'
+}
+[2022-05-23T13:24:19.031] [DEBUG] client - First build...
+[2022-05-23T13:24:19.082] [DEBUG] client - First build finished
+[2022-05-23T13:24:19.083] [DEBUG] client - Spawning {
+  command: '/Users/christopher/.nvm/versions/node/v16.15.0/bin/node',
+  args: [
+    '/Users/christopher/playground/serverless-stack/notes/node_modules/@serverless-stack/aws-lambda-ric/bin/index.js',
+    '/Users/christopher/playground/serverless-stack/notes/.sst/artifacts/kriscard-notes-api-Api-Lambda_POST_-billing/functions/billing.main'
+  ],
+  env: { AWS_LAMBDA_NODEJS_USE_ALTERNATIVE_CLIENT_1: 'true' }
+}
+[2022-05-23T13:24:19.212] [DEBUG] client - Worker waiting for function kriscard-notes-api-Api-Lambda_POST_-billing
+[2022-05-23T13:24:19.213] [DEBUG] client - Sending next payload 775c4250-12a1-4e8b-ba0f-caad5eac1692 kriscard-notes-api-Api-Lambda_POST_-billing {
+  version: '2.0',
+  routeKey: 'POST /billing',
+  rawPath: '/billing',
+  rawQueryString: '',
+  headers: {
+    accept: 'application/json',
+    authorization: 'AWS4-HMAC-SHA256 Credential=ASIAYTQ3AFN5DTRZWV62/20220523/us-east-1/execute-api/aws4_request, SignedHeaders=accept;host;x-amz-date, Signature=28091b09f67bff48fd1fa874339cb9cd6d1d6487e249cf9d44dda6c0d2b05cb8',
+    'content-length': '0',
+    'content-type': 'application/json',
+    host: 'wl6s7kmb1m.execute-api.us-east-1.amazonaws.com',
+    'user-agent': 'axios/0.18.1',
+    'x-amz-date': '20220523T172417Z',
+    'x-amz-security-token': 'IQoJb3JpZ2luX2VjEHoaCXVzLWVhc3QtMSJHMEUCIQDzMzHaxuOOG06k+ynsoUcmvxcOGTmbWOghL2GLVzbN1gIgLZv+B6Q3mLVkpzHp6UQsoU7G9UVm1uBE4q2OQBhIGtAqxAQIYxAAGgw1OTE2ODgzNzkyNTgiDM2Vq7wXYUsewL7XOiqhBNepmzcIVPyyTRzvaNeXzTNx1LKTfyBfITSE3J1rmCK4L5pYFjcaENA3laSHSJDgjjnKcmgCv8sNnEYRti8B9B+VzAsoV//PXo0tb1wCXoAENMlsbpte6OIrnIasDwEABdErBr2JMcq3GVBBT1gvwpXGC+V6ROhnBAIY0EA6VKyyjtDQ86V3hrZ5mqplOEOR9Y2AZU4QjZ8nOFW+jY8NUBLq6ITU6Z92ELXoyC0ZsLfjDp3XZYiThDF9t4JJz2pA26GAGeOfdpc10FXW9nFiZrkGIfIcwXz+WkqcVgLBFtOe2SHE/SFP7fbM6oKMw8fSXmlYQvYNJ8IEqvUSh1XiiWbTBSPRQmGQPW5d+zoNHLT0eOhEj5M0Nfx6QxGUuPWwZIEMIVhtaymdfWiMHGw0d0J8fG3kG9oces7xoSDLPw+t5bKaFYlVpEnaa/+iEEye22YI4v5KFQgOe9KOrzJACRpv7kbwutNn7Dt/or6EFbvG/7tNXfNX1RzU+eRivYKzqhSPnmlc+NJDZc8DPSSG6oE9TlO9F4PKI9HDRl6z1kEvj1k0AdJkn+mn+jQs/flx2m0Vn8g0U4yriVV51ARHwNgrsZWtCAFUYwLKTx7r3wAb1aMtdapRsI5sYC6MhFkVbe6yGPwC/A+VLXRI7ya11r42y1NvpdyuorhLUc/I+tNZclLj3d6gz34pEsWmQ+QbOZRMDjbJxMPJwOIuv7Btt5jXMMGGr5QGOoUCGkj6kZkvez403M5s0Kybo3wEb6rd4IeBrQwnQDrVv7wlAKB8miquiXAgX7dZmufCDTWmFddqDWQ7ml8DDg5InugNxoTMASKHS8/8DXXs3GPF7MGEEOkRiHjqH1JdDfpJwow/UmC4xFr0+r2EzGDf2VDqBjeOQiwfnVPA9xK6ow0jxApEsgelgNcX89TBpTt7U5zG8dikNyAzQTDU+2MQvl7fY0P0OPP5ypR+UzseusFc60kxK9q1pVJraBAKr+YbGd/uTYHdL7Zs3KqeslF1FUg7zWLCZz5FRM23HY8Bv5glKYdz4Kd3MVlD/1gj/GVcj/1w5+boVR+pUwKXHh+VBXT9/1qy',
+    'x-amzn-trace-id': 'Root=1-628bc341-11aa332e7666a5af6889b237',
+    'x-forwarded-for': '184.145.63.138',
+    'x-forwarded-port': '443',
+    'x-forwarded-proto': 'https'
+  },
+  requestContext: {
+    accountId: '591688379258',
+    apiId: 'wl6s7kmb1m',
+    authorizer: { iam: [Object] },
+    domainName: 'wl6s7kmb1m.execute-api.us-east-1.amazonaws.com',
+    domainPrefix: 'wl6s7kmb1m',
+    http: {
+      method: 'POST',
+      path: '/billing',
+      protocol: 'HTTP/1.1',
+      sourceIp: '184.145.63.138',
+      userAgent: 'axios/0.18.1'
+    },
+    requestId: 'SltyShVbIAMEMfA=',
+    routeKey: 'POST /billing',
+    stage: '$default',
+    time: '23/May/2022:17:24:17 +0000',
+    timeEpoch: 1653326657620
+  },
+  isBase64Encoded: false
+}
+[2022-05-23T13:24:19.223] [INFO] client - SyntaxError: Unexpected token u in JSON at position 0
+    at JSON.parse (<anonymous>)
+    at /Users/christopher/playground/serverless-stack/notes/.sst/artifacts/kriscard-notes-api-Api-Lambda_POST_-billing/functions/billing.js:6647:36
+    at Runtime.handler (/Users/christopher/playground/serverless-stack/notes/.sst/artifacts/kriscard-notes-api-Api-Lambda_POST_-billing/functions/billing.js:6625:20)
+    at Runtime.handleOnce (file:///Users/christopher/playground/serverless-stack/notes/node_modules/@serverless-stack/aws-lambda-ric/lib/Runtime/Runtime.js:53:33)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+[2022-05-23T13:24:19.226] [DEBUG] client - Received response for 775c4250-12a1-4e8b-ba0f-caad5eac1692 kriscard-notes-api-Api-Lambda_POST_-billing
+[2022-05-23T13:24:19.228] [DEBUG] client - Response {
+  type: 'success',
+  data: {
+    statusCode: 500,
+    body: '{"error":"Unexpected token u in JSON at position 0"}'
+  }
+}
+[2022-05-23T13:24:19.228] [INFO] client - [90m775c4250-12a1-4e8b-ba0f-caad5eac1692 RESPONSE {"statusCode":500,"body":"{\"error\":\"Unexpected token u in JSON at position 0\"}"}[39m
+[2022-05-23T13:24:19.229] [DEBUG] client - Worker waiting for function kriscard-notes-api-Api-Lambda_POST_-billing
+[2022-05-23T13:29:39.939] [INFO] client - [90m6e50b36d-394a-4994-967f-02154743c96f REQUEST kriscard-notes-api-ApiLambdaPOSTbilling71E49732-OEklJlD8oocW [functions/billing.main] invoked by API POST /billing[39m
+[2022-05-23T13:29:39.941] [DEBUG] client - Invoking local function...
+[2022-05-23T13:29:39.942] [DEBUG] client - Triggering {
+  id: 'kriscard-notes-api-Api-Lambda_POST_-billing',
+  handler: 'functions/billing.main',
+  runtime: 'nodejs12.x',
+  srcPath: '.',
+  root: '/Users/christopher/playground/serverless-stack/notes'
+}
+[2022-05-23T13:29:39.942] [DEBUG] client - Sending next payload 6e50b36d-394a-4994-967f-02154743c96f kriscard-notes-api-Api-Lambda_POST_-billing {
+  version: '2.0',
+  routeKey: 'POST /billing',
+  rawPath: '/billing',
+  rawQueryString: '',
+  headers: {
+    accept: 'application/json',
+    authorization: 'AWS4-HMAC-SHA256 Credential=ASIAYTQ3AFN5JNSK4TUG/20220523/us-east-1/execute-api/aws4_request, SignedHeaders=accept;content-type;host;x-amz-date, Signature=5890e573a882ecd9e23d33aa002e85616e469e507b05081b19909bc801d6fa6c',
+    'content-length': '34',
+    'content-type': 'application/json',
+    host: 'wl6s7kmb1m.execute-api.us-east-1.amazonaws.com',
+    'user-agent': 'axios/0.18.1',
+    'x-amz-date': '20220523T172939Z',
+    'x-amz-security-token': 'IQoJb3JpZ2luX2VjEHoaCXVzLWVhc3QtMSJHMEUCIQDevVsPPxBeG9jGVJ58VgT2r23MqovCgIlIoqmNhD9cuwIgDmlJEDuL2unKIn4l1Y6p2tO+/vvuld1Xk/ZbjMos7P8qxAQIYxAAGgw1OTE2ODgzNzkyNTgiDMTMzJndLR5pjJT6TCqhBICdQO/OPpvlEzvTj+v6bDx9wHZDES5NC5+XQbVnMGCeSSPByW3bZHHre/+w78vd0XjC6910z8LyoZbpCinxd1+NqzieRBKg0uCOJdziY+rfKsgvZAtN+KX/HVwizdaAI5LvFu2ah11zF8xsnIhQLkl9wROcYbvpy2mE+LbCRtbiMTTmIUJvc8wXv6i0AWCuzquEs9ZevF5iGdgbaHQCfkrJJp2KHN6xjRjHSY8GqQtaqnV1zyipL8CgLGAnUPMzid5t2XaGdPR09F79mOvyIZynOVSGNs1aouYADEgPrgV/IAVXa7GOPtTg+T1EmbwXVB3u0u+FWPvuyNkgjr8n0KUnfNYf6pybiHgNzAyYCOsuEafIGixB28BkzRnQHteVZanC1fQE93OIdbrRrvNRGbBj5Zg0TQzQ23s0utts+VUVh0iR9B9/Pu1cHwxAnJmiNUMcXTIg7NK693QUOPbVpLq85utR/XmOLlKKZ4ppP5o4UD017QDEGt1CXNKCiLpK4PNLzjns7LqjLLB/fHrn+cbXl4CwF+9mBsrzC4xijIEhTmKsv9GXzycZP2DRiGbgaIGpnHUCkuvc/M2UO9xUUr9w0mkHpOk+XgPG937mpwCrActbTkz67zicB6e5Kh0c+EEV5S9IOlSLAXI5XXy1t51wtXMqJEdnFmdGGsyAQp+i+YfQwLdfF/2HhuUHlCWYO6mXdfWE6vz739mfO9+L3PY5MIOJr5QGOoUCLYwZIulLL1WMG90rtHHBGCZHOj3EbXd4+lQ9JMOty1PKrTjkgnAxIeDGiHEhlFZQSR5m6fn+y6lpHy30MjncIbFkuyVuuMGUcgG7JGSRMe8fu6y4VcDxCWT6QBXoABNF8PxW27qC2iNJ0+h1l+hXVbHy4mKHL6owvnj3fuAWLrVvieJHXIQAeDN6YoCT4Spy5vUJQfxKWjWgRYiRYNKFgHLaBE3IzQwNPooEWiYX/fugkagp56rQ7xPayrHSNmy7thY31ZTZQQzz6rFuHVYS3l/sTATwxmc2JBSwPbJUUK1IaKBnIpFZ4LLFJorZyYnwa2Vwi68M8+31aHjWyk/cxA5oomqp',
+    'x-amzn-trace-id': 'Root=1-628bc483-6923acbe5323a0f35ef56033',
+    'x-forwarded-for': '184.145.63.138',
+    'x-forwarded-port': '443',
+    'x-forwarded-proto': 'https'
+  },
+  requestContext: {
+    accountId: '591688379258',
+    apiId: 'wl6s7kmb1m',
+    authorizer: { iam: [Object] },
+    domainName: 'wl6s7kmb1m.execute-api.us-east-1.amazonaws.com',
+    domainPrefix: 'wl6s7kmb1m',
+    http: {
+      method: 'POST',
+      path: '/billing',
+      protocol: 'HTTP/1.1',
+      sourceIp: '184.145.63.138',
+      userAgent: 'axios/0.18.1'
+    },
+    requestId: 'SlukngzeoAMEMng=',
+    routeKey: 'POST /billing',
+    stage: '$default',
+    time: '23/May/2022:17:29:39 +0000',
+    timeEpoch: 1653326979781
+  },
+  body: '{"source":"tok_visa","storage":21}',
+  isBase64Encoded: false
+}
+[2022-05-23T13:29:41.734] [DEBUG] client - Received response for 6e50b36d-394a-4994-967f-02154743c96f kriscard-notes-api-Api-Lambda_POST_-billing
+[2022-05-23T13:29:41.735] [DEBUG] client - Response { type: 'success', data: { statusCode: 200, body: '{"status":true}' } }
+[2022-05-23T13:29:41.735] [INFO] client - [90m6e50b36d-394a-4994-967f-02154743c96f RESPONSE {"statusCode":200,"body":"{\"status\":true}"}[39m
+[2022-05-23T13:29:41.736] [DEBUG] client - Worker waiting for function kriscard-notes-api-Api-Lambda_POST_-billing

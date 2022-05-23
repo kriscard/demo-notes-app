@@ -1,0 +1,168 @@
+{
+  "Resources": {
+    "SSTMetadata": {
+      "Type": "AWS::CDK::Metadata",
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-storage/SSTMetadata",
+        "sst:version": "0.69.7",
+        "sst:constructs": [
+          {
+            "id": "Notes",
+            "addr": "c8e20f17e611fbd481391ed2908747756f862a06cb",
+            "stack": "kriscard-notes-storage",
+            "type": "Table",
+            "data": {
+              "tableName": {
+                "Ref": "NotesTable7100B0E8"
+              },
+              "consumers": []
+            }
+          },
+          {
+            "id": "Uploads",
+            "addr": "c8077abe277e9751b819945a557a9ecc293b152b98",
+            "stack": "kriscard-notes-storage",
+            "type": "Bucket",
+            "data": {
+              "name": {
+                "Ref": "UploadsBucketC4B27CC7"
+              },
+              "notifications": []
+            }
+          }
+        ]
+      }
+    },
+    "NotesTable7100B0E8": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "KeySchema": [
+          {
+            "AttributeName": "userId",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "noteId",
+            "KeyType": "RANGE"
+          }
+        ],
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "userId",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "noteId",
+            "AttributeType": "S"
+          }
+        ],
+        "BillingMode": "PAY_PER_REQUEST",
+        "PointInTimeRecoverySpecification": {
+          "PointInTimeRecoveryEnabled": true
+        },
+        "TableName": "kriscard-notes-Notes",
+        "Tags": [
+          {
+            "Key": "sst:app",
+            "Value": "notes"
+          },
+          {
+            "Key": "sst:stage",
+            "Value": "kriscard"
+          }
+        ]
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-storage/Notes/Table/Resource"
+      }
+    },
+    "UploadsBucketC4B27CC7": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "sst:app",
+            "Value": "notes"
+          },
+          {
+            "Key": "sst:stage",
+            "Value": "kriscard"
+          }
+        ]
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "kriscard-notes-storage/Uploads/Bucket/Resource"
+      }
+    }
+  },
+  "Outputs": {
+    "ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38": {
+      "Value": {
+        "Fn::GetAtt": [
+          "NotesTable7100B0E8",
+          "Arn"
+        ]
+      },
+      "Export": {
+        "Name": "kriscard-notes-storage:ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+      }
+    },
+    "ExportsOutputRefNotesTable7100B0E8C879CB95": {
+      "Value": {
+        "Ref": "NotesTable7100B0E8"
+      },
+      "Export": {
+        "Name": "kriscard-notes-storage:ExportsOutputRefNotesTable7100B0E8C879CB95"
+      }
+    },
+    "ExportsOutputFnGetAttUploadsBucketC4B27CC7Arn515ECA45": {
+      "Value": {
+        "Fn::GetAtt": [
+          "UploadsBucketC4B27CC7",
+          "Arn"
+        ]
+      },
+      "Export": {
+        "Name": "kriscard-notes-storage:ExportsOutputFnGetAttUploadsBucketC4B27CC7Arn515ECA45"
+      }
+    }
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Type": "AWS::SSM::Parameter::Value<String>",
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+    }
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                  ],
+                  {
+                    "Ref": "BootstrapVersion"
+                  }
+                ]
+              }
+            ]
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+        }
+      ]
+    }
+  }
+}

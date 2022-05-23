@@ -1,0 +1,622 @@
+{
+  "version": "16.0.0",
+  "artifacts": {
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "kriscard-notes-storage.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "kriscard-notes-storage.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "kriscard-notes-storage": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://591688379258/us-east-1",
+      "properties": {
+        "templateFile": "kriscard-notes-storage.template.json",
+        "tags": {
+          "sst:app": "notes",
+          "sst:stage": "kriscard"
+        },
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::591688379258:role/cdk-hnb659fds-deploy-role-591688379258-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::591688379258:role/cdk-hnb659fds-cfn-exec-role-591688379258-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-591688379258-us-east-1/9c682c91a83cec008de3c94c2bcfbc74c9a64c9259242312ec7678530d85073f.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "kriscard-notes-storage.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::591688379258:role/cdk-hnb659fds-lookup-role-591688379258-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "kriscard-notes-storage.assets"
+      ],
+      "metadata": {
+        "/kriscard-notes-storage": [
+          {
+            "type": "aws:cdk:stack-tags",
+            "data": [
+              {
+                "Key": "sst:app",
+                "Value": "notes"
+              },
+              {
+                "Key": "sst:stage",
+                "Value": "kriscard"
+              }
+            ]
+          }
+        ],
+        "/kriscard-notes-storage/SSTMetadata": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SSTMetadata"
+          }
+        ],
+        "/kriscard-notes-storage/Notes/Table": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "NotesTable7100B0E8"
+            }
+          }
+        ],
+        "/kriscard-notes-storage/Notes/Table/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NotesTable7100B0E8"
+          }
+        ],
+        "/kriscard-notes-storage/Uploads/Bucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UploadsBucketC4B27CC7"
+          }
+        ],
+        "/kriscard-notes-storage/Exports/Output{\"Fn::GetAtt\":[\"NotesTable7100B0E8\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttNotesTable7100B0E8Arn5DD5BF38"
+          }
+        ],
+        "/kriscard-notes-storage/Exports/Output{\"Ref\":\"NotesTable7100B0E8\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefNotesTable7100B0E8C879CB95"
+          }
+        ],
+        "/kriscard-notes-storage/Exports/Output{\"Fn::GetAtt\":[\"UploadsBucketC4B27CC7\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttUploadsBucketC4B27CC7Arn515ECA45"
+          }
+        ],
+        "/kriscard-notes-storage/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/kriscard-notes-storage/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "kriscard-notes-storage"
+    },
+    "kriscard-notes-api.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "kriscard-notes-api.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "kriscard-notes-api": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://591688379258/us-east-1",
+      "properties": {
+        "templateFile": "kriscard-notes-api.template.json",
+        "tags": {
+          "sst:app": "notes",
+          "sst:stage": "kriscard"
+        },
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::591688379258:role/cdk-hnb659fds-deploy-role-591688379258-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::591688379258:role/cdk-hnb659fds-cfn-exec-role-591688379258-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-591688379258-us-east-1/70416a0ef1e3f3ab732f5f70346c3b3ab95cb095a106734ef3a29abf4eeb7ddf.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "kriscard-notes-api.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::591688379258:role/cdk-hnb659fds-lookup-role-591688379258-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "kriscard-notes-storage",
+        "kriscard-notes-api.assets"
+      ],
+      "metadata": {
+        "/kriscard-notes-api": [
+          {
+            "type": "aws:cdk:stack-tags",
+            "data": [
+              {
+                "Key": "sst:app",
+                "Value": "notes"
+              },
+              {
+                "Key": "sst:stage",
+                "Value": "kriscard"
+              }
+            ]
+          }
+        ],
+        "/kriscard-notes-api/SSTMetadata": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SSTMetadata"
+          }
+        ],
+        "/kriscard-notes-api/Api/Api/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiCD79AAA0"
+          }
+        ],
+        "/kriscard-notes-api/Api/Api/DefaultStage/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiDefaultStage1AAE989B"
+          }
+        ],
+        "/kriscard-notes-api/Api/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLogGroup1717FE17"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_POST_--notes/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPOSTnotesServiceRoleD16681D3"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_POST_--notes/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPOSTnotesServiceRoleDefaultPolicy6D85CF6B"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_POST_--notes/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPOSTnotes3B067E1B"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_POST_--notes/EventInvokeConfig/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPOSTnotesEventInvokeConfig78ADA2E8"
+          }
+        ],
+        "/kriscard-notes-api/Api/Route_POST_--notes/Integration_POST_--notes-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePOSTnotesIntegrationPOSTnotesPermission83B10601"
+          }
+        ],
+        "/kriscard-notes-api/Api/Route_POST_--notes/Integration_POST_--notes/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePOSTnotesIntegrationPOSTnotes44F9E77C"
+          }
+        ],
+        "/kriscard-notes-api/Api/Route_POST_--notes/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePOSTnotes66667A1D"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_GET_--notes--{id}/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGETnotesidServiceRole5ED71CA8"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_GET_--notes--{id}/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGETnotesidServiceRoleDefaultPolicy0BDDFC9B"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_GET_--notes--{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGETnotesidBDFD7F2C"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_GET_--notes--{id}/EventInvokeConfig/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGETnotesidEventInvokeConfig638AD083"
+          }
+        ],
+        "/kriscard-notes-api/Api/Route_GET_--notes--{id}/Integration_GET_--notes--{id}-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteGETnotesidIntegrationGETnotesidPermissionC332DC73"
+          }
+        ],
+        "/kriscard-notes-api/Api/Route_GET_--notes--{id}/Integration_GET_--notes--{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteGETnotesidIntegrationGETnotesidDDEC4C94"
+          }
+        ],
+        "/kriscard-notes-api/Api/Route_GET_--notes--{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteGETnotesid7B39CB5A"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_GET_--notes/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGETnotesServiceRoleFAD2F768"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_GET_--notes/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGETnotesServiceRoleDefaultPolicy46521967"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_GET_--notes/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGETnotesA3E56CF7"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_GET_--notes/EventInvokeConfig/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGETnotesEventInvokeConfigE155863D"
+          }
+        ],
+        "/kriscard-notes-api/Api/Route_GET_--notes/Integration_GET_--notes-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteGETnotesIntegrationGETnotesPermissionA18F8817"
+          }
+        ],
+        "/kriscard-notes-api/Api/Route_GET_--notes/Integration_GET_--notes/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteGETnotesIntegrationGETnotes809882CF"
+          }
+        ],
+        "/kriscard-notes-api/Api/Route_GET_--notes/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteGETnotesBFEE3C9D"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPUTnotesidServiceRole7A962796"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPUTnotesidServiceRoleDefaultPolicyB3FF9AED"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPUTnotesid28D10C39"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_PUT_--notes--{id}/EventInvokeConfig/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPUTnotesidEventInvokeConfig80B67243"
+          }
+        ],
+        "/kriscard-notes-api/Api/Route_PUT_--notes--{id}/Integration_PUT_--notes--{id}-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePUTnotesidIntegrationPUTnotesidPermissionDD71990C"
+          }
+        ],
+        "/kriscard-notes-api/Api/Route_PUT_--notes--{id}/Integration_PUT_--notes--{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePUTnotesidIntegrationPUTnotesid0B48B9D7"
+          }
+        ],
+        "/kriscard-notes-api/Api/Route_PUT_--notes--{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePUTnotesidFAE087B0"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaDELETEnotesidServiceRole196EBA58"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaDELETEnotesidServiceRoleDefaultPolicy451F8A74"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaDELETEnotesid69A96EAD"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_DELETE_--notes--{id}/EventInvokeConfig/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaDELETEnotesidEventInvokeConfigC7520EFE"
+          }
+        ],
+        "/kriscard-notes-api/Api/Route_DELETE_--notes--{id}/Integration_DELETE_--notes--{id}-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteDELETEnotesidIntegrationDELETEnotesidPermission717CBC89"
+          }
+        ],
+        "/kriscard-notes-api/Api/Route_DELETE_--notes--{id}/Integration_DELETE_--notes--{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteDELETEnotesidIntegrationDELETEnotesidE2F04DD5"
+          }
+        ],
+        "/kriscard-notes-api/Api/Route_DELETE_--notes--{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteDELETEnotesidCFA3191E"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_POST_--billing/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPOSTbillingServiceRoleB5827DFF"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_POST_--billing/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPOSTbillingServiceRoleDefaultPolicy23915694"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_POST_--billing/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPOSTbilling71E49732"
+          }
+        ],
+        "/kriscard-notes-api/Api/Lambda_POST_--billing/EventInvokeConfig/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPOSTbillingEventInvokeConfigFF3A6E0D"
+          }
+        ],
+        "/kriscard-notes-api/Api/Route_POST_--billing/Integration_POST_--billing-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePOSTbillingIntegrationPOSTbillingPermissionF7A0B32C"
+          }
+        ],
+        "/kriscard-notes-api/Api/Route_POST_--billing/Integration_POST_--billing/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePOSTbillingIntegrationPOSTbillingE351CA9B"
+          }
+        ],
+        "/kriscard-notes-api/Api/Route_POST_--billing/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePOSTbilling09AED9DA"
+          }
+        ],
+        "/kriscard-notes-api/ApiEndpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiEndpoint"
+          }
+        ],
+        "/kriscard-notes-api/Exports/Output{\"Ref\":\"ApiCD79AAA0\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefApiCD79AAA0A1504A18"
+          }
+        ],
+        "/kriscard-notes-api/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/kriscard-notes-api/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "kriscard-notes-api"
+    },
+    "kriscard-notes-auth.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "kriscard-notes-auth.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "kriscard-notes-auth": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://591688379258/us-east-1",
+      "properties": {
+        "templateFile": "kriscard-notes-auth.template.json",
+        "tags": {
+          "sst:app": "notes",
+          "sst:stage": "kriscard"
+        },
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::591688379258:role/cdk-hnb659fds-deploy-role-591688379258-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::591688379258:role/cdk-hnb659fds-cfn-exec-role-591688379258-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-591688379258-us-east-1/039962f0065ab3adf40d1c9d9f1187f15d5ad0585f39a78a6e6d0f67a4cf4310.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "kriscard-notes-auth.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::591688379258:role/cdk-hnb659fds-lookup-role-591688379258-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "kriscard-notes-api",
+        "kriscard-notes-storage",
+        "kriscard-notes-auth.assets"
+      ],
+      "metadata": {
+        "/kriscard-notes-auth": [
+          {
+            "type": "aws:cdk:stack-tags",
+            "data": [
+              {
+                "Key": "sst:app",
+                "Value": "notes"
+              },
+              {
+                "Key": "sst:stage",
+                "Value": "kriscard"
+              }
+            ]
+          }
+        ],
+        "/kriscard-notes-auth/SSTMetadata": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SSTMetadata"
+          }
+        ],
+        "/kriscard-notes-auth/Auth/UserPool/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AuthUserPool8115E87F"
+          }
+        ],
+        "/kriscard-notes-auth/Auth/UserPoolClient/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AuthUserPoolClient0AA456E4"
+          }
+        ],
+        "/kriscard-notes-auth/Auth/IdentityPool": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AuthIdentityPool12DFB5E1"
+          }
+        ],
+        "/kriscard-notes-auth/Auth/IdentityPoolAuthRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AuthIdentityPoolAuthRoleD14DA003"
+          }
+        ],
+        "/kriscard-notes-auth/Auth/IdentityPoolAuthRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AuthIdentityPoolAuthRoleDefaultPolicy32D17CAC"
+          }
+        ],
+        "/kriscard-notes-auth/Auth/IdentityPoolUnauthRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AuthIdentityPoolUnauthRoleA8DE48F3"
+          }
+        ],
+        "/kriscard-notes-auth/Auth/IdentityPoolUnauthRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AuthIdentityPoolUnauthRoleDefaultPolicy0417F857"
+          }
+        ],
+        "/kriscard-notes-auth/Auth/IdentityPoolRoleAttachment": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AuthIdentityPoolRoleAttachmentB0D3DC72"
+          }
+        ],
+        "/kriscard-notes-auth/Region": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Region"
+          }
+        ],
+        "/kriscard-notes-auth/UserPoolId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPoolId"
+          }
+        ],
+        "/kriscard-notes-auth/IdentityPoolId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IdentityPoolId"
+          }
+        ],
+        "/kriscard-notes-auth/UserPoolClientId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPoolClientId"
+          }
+        ],
+        "/kriscard-notes-auth/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/kriscard-notes-auth/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "kriscard-notes-auth"
+    }
+  }
+}
